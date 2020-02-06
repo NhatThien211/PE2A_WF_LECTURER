@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,13 +25,14 @@ namespace PE2A_WF_Lecturer
         private int count = 0;
         DataTable dataTable = new DataTable();
         List<StudentDTO> listStudent = new List<StudentDTO>();
+        private List<StudentPointDTO> listStudentPoints = new List<StudentPointDTO>();
         public LecturerForm()
         {
             InitializeComponent();
 
             dataTable.Columns.Add("NO.");
             dataTable.Columns.Add("Student ID");
-            dataTable.Columns.Add("Mark");
+            dataTable.Columns.Add("Total Point");
             dataTable.Columns.Add("Stautus");
             dataTable.Columns.Add("Close", typeof(Image));
             dgvStudent.DataSource = dataTable;
@@ -38,6 +40,8 @@ namespace PE2A_WF_Lecturer
             //listen to student
             ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
 
+            // listening to webservice for return student's point
+            UpdateStudentPointTable();
         }
 
 
@@ -52,7 +56,7 @@ namespace PE2A_WF_Lecturer
             }
 
         }
-  
+
         static Socket s;
         static Byte[] buffer;
         private void ListeningToBroadcastUDPConnection(int listeningPort)
@@ -96,7 +100,7 @@ namespace PE2A_WF_Lecturer
             if (IsConnected(ipAddress))
             {
                 message = Constant.EXISTED_IP_MESSAGE;
-                SendMessage(ipAddress,port, message);
+                SendMessage(ipAddress, port, message);
             }
             else
             {
@@ -104,11 +108,11 @@ namespace PE2A_WF_Lecturer
                 string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
                 string[] row = new string[] { ++count + "", studentID, "", Constant.STATUSLIST[0] };
                 dataTable.Rows.Add(row);
-                while (!isSent) 
+                while (!isSent)
                 {
                     try
                     {
-                        message ="here is your submission url =" + submissionURL;
+                        message = "here is your submission url =" + submissionURL;
                         SendMessage(ipAddress, port, message);
                         StudentDTO newStudent = new StudentDTO(studentID, IPAddress.Parse(ipAddress), port);
                         listStudent.Add(newStudent);
@@ -142,23 +146,24 @@ namespace PE2A_WF_Lecturer
             try
             {
                 IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ipAddress), port);
-            
+
                 using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
                 {
                     socket.Connect(iPEnd);
                     socket.Send(Encoding.UTF8.GetBytes(message));
                     socket.Dispose();
                 }
-              
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(Constant.CLIENT_SOCKET_CLOSED_MESSAGE);
             }
         }
 
 
-        private void GetResultFromFile() {
+        private void GetResultFromFile()
+        {
             String directory = AppDomain.CurrentDomain.BaseDirectory + @"Results.txt";
             var getFile = File.ReadAllText(directory).Replace("\n", "").Replace("\r", "");
             for (int i = 0; i < getFile.Length; i++)
@@ -178,16 +183,41 @@ namespace PE2A_WF_Lecturer
                     String splitPassed = studentPoint.Split('/')[0];
                     String splitTotal = studentPoint.Split('/')[1];
                     Double point = (Double.Parse(splitPassed) / Double.Parse(splitTotal)) * 10;
-                    foreach(var item in listStudent)
+                    foreach (var item in listStudent)
                     {
                         if (studentCode.ToUpper().Trim().Equals(item.StudentID.ToUpper()))
                         {
                             item.Point = point;
                         }
                     }
-                  
+
                 }
             };
+        }
+
+        private void ReceiveStudentPointFromTCP(int serverPort)
+        {
+            while (true)
+            {
+                string receivedMessage = Util.GetMessageFromTCPConnection(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT, 100);
+                StudentPointDTO studentPoint = JsonConvert.DeserializeObject<StudentPointDTO>(receivedMessage);
+                listStudentPoints.Add(studentPoint);
+
+                Console.WriteLine(studentPoint.StudentCode);
+                Dictionary<string, string> listQuestions = studentPoint.ListQuestions;
+                foreach (var ques in listQuestions)
+                {
+                    Console.WriteLine(ques.Key + ": " + ques.Value);
+                }
+                Console.WriteLine(studentPoint.TotalPoint);
+                Console.WriteLine(studentPoint.CreateDate);
+                Console.WriteLine(listStudentPoints.Count());
+            }
+        }
+
+        private void UpdateStudentPointTable()
+        {
+            Task.Run(() => ReceiveStudentPointFromTCP(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT)); // 6969
         }
     }
 }
