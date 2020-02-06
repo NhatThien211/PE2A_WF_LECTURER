@@ -13,7 +13,7 @@ namespace PE2A_WF_Lecturer
         public static int SOCKET_STUDENT_POINT_LISTENING_PORT = 6969;
         public static int MAXIMUM_REQUEST = 100;
         public static string EXISTED_IP_MESSAGE = "You Have Connected To Server";
-        public static string[] STATUSLIST = { "connected","submitted","checked","returned"};
+        public static string[] STATUSLIST = { "Connected", "Submitted", "Evaluated" };
         public static string CLIENT_SOCKET_CLOSED_MESSAGE = "Clients closed their connection!!!";
         public static string PROTOCOL = "http://";
         public static string ENDPOINT = ":2020/api/submission";
