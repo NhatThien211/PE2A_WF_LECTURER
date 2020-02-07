@@ -38,7 +38,7 @@ namespace PE2A_WF_Lecturer
 
             //dataTable.Columns.Add("Close", typeof(Image));
             //dataTable.Columns.Add("Close", typeof(Image));
-            ResetDataGridViewDataSource();
+            InitDataSource();
             //listen to student
             ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
 
@@ -111,6 +111,8 @@ namespace PE2A_WF_Lecturer
                 string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
                 StudentDTO newStudent = new StudentDTO(count,studentCode, IPAddress.Parse(ipAddress), port,Constant.STATUSLIST[0]);
                 listStudent.Add(newStudent);
+                Console.WriteLine(newStudent.IpAddress);
+                Console.WriteLine(ipAddress);
                 ResetDataGridViewDataSource();
                 while (!isSent)
                 {
@@ -131,13 +133,33 @@ namespace PE2A_WF_Lecturer
 
         }
 
-        private void ResetDataGridViewDataSource()
+        private void InitDataSource()
         {
             this.InvokeEx(f => dgvStudent.DataSource = null);
+            StudentDTO dto = new StudentDTO()
+            {
+                NO = 1,
+                StudentCode = "SE62882",
+                IpAddress = IPAddress.Parse("26.165.20.207"),
+                Status = Constant.STATUSLIST[0],
+            };
+            listStudent.Add(dto);
+            dgvStudent.DataSource = listStudent;
             this.InvokeEx(f => dgvStudent.DataSource = listStudent);
             this.InvokeEx(f => this.dgvStudent.Columns["IpAddress"].Visible = false);
             this.InvokeEx(f => this.dgvStudent.Columns["Port"].Visible = false);
             this.InvokeEx(f => this.dgvStudent.Columns["ListQuestions"].Visible = false);
+           
+        }
+        private void ResetDataGridViewDataSource()
+        {           
+            //this.InvokeEx(f => dgvStudent.DataSource = null);          
+            this.InvokeEx(f => dgvStudent.DataSource = listStudent);
+            this.InvokeEx(f => dgvStudent.Refresh());
+            this.InvokeEx(f => this.dgvStudent.Columns["IpAddress"].Visible = false);
+            this.InvokeEx(f => this.dgvStudent.Columns["Port"].Visible = false);
+            this.InvokeEx(f => this.dgvStudent.Columns["ListQuestions"].Visible = false);
+
         }
         private bool IsConnected(string ipAddress)
         {
