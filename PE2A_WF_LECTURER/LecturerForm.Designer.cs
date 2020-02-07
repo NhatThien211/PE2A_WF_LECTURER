@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gbSubmitedFiles = new System.Windows.Forms.GroupBox();
             this.dgvStudent = new System.Windows.Forms.DataGridView();
@@ -46,20 +45,22 @@
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.gbSubmitedFiles);
-            this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(5, 20, 5, 5);
+            this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(8, 31, 8, 8);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.btnPublishMark);
-            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(30, 30, 30, 400);
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(45, 46, 45, 615);
             this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
-            this.splitContainer1.Size = new System.Drawing.Size(933, 487);
-            this.splitContainer1.SplitterDistance = 700;
+            this.splitContainer1.Size = new System.Drawing.Size(1400, 749);
+            this.splitContainer1.SplitterDistance = 1050;
+            this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 0;
             // 
             // gbSubmitedFiles
@@ -67,11 +68,11 @@
             this.gbSubmitedFiles.Controls.Add(this.dgvStudent);
             this.gbSubmitedFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSubmitedFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbSubmitedFiles.Location = new System.Drawing.Point(5, 20);
+            this.gbSubmitedFiles.Location = new System.Drawing.Point(8, 31);
             this.gbSubmitedFiles.Margin = new System.Windows.Forms.Padding(0);
             this.gbSubmitedFiles.Name = "gbSubmitedFiles";
-            this.gbSubmitedFiles.Padding = new System.Windows.Forms.Padding(5, 20, 3, 3);
-            this.gbSubmitedFiles.Size = new System.Drawing.Size(690, 462);
+            this.gbSubmitedFiles.Padding = new System.Windows.Forms.Padding(8, 31, 4, 5);
+            this.gbSubmitedFiles.Size = new System.Drawing.Size(1034, 710);
             this.gbSubmitedFiles.TabIndex = 0;
             this.gbSubmitedFiles.TabStop = false;
             this.gbSubmitedFiles.Text = "Submited Files";
@@ -80,32 +81,23 @@
             // 
             this.dgvStudent.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvStudent.BackgroundColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvStudent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvStudent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStudent.Location = new System.Drawing.Point(7, 38);
-            this.dgvStudent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvStudent.Location = new System.Drawing.Point(10, 58);
             this.dgvStudent.Name = "dgvStudent";
             this.dgvStudent.RowHeadersWidth = 62;
             this.dgvStudent.RowTemplate.Height = 28;
-            this.dgvStudent.Size = new System.Drawing.Size(678, 382);
+            this.dgvStudent.Size = new System.Drawing.Size(1017, 588);
             this.dgvStudent.TabIndex = 0;
-            this.dgvStudent.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudent_CellContentClick);
             // 
             // btnPublishMark
             // 
             this.btnPublishMark.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnPublishMark.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPublishMark.Location = new System.Drawing.Point(30, 30);
-            this.btnPublishMark.MinimumSize = new System.Drawing.Size(50, 50);
+            this.btnPublishMark.Location = new System.Drawing.Point(45, 46);
+            this.btnPublishMark.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnPublishMark.MinimumSize = new System.Drawing.Size(75, 77);
             this.btnPublishMark.Name = "btnPublishMark";
-            this.btnPublishMark.Size = new System.Drawing.Size(169, 57);
+            this.btnPublishMark.Size = new System.Drawing.Size(254, 88);
             this.btnPublishMark.TabIndex = 0;
             this.btnPublishMark.Text = "Publish Mark";
             this.btnPublishMark.UseVisualStyleBackColor = true;
@@ -113,11 +105,12 @@
             // 
             // LecturerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(933, 487);
+            this.ClientSize = new System.Drawing.Size(1400, 749);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LecturerForm";
