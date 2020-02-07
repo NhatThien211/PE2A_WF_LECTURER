@@ -39,6 +39,7 @@ namespace PE2A_WF_Lecturer
             //dataTable.Columns.Add("Close", typeof(Image));
             //dataTable.Columns.Add("Close", typeof(Image));
             InitDataSource();
+            listStudent.Remove(listStudent.Where(x => x.NO == null).FirstOrDefault());
             //listen to student
             ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
 
@@ -109,8 +110,7 @@ namespace PE2A_WF_Lecturer
                 count++;
                 bool isSent = false;
                 string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
-                StudentDTO newStudent = new StudentDTO(count,studentCode, IPAddress.Parse(ipAddress), port,Constant.STATUSLIST[0]);
-                listStudent.Remove(listStudent.Where(x => x.NO == 0).FirstOrDefault());
+                StudentDTO newStudent = new StudentDTO(count + "",studentCode, IPAddress.Parse(ipAddress), port,Constant.STATUSLIST[0]);
                 listStudent.Add(newStudent);
                 Console.WriteLine(newStudent.IpAddress);
                 Console.WriteLine(ipAddress);
@@ -139,7 +139,6 @@ namespace PE2A_WF_Lecturer
             this.InvokeEx(f => dgvStudent.DataSource = null);
             StudentDTO dto = new StudentDTO()
             {
-                NO = 0,
                 StudentCode = "",
             };
             listStudent.Add(dto);
@@ -161,20 +160,14 @@ namespace PE2A_WF_Lecturer
         }
         private bool IsConnected(string ipAddress)
         {
-            try
-            {
-                foreach (var student in listStudent)
+           
+            foreach (var student in listStudent)
                 {
                     if (student.IpAddress.ToString().Equals(ipAddress))
                     {
                         return true;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("IsConnected : "+ex.Message);
-            }
                 return false;
         }
 
