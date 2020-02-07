@@ -233,7 +233,9 @@ namespace PE2A_WF_Lecturer
                             dr["Total Point"] = student.TotalPoint;
                             dr["Time"] = student.Time;
                             dr["Status"] = Constant.STATUSLIST[2];
+                            this.InvokeEx(f => dgvStudent.Refresh());
                         }
+                        break;
                     }
                 }
             }
