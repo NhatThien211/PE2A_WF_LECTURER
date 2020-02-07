@@ -110,6 +110,7 @@ namespace PE2A_WF_Lecturer
                 bool isSent = false;
                 string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
                 StudentDTO newStudent = new StudentDTO(count,studentCode, IPAddress.Parse(ipAddress), port,Constant.STATUSLIST[0]);
+                listStudent.Remove(listStudent.Where(x => x.NO == 0).FirstOrDefault());
                 listStudent.Add(newStudent);
                 Console.WriteLine(newStudent.IpAddress);
                 Console.WriteLine(ipAddress);
@@ -138,10 +139,8 @@ namespace PE2A_WF_Lecturer
             this.InvokeEx(f => dgvStudent.DataSource = null);
             StudentDTO dto = new StudentDTO()
             {
-                NO = 1,
-                StudentCode = "SE62882",
-                IpAddress = IPAddress.Parse("26.165.20.207"),
-                Status = Constant.STATUSLIST[0],
+                NO = 0,
+                StudentCode = "",
             };
             listStudent.Add(dto);
             dgvStudent.DataSource = listStudent;
@@ -153,9 +152,8 @@ namespace PE2A_WF_Lecturer
         }
         private void ResetDataGridViewDataSource()
         {           
-            //this.InvokeEx(f => dgvStudent.DataSource = null);          
+            this.InvokeEx(f => dgvStudent.DataSource = null);          
             this.InvokeEx(f => dgvStudent.DataSource = listStudent);
-            this.InvokeEx(f => dgvStudent.Refresh());
             this.InvokeEx(f => this.dgvStudent.Columns["IpAddress"].Visible = false);
             this.InvokeEx(f => this.dgvStudent.Columns["Port"].Visible = false);
             this.InvokeEx(f => this.dgvStudent.Columns["ListQuestions"].Visible = false);
@@ -163,15 +161,21 @@ namespace PE2A_WF_Lecturer
         }
         private bool IsConnected(string ipAddress)
         {
-          
-             foreach (var student in listStudent)
+            try
             {
-                if (student.IpAddress.ToString().Equals(ipAddress))
+                foreach (var student in listStudent)
                 {
-                    return true;
+                    if (student.IpAddress.ToString().Equals(ipAddress))
+                    {
+                        return true;
+                    }
                 }
             }
-            return false;
+            catch (Exception ex)
+            {
+                Console.WriteLine("IsConnected : "+ex.Message);
+            }
+                return false;
         }
 
         private void SendMessage(string ipAddress, int port, string message)
