@@ -57,9 +57,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.btnPublishMark);
             this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(45, 46, 45, 615);
-            this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
-            this.splitContainer1.Size = new System.Drawing.Size(1400, 749);
-            this.splitContainer1.SplitterDistance = 1050;
+            this.splitContainer1.Size = new System.Drawing.Size(1670, 749);
+            this.splitContainer1.SplitterDistance = 1252;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -72,7 +71,7 @@
             this.gbSubmitedFiles.Margin = new System.Windows.Forms.Padding(0);
             this.gbSubmitedFiles.Name = "gbSubmitedFiles";
             this.gbSubmitedFiles.Padding = new System.Windows.Forms.Padding(8, 31, 4, 5);
-            this.gbSubmitedFiles.Size = new System.Drawing.Size(1034, 710);
+            this.gbSubmitedFiles.Size = new System.Drawing.Size(1236, 710);
             this.gbSubmitedFiles.TabIndex = 0;
             this.gbSubmitedFiles.TabStop = false;
             this.gbSubmitedFiles.Text = "Submited Files";
@@ -82,23 +81,23 @@
             this.dgvStudent.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvStudent.BackgroundColor = System.Drawing.Color.White;
             this.dgvStudent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvStudent.Location = new System.Drawing.Point(10, 58);
+            this.dgvStudent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvStudent.Location = new System.Drawing.Point(8, 56);
             this.dgvStudent.Name = "dgvStudent";
             this.dgvStudent.RowHeadersWidth = 62;
             this.dgvStudent.RowTemplate.Height = 28;
-            this.dgvStudent.Size = new System.Drawing.Size(1017, 588);
+            this.dgvStudent.Size = new System.Drawing.Size(1224, 649);
             this.dgvStudent.TabIndex = 0;
             this.dgvStudent.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudent_CellContentClick);
             // 
             // btnPublishMark
             // 
-            this.btnPublishMark.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnPublishMark.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPublishMark.Location = new System.Drawing.Point(45, 46);
+            this.btnPublishMark.Location = new System.Drawing.Point(88, 287);
             this.btnPublishMark.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnPublishMark.MinimumSize = new System.Drawing.Size(75, 77);
             this.btnPublishMark.Name = "btnPublishMark";
-            this.btnPublishMark.Size = new System.Drawing.Size(254, 88);
+            this.btnPublishMark.Size = new System.Drawing.Size(190, 77);
             this.btnPublishMark.TabIndex = 0;
             this.btnPublishMark.Text = "Publish Mark";
             this.btnPublishMark.UseVisualStyleBackColor = true;
@@ -108,14 +107,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1400, 749);
+            this.ClientSize = new System.Drawing.Size(1670, 749);
             this.Controls.Add(this.splitContainer1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LecturerForm";
             this.Text = "LECTURER FORM";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LecturerForm_FormClosing);
+            this.Load += new System.EventHandler(this.LecturerForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

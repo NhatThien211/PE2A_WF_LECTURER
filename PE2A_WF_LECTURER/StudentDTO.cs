@@ -10,17 +10,23 @@ using System.Threading.Tasks;
 
 namespace PE2A_WF_Lecturer
 {
-    class StudentDTO
+    public  class StudentDTO
     {
         public int NO { get; set; }
         public string StudentCode { get; set; }
+        public string StudentName { get; set; }
+        public string ScriptCode { get; set; }
+        public string Status { get; set; }
         public IPAddress IpAddress { get; set; }
         public int Port { get; set; }
         public Dictionary<string, string> ListQuestions { get; set; }
-        public string Time { get; set; }
         public string Result { get; set; }
-        public string TotalPoint { get; set; }
-        public string Status { get; set; }
+        public string Point { get; set; }
+       
+        public int Id { get; set; }
+      
+        public string TimeSubmitted { get; set; }
+        public string SubmitPath { get; set; }
 
         public Image Close{get;set;}
         public StudentDTO(string studentCode, IPAddress ipAddress, int port)

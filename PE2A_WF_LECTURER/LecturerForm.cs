@@ -23,46 +23,35 @@ namespace PE2A_WF_Lecturer
     public partial class LecturerForm : Form
     {
         private int count = 0;
-        DataTable dataTable = new DataTable();
-        List<StudentDTO> listStudent = new List<StudentDTO>();
-        private List<StudentPointDTO> listStudentPoints = new List<StudentPointDTO>();
-        Image closeImage = PE2A_WF_Lecturer.Properties.Resources.close;
+        public List<StudentDTO> ListStudent { get; set; }
+        public string ScriptCodePrefix { get; set; }
+        Image CloseImage = PE2A_WF_Lecturer.Properties.Resources.close;
         public LecturerForm()
         {
             InitializeComponent();
 
-            //dataTable.Columns.Add("No.");
-            //dataTable.Columns.Add("Student_Code");
-            //dataTable.Columns.Add("Total Point");
-            //dataTable.Columns.Add("Time");
-            //dataTable.Columns.Add("Status");
-
-            //dataTable.Columns.Add("Close", typeof(Image));
-            //dataTable.Columns.Add("Close", typeof(Image));
-            InitDataSource();
-            listStudent.Remove(listStudent.Where(x => x.NO == 0).FirstOrDefault());
-            //listen to student
-            ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
-
-            // listening to webservice for return student's point
-            UpdateStudentPointTable();
         }
 
 
         private void btnEstimate_Click(object sender, EventArgs e)
         {
-            //get point from file
-            //   GetResultFromFile();
             //send point to client
-            foreach (var item in listStudent)
+            foreach (var item in ListStudent)
             {
-                SendMessage(item.IpAddress.ToString(), item.Port, item.TotalPoint);
+                try
+                {
+                    SendMessage(item.IpAddress.ToString(), item.Port, item.Point);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine("PUBLISH POINT: " + item.StudentCode + " has disconnected");
+                }
             }
 
         }
 
         static Socket s;
         static Byte[] buffer;
+
         private void ListeningToBroadcastUDPConnection(int listeningPort)
         {
             s = new Socket(AddressFamily.InterNetwork,
@@ -111,25 +100,33 @@ namespace PE2A_WF_Lecturer
                 count++;
                 bool isSent = false;
                 string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
-                StudentDTO newStudent = new StudentDTO(count, studentCode, IPAddress.Parse(ipAddress), port, Constant.STATUSLIST[0], closeImage);
-                listStudent.Add(newStudent);
-                Console.WriteLine(newStudent.IpAddress);
-                Console.WriteLine(ipAddress);
-                ResetDataGridViewDataSource();
-                while (!isSent)
+                StudentDTO student = ListStudent.Where(t => t.StudentCode == studentCode).FirstOrDefault();
+                if(student != null)
                 {
-                    try
+                    student.IpAddress = IPAddress.Parse(ipAddress);
+                    student.Port = port;
+                    student.Status = Constant.STATUSLIST[0];
+                    Console.WriteLine(ipAddress);
+                    ResetDataGridViewDataSource();
+                    while (!isSent)
                     {
-                        // Cập nhật giao diện ở đây
-                        message = "here is your submission url =" + submissionURL;
-                        SendMessage(ipAddress, port, message);
-                        isSent = true;
+                        try
+                        {
+                            // Cập nhật giao diện ở đây
+                            message = "here is your submission url =" + submissionURL + "=" + ScriptCodePrefix + student.ScriptCode;
+                            SendMessage(ipAddress, port, message);
+                            isSent = true;
 
+                        }
+                        catch (Exception e)
+                        {
+                            // resent message
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        // resent message
-                    }
+                }
+                else
+                {
+                    Console.WriteLine("Cannot find" + studentCode);
                 }
             }
 
@@ -137,36 +134,47 @@ namespace PE2A_WF_Lecturer
 
         private void InitDataSource()
         {
-            this.InvokeEx(f => dgvStudent.DataSource = null);
-            StudentDTO dto = new StudentDTO()
+            foreach (var item in ListStudent)
             {
-                StudentCode = "",
-                Close = PE2A_WF_Lecturer.Properties.Resources.close
-            };
-            listStudent.Add(dto);
-            dgvStudent.DataSource = listStudent;
-            dgvStudent.Columns["IpAddress"].Visible = false;
-            dgvStudent.Columns["Port"].Visible = false;
-            dgvStudent.Columns["ListQuestions"].Visible = false;
+                count++;
+                item.NO = count;
+                item.Close = CloseImage;
+                item.ScriptCode = item.ScriptCode.Replace(ScriptCodePrefix, "");
+            }
+            dgvStudent.DataSource = ListStudent;
+            foreach (var item in Constant.HIDDEN_COLUMN)
+            {
+                this.dgvStudent.Columns[item].Visible = false;
+            }
         }
+
         private void ResetDataGridViewDataSource()
         {
             this.InvokeEx(f => dgvStudent.DataSource = null);
-            this.InvokeEx(f => dgvStudent.DataSource = listStudent);
-            this.InvokeEx(f => this.dgvStudent.Columns["IpAddress"].Visible = false);
-            this.InvokeEx(f => this.dgvStudent.Columns["Port"].Visible = false);
-            this.InvokeEx(f => this.dgvStudent.Columns["ListQuestions"].Visible = false);
-
+            this.InvokeEx(f => dgvStudent.DataSource = ListStudent);
+            foreach (var item in Constant.HIDDEN_COLUMN)
+            {
+                this.InvokeEx(f => this.dgvStudent.Columns[item].Visible = false);
+            }
         }
+
         private bool IsConnected(string ipAddress)
         {
 
-            foreach (var student in listStudent)
+            foreach (var student in ListStudent)
             {
-                if (student.IpAddress.ToString().Equals(ipAddress))
+                try
                 {
-                    return true;
+                    if (student.IpAddress.ToString().Equals(ipAddress))
+                    {
+                        return true;
+                    }
                 }
+                catch (Exception e)
+                {
+
+                }
+
             }
             return false;
         }
@@ -213,11 +221,11 @@ namespace PE2A_WF_Lecturer
                     String splitPassed = studentPoint.Split('/')[0];
                     String splitTotal = studentPoint.Split('/')[1];
                     Double totalPoint = (Double.Parse(splitPassed) / Double.Parse(splitTotal)) * 10;
-                    foreach (var item in listStudent)
+                    foreach (var item in ListStudent)
                     {
                         if (studentCode.ToUpper().Trim().Equals(item.StudentCode.ToUpper()))
                         {
-                            item.TotalPoint = totalPoint + "";
+                            item.Point = totalPoint + "";
                         }
                     }
 
@@ -231,15 +239,15 @@ namespace PE2A_WF_Lecturer
             {
                 string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
                 StudentPointDTO studentPoint = JsonConvert.DeserializeObject<StudentPointDTO>(receivedMessage);
-                foreach (var student in listStudent)
+                foreach (var student in ListStudent)
                 {
                     if (student.StudentCode.Equals(studentPoint.StudentCode))
                     {
                         // Update student result
                         student.ListQuestions = studentPoint.ListQuestions;
-                        student.Time = studentPoint.Time;
+                        student.TimeSubmitted = studentPoint.Time;
                         student.Result = studentPoint.Result;
-                        student.TotalPoint = studentPoint.TotalPoint;
+                        student.Point = studentPoint.TotalPoint;
                         student.Status = Constant.STATUSLIST[2];
                         ResetDataGridViewDataSource();
                         // For test
@@ -252,17 +260,6 @@ namespace PE2A_WF_Lecturer
                         Console.WriteLine(studentPoint.TotalPoint);
                         Console.WriteLine(studentPoint.Result);
                         Console.WriteLine(studentPoint.Time);
-
-
-                        //string colName = "Student_Code='" + student.StudentCode + "'";
-                        //DataRow dr = dataTable.Select(colName).FirstOrDefault();
-                        //if (dr != null)
-                        //{
-                        //    dr["Total Point"] = student.TotalPoint;
-                        //    dr["Time"] = student.Time;
-                        //    dr["Status"] = Constant.STATUSLIST[2];
-                        //    this.InvokeEx(f => dgvStudent.Refresh());
-                        //}
                         break;
                     }
                 }
@@ -274,29 +271,43 @@ namespace PE2A_WF_Lecturer
             Task.Run(() => ReceiveStudentPointFromTCP(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT)); // 6969
         }
 
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void dgvStudent_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (listStudent.Count == 0) return;
+            if (ListStudent.Count == 0) return;
             int columnClicked = e.ColumnIndex;
-            if (columnClicked == dgvStudent.Columns["Close"].Index)
+            int rowClicked = e.RowIndex;
+            if (columnClicked == dgvStudent.Columns[nameof(StudentDTO.Close)].Index && rowClicked >= 0)
             {
-                int rowClicked = e.RowIndex;
-                string studentCode = dgvStudent.Rows[rowClicked].Cells[dgvStudent.Columns["StudentCode"].Index].Value.ToString();
-                listStudent.Remove(listStudent.Where(f => f.StudentCode == studentCode).FirstOrDefault());
-                count = 0;
-                foreach(var item in listStudent)
+
+                string studentCode = dgvStudent.Rows[rowClicked].Cells[dgvStudent.Columns[nameof(StudentDTO.StudentCode)].Index].Value.ToString();
+                DialogResult result = MessageBox.Show(Constant.REMOVE_STUDENT_MESSAGE + studentCode, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
                 {
-                    count++;
-                    item.NO = count;
+                    ListStudent.Remove(ListStudent.Where(f => f.StudentCode == studentCode).FirstOrDefault());
+                    count = 0;
+                    foreach (var item in ListStudent)
+                    {
+                        count++;
+                        item.NO = count;
+                    }
+                    ResetDataGridViewDataSource();
                 }
             }
-            ResetDataGridViewDataSource();
         }
 
+        private void LecturerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void LecturerForm_Load(object sender, EventArgs e)
+        {
+            InitDataSource();
+            //listen to student
+            ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
+
+            // listening to webservice for return student's point
+            UpdateStudentPointTable();
+        }
     }
 }
