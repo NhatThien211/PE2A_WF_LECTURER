@@ -32,6 +32,7 @@
             this.gbSubmitedFiles = new System.Windows.Forms.GroupBox();
             this.dgvStudent = new System.Windows.Forms.DataGridView();
             this.btnPublishMark = new System.Windows.Forms.Button();
+            this.btnCSV = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -45,21 +46,22 @@
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.gbSubmitedFiles);
-            this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(8, 31, 8, 8);
+            this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(7, 25, 7, 6);
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnCSV);
             this.splitContainer1.Panel2.Controls.Add(this.btnPublishMark);
-            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(45, 46, 45, 615);
-            this.splitContainer1.Size = new System.Drawing.Size(1670, 749);
-            this.splitContainer1.SplitterDistance = 1252;
-            this.splitContainer1.SplitterWidth = 6;
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(40, 37, 40, 492);
+            this.splitContainer1.Size = new System.Drawing.Size(1484, 599);
+            this.splitContainer1.SplitterDistance = 1112;
+            this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             // 
             // gbSubmitedFiles
@@ -67,11 +69,11 @@
             this.gbSubmitedFiles.Controls.Add(this.dgvStudent);
             this.gbSubmitedFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSubmitedFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbSubmitedFiles.Location = new System.Drawing.Point(8, 31);
+            this.gbSubmitedFiles.Location = new System.Drawing.Point(7, 25);
             this.gbSubmitedFiles.Margin = new System.Windows.Forms.Padding(0);
             this.gbSubmitedFiles.Name = "gbSubmitedFiles";
-            this.gbSubmitedFiles.Padding = new System.Windows.Forms.Padding(8, 31, 4, 5);
-            this.gbSubmitedFiles.Size = new System.Drawing.Size(1236, 710);
+            this.gbSubmitedFiles.Padding = new System.Windows.Forms.Padding(7, 25, 4, 4);
+            this.gbSubmitedFiles.Size = new System.Drawing.Size(1098, 568);
             this.gbSubmitedFiles.TabIndex = 0;
             this.gbSubmitedFiles.TabStop = false;
             this.gbSubmitedFiles.Text = "Submited Files";
@@ -82,34 +84,45 @@
             this.dgvStudent.BackgroundColor = System.Drawing.Color.White;
             this.dgvStudent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvStudent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvStudent.Location = new System.Drawing.Point(8, 56);
+            this.dgvStudent.Location = new System.Drawing.Point(7, 46);
+            this.dgvStudent.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvStudent.Name = "dgvStudent";
             this.dgvStudent.RowHeadersWidth = 62;
             this.dgvStudent.RowTemplate.Height = 28;
-            this.dgvStudent.Size = new System.Drawing.Size(1224, 649);
+            this.dgvStudent.Size = new System.Drawing.Size(1087, 518);
             this.dgvStudent.TabIndex = 0;
             this.dgvStudent.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudent_CellContentClick);
             // 
             // btnPublishMark
             // 
             this.btnPublishMark.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPublishMark.Location = new System.Drawing.Point(88, 287);
-            this.btnPublishMark.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnPublishMark.MinimumSize = new System.Drawing.Size(75, 77);
+            this.btnPublishMark.Location = new System.Drawing.Point(78, 230);
+            this.btnPublishMark.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPublishMark.MinimumSize = new System.Drawing.Size(67, 62);
             this.btnPublishMark.Name = "btnPublishMark";
-            this.btnPublishMark.Size = new System.Drawing.Size(190, 77);
+            this.btnPublishMark.Size = new System.Drawing.Size(169, 62);
             this.btnPublishMark.TabIndex = 0;
             this.btnPublishMark.Text = "Publish Mark";
             this.btnPublishMark.UseVisualStyleBackColor = true;
             this.btnPublishMark.Click += new System.EventHandler(this.btnEstimate_Click);
             // 
+            // btnCSV
+            // 
+            this.btnCSV.Location = new System.Drawing.Point(78, 359);
+            this.btnCSV.Name = "btnCSV";
+            this.btnCSV.Size = new System.Drawing.Size(169, 61);
+            this.btnCSV.TabIndex = 1;
+            this.btnCSV.Text = "Export CSV";
+            this.btnCSV.UseVisualStyleBackColor = true;
+            this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
+            // 
             // LecturerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1670, 749);
+            this.ClientSize = new System.Drawing.Size(1484, 599);
             this.Controls.Add(this.splitContainer1);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LecturerForm";
@@ -133,5 +146,6 @@
         private System.Windows.Forms.GroupBox gbSubmitedFiles;
         private System.Windows.Forms.Button btnPublishMark;
         private System.Windows.Forms.DataGridView dgvStudent;
+        private System.Windows.Forms.Button btnCSV;
     }
 }

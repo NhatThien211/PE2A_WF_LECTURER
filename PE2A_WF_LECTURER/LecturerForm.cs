@@ -41,7 +41,8 @@ namespace PE2A_WF_Lecturer
                 try
                 {
                     SendMessage(item.IpAddress.ToString(), item.Port, item.Point);
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     Console.WriteLine("PUBLISH POINT: " + item.StudentCode + " has disconnected");
                 }
@@ -101,7 +102,7 @@ namespace PE2A_WF_Lecturer
                 bool isSent = false;
                 string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
                 StudentDTO student = ListStudent.Where(t => t.StudentCode == studentCode).FirstOrDefault();
-                if(student != null)
+                if (student != null)
                 {
                     student.IpAddress = IPAddress.Parse(ipAddress);
                     student.Port = port;
@@ -147,6 +148,7 @@ namespace PE2A_WF_Lecturer
                 this.dgvStudent.Columns[item].Visible = false;
             }
         }
+
 
         private void ResetDataGridViewDataSource()
         {
@@ -278,7 +280,6 @@ namespace PE2A_WF_Lecturer
             int rowClicked = e.RowIndex;
             if (columnClicked == dgvStudent.Columns[nameof(StudentDTO.Close)].Index && rowClicked >= 0)
             {
-
                 string studentCode = dgvStudent.Rows[rowClicked].Cells[dgvStudent.Columns[nameof(StudentDTO.StudentCode)].Index].Value.ToString();
                 DialogResult result = MessageBox.Show(Constant.REMOVE_STUDENT_MESSAGE + studentCode, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
@@ -308,6 +309,63 @@ namespace PE2A_WF_Lecturer
 
             // listening to webservice for return student's point
             UpdateStudentPointTable();
+        }
+
+        private void btnCSV_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sv = new SaveFileDialog() { Filter = "CSV|*.csv", ValidateNames = true })
+            {
+                if (sv.ShowDialog() == DialogResult.OK)
+                {
+                    Console.WriteLine(sv.FileName);
+                    ExportCSV(ListStudent, sv.FileName);
+                }
+            }
+        }
+        private void ExportCSV(List<StudentDTO> studentDTOs, String savePath)
+        {
+            //Build the CSV file data as a Comma separated string.
+            string csv = string.Empty;
+
+            //Add the Header row for CSV file.
+            foreach (DataGridViewColumn column in dgvStudent.Columns)
+            {
+                if (column.HeaderText.Equals("StudentCode")
+                    || column.HeaderText.Equals("StudentName")
+                    || column.HeaderText.Equals("NO")
+                    || column.HeaderText.Equals("Point"))
+                {
+                    csv += column.HeaderText + ',';
+                }
+            }
+            //Add new line.
+            csv += "\r\n";
+            //Adding the Rows
+
+            foreach (var item in studentDTOs)
+            {
+                csv += item.NO.ToString() + ',';
+                csv += item.StudentCode.ToString() + ',';
+                csv += item.StudentName.ToString() + ',';
+                csv += item.Point.ToString() + ',';
+                csv += "\r\n";
+            }
+
+            //foreach (DataGridViewRow row in dgvStudent.Rows)
+            //{
+            //    foreach (DataGridViewCell cell in row.Cells)
+            //    {
+            //        if (cell.Value != null)
+            //        {
+            //            csv += cell.Value.ToString().Replace(",", ";") + ',';
+            //        }
+            //        //Add the Data rows.
+            //    }
+            //    //Add new line.
+            //    csv += "\r\n";
+            //}
+            //Exporting to CSV.
+            File.WriteAllText(savePath, csv);
         }
     }
 }
