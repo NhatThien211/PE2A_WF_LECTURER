@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using SharpCompress.Archives.Rar;
+using SharpCompress.Common;
+using SharpCompress.Archives;
+using SharpCompress.Archives.Zip;
+using System.IO;
 
 namespace PE2A_WF_Lecturer
 {
     public class Util
     {
-        public static void SendBroadCast(String message, int receiverListeningPort)
+        public static void SendBroadCast(string message, int receiverListeningPort)
         {
             IPEndPoint ipEnd = new IPEndPoint(IPAddress.Broadcast, receiverListeningPort);
             Socket clientSock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
@@ -21,11 +22,12 @@ namespace PE2A_WF_Lecturer
             clientSock.SendTo(bytes, ipEnd);
             clientSock.Close();
         }
-         private static Socket listeningSocket;
+
+        private static Socket listeningSocket;
         public static string GetMessageFromTCPConnection(int listeningPort, int maximumRequest)
         {
             listeningSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            Byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[1024];
             IPEndPoint senders = new IPEndPoint(IPAddress.Any, listeningPort);
             listeningSocket.Bind(senders);
             listeningSocket.Listen(maximumRequest);
@@ -37,13 +39,48 @@ namespace PE2A_WF_Lecturer
             return receivedMessage.Substring(0, size);
         }
 
-       
-
         public static IPAddress GetLocalIPAddress()
         {
             string hostName = Dns.GetHostName();
             string ip = Dns.GetHostByName(hostName).AddressList[0].ToString();
             return IPAddress.Parse(ip);
+        }
+
+        public static void UnarchiveFile(string filePath, string destDirectory)
+        {
+            string filenameExtension = Path.GetExtension(filePath);
+
+            if (Directory.Exists(destDirectory))
+            {
+                if (filenameExtension.Equals(Constant.ZIP_EXTENSION, StringComparison.OrdinalIgnoreCase))
+                {
+                    using (var zipArchive = ZipArchive.Open(filePath))
+                    {
+                        foreach (var entry in zipArchive.Entries)
+                        {
+                            entry.WriteToDirectory(destDirectory, new ExtractionOptions()
+                            {
+                                Overwrite = true,
+                                ExtractFullPath = true,
+                            });
+                        }
+                    }
+                }
+                else if (filenameExtension.Equals(Constant.RAR_EXTENSION, StringComparison.OrdinalIgnoreCase))
+                {
+                    using (var rarArchive = RarArchive.Open(filePath))
+                    {
+                        foreach (var entry in rarArchive.Entries)
+                        {
+                            entry.WriteToDirectory(destDirectory, new ExtractionOptions()
+                            {
+                                Overwrite = true,
+                                ExtractFullPath = true,
+                            });
+                        }
+                    }
+                }
+            }
         }
 
     }
