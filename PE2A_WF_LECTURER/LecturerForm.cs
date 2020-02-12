@@ -341,14 +341,31 @@ namespace PE2A_WF_Lecturer
             //Add new line.
             csv += "\r\n";
             //Adding the Rows
+            List<StudentDTO> tempData = new List<StudentDTO>();
+            StudentDTO dto1 = new StudentDTO();
+            dto1.StudentCode = "SE63155";
+            dto1.StudentName = "Nguyễn Huy Thức";
+            dto1.Point = "10";
+            dto1.NO = 1;
+            StudentDTO dto2 = new StudentDTO();
+            dto2.StudentCode = "SE62847";
+            dto2.StudentName = "Trần Đại Thành";
+            dto2.Point = "10";
+            dto2.NO = 2;
 
-            foreach (var item in studentDTOs)
+            tempData.Add(dto1);
+            tempData.Add(dto2);
+
+            foreach (var item in tempData)
             {
-                csv += item.NO.ToString() + ',';
-                csv += item.StudentCode.ToString() + ',';
-                csv += item.StudentName.ToString() + ',';
-                csv += item.Point.ToString() + ',';
-                csv += "\r\n";
+                if (item != null)
+                {
+                    csv += item.NO.ToString() + ',';
+                    csv += item.StudentCode.ToString() + ',';
+                    csv += item.StudentName.ToString() + ',';
+                    csv += item.Point.ToString() + ',';
+                    csv += "\r\n";
+                }
             }
 
             //foreach (DataGridViewRow row in dgvStudent.Rows)
@@ -365,7 +382,7 @@ namespace PE2A_WF_Lecturer
             //    csv += "\r\n";
             //}
             //Exporting to CSV.
-            File.WriteAllText(savePath, csv);
+            File.WriteAllText(savePath, csv, Encoding.UTF8);
         }
     }
 }
