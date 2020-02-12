@@ -104,5 +104,11 @@
   <ItemGroup>
     <None Include="Resources\loading %282%29.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icPrint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icShare.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

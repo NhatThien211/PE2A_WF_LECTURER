@@ -19,10 +19,23 @@ namespace PE2A_WF_Lecturer
         public static string ENDPOINT = ":2020/api/submission";
         public static string REMOVE_STUDENT_MESSAGE = "Do you want to remove ";
         public static string ENROLL_NAME_NOT_NULL_MESSAGE = "EnrollName is must NOT empty please";
-        public static string CANNOT_CONNECT_API_MESSAGE = "EnrollName is must NOT empty please";
+        public static string CANNOT_CONNECT_API_MESSAGE = "Can not connect to online webservice";
         public static string ONLINE_API_URL = "localhost:8080/api/practical-exam/{id}/students";
         public static List<String> HIDDEN_COLUMN = new List<string> { "IpAddress", "Port", "ListQuestions", "Id", "SubmitPath" };
         public static string CLASS_EMPTY_MESSAGE = "Your class have no student please check again";
         public static string SCRIPT_PREFIX = "De";
+        //UI
+        public static string HEADER_COLUMN_STUDENTNAME = "Name";
+        public static string HEADER_COLUMN_STUDENTCODE = "Code";
+        public static string HEADER_COLUMN_SCRIPTCODE = "Script";
+
+        public static int COLUMN_WIDTH_A_LETTER = 20;
+        public static int COLUMN_NO_LETTER = 2;
+        public static int COLUMN_POINT_LETTER = 4;
+        public static int COLUMN_RESULT_LETTER = 4;
+        public static int COLUMN_STUDENTCODE_LETTER = 8;
+        public static int COLUMN_SCRIPTCODE_LETTER = 3;
+        public static int COLUMN_CLOSE_LETTER = 3;
+      
     }
 }

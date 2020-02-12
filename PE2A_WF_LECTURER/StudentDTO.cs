@@ -49,6 +49,10 @@ namespace PE2A_WF_Lecturer
         public StudentDTO()
         {
         }
+        public object Shallowcopy()
+        {
+            return this.MemberwiseClone();
+        }
 
     }
 }

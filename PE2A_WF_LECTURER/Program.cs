@@ -16,7 +16,7 @@ namespace PE2A_WF_Lecturer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new EnrollForm());
+            Application.Run(new LecturerEnroll());
         }
     }
 }
