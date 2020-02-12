@@ -2,22 +2,16 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PE2A_WF_Lecturer
 {
-    public partial class EnrollForm : Form
+    public partial class LecturerEnroll : Form
     {
-        public EnrollForm()
+        public LecturerEnroll()
         {
             InitializeComponent();
             ShowControls(false);
@@ -33,10 +27,15 @@ namespace PE2A_WF_Lecturer
         }
         private async Task GetListStudentssAsync() {
             listStudent = await GetClassStudentListAsync();
-            this.InvokeEx(f => ShowControls(true));
-            if(listStudent.Count == 0)
+            if(listStudent == null)
+            {
+            }else if(listStudent.Count == 0)
             {
                 MessageBox.Show(Constant.CLASS_EMPTY_MESSAGE);
+            }
+            else
+            {
+                this.InvokeEx(f => ShowControls(true));
             }
         }
         string studentID;
@@ -50,6 +49,9 @@ namespace PE2A_WF_Lecturer
             {
                 LecturerForm lecturerForm = new LecturerForm();
                 lecturerForm.ListStudent = listStudent;
+                List<StudentDTO> listTemp = new List<StudentDTO>();
+                listTemp.AddRange(listStudent);
+                lecturerForm.ListStudentBackUp = listTemp;
                 string scriptCode = listStudent[0].ScriptCode;
                 string practicalPrefix = scriptCode.Substring(0,scriptCode.IndexOf(Constant.SCRIPT_PREFIX));
                 lecturerForm.ScriptCodePrefix = practicalPrefix;
@@ -93,6 +95,7 @@ namespace PE2A_WF_Lecturer
                 catch(Exception e)
                 {
                     MessageBox.Show(Constant.CANNOT_CONNECT_API_MESSAGE);
+                    return null;
                 }
             }
             return students;

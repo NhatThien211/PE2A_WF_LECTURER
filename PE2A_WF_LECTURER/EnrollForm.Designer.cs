@@ -1,6 +1,6 @@
 ﻿namespace PE2A_WF_Lecturer
 {
-    partial class EnrollForm
+    partial class LecturerEnroll
     {
         /// <summary>
         /// Required designer variable.
@@ -50,9 +50,9 @@
             this.labelRollNumber.AutoSize = true;
             this.labelRollNumber.Location = new System.Drawing.Point(155, 104);
             this.labelRollNumber.Name = "labelRollNumber";
-            this.labelRollNumber.Size = new System.Drawing.Size(100, 20);
+            this.labelRollNumber.Size = new System.Drawing.Size(95, 20);
             this.labelRollNumber.TabIndex = 7;
-            this.labelRollNumber.Text = "Roll Number:";
+            this.labelRollNumber.Text = "Enroll Name";
             // 
             // txtStudentID
             // 
@@ -71,18 +71,20 @@
             this.loadingBox.TabIndex = 9;
             this.loadingBox.TabStop = false;
             // 
-            // EnrollForm
+            // LecturerEnroll
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(544, 298);
             this.Controls.Add(this.loadingBox);
             this.Controls.Add(this.btnEnroll);
             this.Controls.Add(this.labelRollNumber);
             this.Controls.Add(this.txtStudentID);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "EnrollForm";
-            this.Text = "ENROLL FORM";
+            this.MaximizeBox = false;
+            this.Name = "LecturerEnroll";
+            this.Text = "LECUTER ENROLL FORM";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.loadingBox)).EndInit();
             this.ResumeLayout(false);
