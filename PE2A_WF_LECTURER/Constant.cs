@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace PE2A_WF_Lecturer
 {
     public class Constant
@@ -17,5 +12,7 @@ namespace PE2A_WF_Lecturer
         public static string CLIENT_SOCKET_CLOSED_MESSAGE = "Clients closed their connection!!!";
         public static string PROTOCOL = "http://";
         public static string ENDPOINT = ":2020/api/submission";
+        public static string ZIP_EXTENSION = ".zip";
+        public static string RAR_EXTENSION = ".rar";
     }
 }
