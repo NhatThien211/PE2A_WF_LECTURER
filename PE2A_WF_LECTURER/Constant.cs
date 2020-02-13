@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PE2A_WF_Lecturer
 {
-    public class Constant
+    public static class Constant
     {
         public static int LECTURER_LISTENING_PORT = 9999;
         public static int STUDENT_LISTENING_PORT = 9998;
@@ -32,8 +32,9 @@ namespace PE2A_WF_Lecturer
         public static int COLUMN_STUDENTCODE_LETTER = 8;
         public static int COLUMN_SCRIPTCODE_LETTER = 3;
         public static int COLUMN_CLOSE_LETTER = 3;
-      
+
         public static string ZIP_EXTENSION = ".zip";
         public static string RAR_EXTENSION = ".rar";
+        public const string SCRIPT_FILE_PATH = @"\submission\PracticalExams";
     }
 }

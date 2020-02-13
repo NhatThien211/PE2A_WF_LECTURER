@@ -1,17 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Mime;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -26,7 +20,9 @@ namespace PE2A_WF_Lecturer
         public List<StudentDTO> ListStudent { get; set; }
         public List<StudentDTO> ListStudentBackUp { get; set; }
         public string ScriptCodePrefix { get; set; }
+
         Image CloseImage = PE2A_WF_Lecturer.Properties.Resources.close;
+
         public LecturerForm()
         {
             InitializeComponent();
@@ -87,16 +83,16 @@ namespace PE2A_WF_Lecturer
                 string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
                 StudentDTO student = ListStudent.Where(t => t.StudentCode == studentCode).FirstOrDefault();
                 StudentDTO studentDisconnected = ListStudentBackUp.Where(t => t.StudentCode == studentCode).FirstOrDefault();
-                if(student != null)
+                if (student != null)
                 {
                     student.IpAddress = IPAddress.Parse(ipAddress);
                     student.Port = port;
                     student.Status = Constant.STATUSLIST[0];
                     scriptCode = student.ScriptCode;
                 }
-                else if(studentDisconnected != null)
+                else if (studentDisconnected != null)
                 {
-                    StudentDTO studentDTO =(StudentDTO) studentDisconnected.Shallowcopy();
+                    StudentDTO studentDTO = (StudentDTO)studentDisconnected.Shallowcopy();
                     studentDTO.IpAddress = IPAddress.Parse(ipAddress);
                     studentDTO.Port = port;
                     studentDTO.Status = Constant.STATUSLIST[0];
@@ -143,7 +139,6 @@ namespace PE2A_WF_Lecturer
             {
                 this.dgvStudent.Columns[item].Visible = false;
             }
-            splitContainer1.Panel2Collapsed = true;
             FitDataGridViewCollumn();
         }
 
@@ -155,7 +150,7 @@ namespace PE2A_WF_Lecturer
             {
                 this.InvokeEx(f => this.dgvStudent.Columns[item].Visible = false);
             }
-           this.InvokeEx(f => FitDataGridViewCollumn());
+            this.InvokeEx(f => FitDataGridViewCollumn());
         }
 
         private bool IsConnected(string ipAddress)
@@ -328,9 +323,9 @@ namespace PE2A_WF_Lecturer
 
             // listening to webservice for return student's point
             UpdateStudentPointTable();
-          
-           
-          
+
+
+
         }
 
         private void publishPointMenu_Click(object sender, EventArgs e)
@@ -349,5 +344,62 @@ namespace PE2A_WF_Lecturer
             }
 
         }
+
+        private void ImportScriptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.Filter = "Supported file formats|*.zip;*.rar|ZIP files|*.zip|RAR files|*.rar";
+                    openFileDialog.Multiselect = false;
+                    openFileDialog.RestoreDirectory = true;
+                    if (openFileDialog.ShowDialog().Equals(DialogResult.OK))
+                    {
+                        var filePath = openFileDialog.FileName;
+                        if (File.Exists(filePath))
+                        {
+                            /*
+                             * 
+                             * This block is for local test (IDE test)
+                             * 
+                             */
+
+                            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+                            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
+                            var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+
+                            /*
+                             * 
+                             * This block is for release app
+                             * 
+                             */
+
+                            //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+                            //var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+
+                            if (Directory.Exists(destinationPath))
+                            {
+                                Util.UnarchiveFile(filePath, destinationPath);
+                                MessageBox.Show("Import success!", "Information");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Can not import script file!", "Error occurred");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("The file does not exist!", "Error occurred");
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Can not import script file!", "Error occurred");
+            }
+        }
+
     }
 }
