@@ -82,7 +82,7 @@ namespace PE2A_WF_Lecturer
             int startIndex = apiUrl.IndexOf('{');
             int endIndex = apiUrl.IndexOf('}');
             string id = apiUrl.Substring(startIndex, endIndex - startIndex + 1);
-            apiUrl = apiUrl.Replace(id,"5");
+            apiUrl = apiUrl.Replace(id,"1");
             using(HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Clear();
