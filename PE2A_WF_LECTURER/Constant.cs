@@ -8,6 +8,7 @@ namespace PE2A_WF_Lecturer
         public static int LECTURER_LISTENING_PORT = 9999;
         public static int STUDENT_LISTENING_PORT = 9998;
         public static int SOCKET_STUDENT_POINT_LISTENING_PORT = 9997;
+        public static int SOCKET_STUDENT_SUBMISSION_LISTENING_PORT = 9996;
         public static int MAXIMUM_REQUEST = 100;
         public static string EXISTED_IP_MESSAGE = "You Have Connected To Server";
         public static string[] STATUSLIST = { "Connected", "Submitted", "Evaluated" };

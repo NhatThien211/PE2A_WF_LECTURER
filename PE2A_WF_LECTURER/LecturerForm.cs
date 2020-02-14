@@ -240,7 +240,7 @@ namespace PE2A_WF_Lecturer
                     {
                         // Update student result
                         student.ListQuestions = studentPoint.ListQuestions;
-                        student.TimeSubmitted = studentPoint.Time;
+                     // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
                         student.Result = studentPoint.Result;
                         student.Point = studentPoint.TotalPoint;
                         student.Status = Constant.STATUSLIST[2];
@@ -266,6 +266,36 @@ namespace PE2A_WF_Lecturer
             Task.Run(() => ReceiveStudentPointFromTCP(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT)); // 6969
         }
 
+        private void ReceiveStudentSubmissionFromTCP(int serverPort)
+        {
+            while (true)
+            {
+                string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
+                if (receivedMessage != null && !receivedMessage.Equals("") && receivedMessage.Contains('T'))
+                {
+                    string[] messages = receivedMessage.Split('T');
+                    string studentCode = messages[0];
+                    string submissionTime = messages[1];
+                    foreach (var student in ListStudent)
+                    {
+                        if (student.StudentCode.Equals(studentCode))
+                        {
+                            // Update student submissiontime and status
+                            student.TimeSubmitted = submissionTime;
+                            student.Status = Constant.STATUSLIST[1];
+                            ResetDataGridViewDataSource();
+                            break;
+                        }
+                    }
+                }
+              
+            }
+        }
+
+       private void UpdateStudentSubmissionTable()
+        {
+            Task.Run(() => ReceiveStudentSubmissionFromTCP(Constant.SOCKET_STUDENT_SUBMISSION_LISTENING_PORT));
+        }
 
         private void FitDataGridViewCollumn()
         {
@@ -320,7 +350,8 @@ namespace PE2A_WF_Lecturer
             InitDataSource();
             //listen to student
             ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
-
+            // listening to webservice for return student's submission
+            UpdateStudentSubmissionTable();
             // listening to webservice for return student's point
             UpdateStudentPointTable();
 
@@ -401,5 +432,6 @@ namespace PE2A_WF_Lecturer
             }
         }
 
+      
     }
 }

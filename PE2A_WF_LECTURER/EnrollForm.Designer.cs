@@ -64,7 +64,7 @@
             // loadingBox
             // 
             this.loadingBox.Image = global::PE2A_WF_Lecturer.Properties.Resources.loading;
-            this.loadingBox.Location = new System.Drawing.Point(181, 37);
+            this.loadingBox.Location = new System.Drawing.Point(159, 37);
             this.loadingBox.Name = "loadingBox";
             this.loadingBox.Size = new System.Drawing.Size(241, 215);
             this.loadingBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
