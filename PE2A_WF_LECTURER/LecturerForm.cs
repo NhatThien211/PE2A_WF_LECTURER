@@ -17,6 +17,7 @@ namespace PE2A_WF_Lecturer
     public partial class LecturerForm : Form
     {
         private int count = 0;
+        public TcpListener listener;
         public List<StudentDTO> ListStudent { get; set; }
         public List<StudentDTO> ListStudentBackUp { get; set; }
         public string ScriptCodePrefix { get; set; }
@@ -422,7 +423,45 @@ namespace PE2A_WF_Lecturer
                 MessageBox.Show("Can not import script file!", "Error occurred");
             }
         }
+        // TCP LISTENER
+        private void StartServerTCP()
+        {
+            Task.Run(() =>
+            {
+                IPEndPoint ipEnd = new IPEndPoint(IPAddress.Any, 9997);
+                listener = new TcpListener(ipEnd);
+                listener.Start();
+                Console.WriteLine("Server starting ...");
+                while (true)
+                {
+                    try
+                    {
+                        TcpClient tcpClient = listener.AcceptTcpClient();
+                        if (tcpClient.Connected == true)
+                        {
+                            Console.WriteLine("Client connecting ...");
+                            String msg = "Hello I am server";
+                            byte[] data = System.Text.Encoding.Unicode.GetBytes(msg);
+                            Util.sendMessage(data, tcpClient);
+                        }
+                        byte[] clientData = new byte[1024 * 5000];
+                        var getStream = tcpClient.GetStream();
+                        if (getStream != null)
+                        {
+                            getStream.Read(clientData, 0, clientData.Length);
+                            String msg = Util.receiveMessage(clientData);
+                            Console.WriteLine("get file ..." + msg);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+            });
 
-      
+        }
+
+
     }
 }
