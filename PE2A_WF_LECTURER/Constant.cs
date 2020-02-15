@@ -19,7 +19,7 @@ namespace PE2A_WF_Lecturer
         public static string ENROLL_NAME_NOT_NULL_MESSAGE = "EnrollName is must NOT empty please";
         public static string CANNOT_CONNECT_API_MESSAGE = "Can not connect to online webservice";
         public static string ONLINE_API_URL = "localhost:8080/api/practical-exam/{id}/students";
-        public static List<string> HIDDEN_COLUMN = new List<string> { "IpAddress", "Port", "ListQuestions", "Id", "SubmitPath" };
+        public static List<string> HIDDEN_COLUMN = new List<string> { "TcpClient", "ListQuestions", "Id", "SubmitPath" };
         public static string CLASS_EMPTY_MESSAGE = "Your class have no student please check again";
         public static string SCRIPT_PREFIX = "De";
         public static string HEADER_COLUMN_STUDENTNAME = "Name";

@@ -98,13 +98,13 @@ namespace PE2A_WF_Lecturer
         }
         private void ReturnWebserviceURL(string ipAddress, int port, string studentCode)
         {
-           TcpClient clientTemp = new System.Net.Sockets.TcpClient(ipAddress, port);
+           TcpClient tcpClient = new System.Net.Sockets.TcpClient(ipAddress, port);
             string scriptCode = "";
             string message;
-            if (IsConnected(ipAddress))
+            if (IsConnected(tcpClient))
             {
                 message = Constant.EXISTED_IP_MESSAGE;
-                Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(message), clientTemp);
+                Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(message), tcpClient);
             }
             else
             {
@@ -115,16 +115,14 @@ namespace PE2A_WF_Lecturer
                 StudentDTO studentDisconnected = ListStudentBackUp.Where(t => t.StudentCode == studentCode).FirstOrDefault();
                 if (student != null)
                 {
-                    student.IpAddress = IPAddress.Parse(ipAddress);
-                    student.Port = port;
+                    student.TcpClient = tcpClient;
                     student.Status = Constant.STATUSLIST[0];
                     scriptCode = student.ScriptCode;
                 }
                 else if (studentDisconnected != null)
                 {
                     StudentDTO studentDTO = (StudentDTO)studentDisconnected.Shallowcopy();
-                    studentDTO.IpAddress = IPAddress.Parse(ipAddress);
-                    studentDTO.Port = port;
+                    studentDTO.TcpClient = tcpClient;
                     studentDTO.Status = Constant.STATUSLIST[0];
                     studentDTO.NO = ListStudent.Count + 1;
                     ListStudent.Add(studentDTO);
@@ -144,7 +142,7 @@ namespace PE2A_WF_Lecturer
                         // Cập nhật giao diện ở đây
                         message = "here is your submission url =" + submissionURL + "=" + ScriptCodePrefix + scriptCode;
                         //SendMessage(ipAddress, port, message);
-                        Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(message), clientTemp);
+                        Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(message), tcpClient);
                         isSent = true;
 
                     }
@@ -186,14 +184,14 @@ namespace PE2A_WF_Lecturer
             this.InvokeEx(f => FitDataGridViewCollumn());
         }
 
-        private bool IsConnected(string ipAddress)
+        private bool IsConnected(TcpClient tcpClient)
         {
 
             foreach (var student in ListStudent)
             {
                 try
                 {
-                    if (student.IpAddress.ToString().Equals(ipAddress))
+                    if (student.TcpClient == tcpClient)
                     {
                         return true;
                     }
@@ -388,7 +386,7 @@ namespace PE2A_WF_Lecturer
             {
                 try
                 {
-                    SendMessage(item.IpAddress.ToString(), item.Port, item.Point);
+                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(item.Point+""), item.TcpClient);
                 }
                 catch (Exception ex)
                 {
@@ -453,10 +451,20 @@ namespace PE2A_WF_Lecturer
                 MessageBox.Show("Can not import script file!", "Error occurred");
             }
         }
-       
 
-     
-
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            foreach (var item in ListStudent)
+            {
+                try
+                {
+                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes("chipu"), item.TcpClient);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("PUBLISH POINT: " + item.StudentCode + " has disconnected");
+                }
+            }
+        }
     }
 }

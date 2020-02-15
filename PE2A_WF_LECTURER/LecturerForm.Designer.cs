@@ -36,6 +36,7 @@
             this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.publishPointMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.printReportMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudent)).BeginInit();
             this.gbSubmitedFiles.SuspendLayout();
             this.menuAction.SuspendLayout();
@@ -52,7 +53,7 @@
             this.dgvStudent.Name = "dgvStudent";
             this.dgvStudent.RowHeadersWidth = 62;
             this.dgvStudent.RowTemplate.Height = 28;
-            this.dgvStudent.Size = new System.Drawing.Size(1658, 652);
+            this.dgvStudent.Size = new System.Drawing.Size(1658, 655);
             this.dgvStudent.TabIndex = 0;
             this.dgvStudent.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudent_CellContentClick);
             // 
@@ -61,11 +62,11 @@
             this.gbSubmitedFiles.Controls.Add(this.dgvStudent);
             this.gbSubmitedFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSubmitedFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbSubmitedFiles.Location = new System.Drawing.Point(0, 36);
+            this.gbSubmitedFiles.Location = new System.Drawing.Point(0, 33);
             this.gbSubmitedFiles.Margin = new System.Windows.Forms.Padding(0);
             this.gbSubmitedFiles.Name = "gbSubmitedFiles";
             this.gbSubmitedFiles.Padding = new System.Windows.Forms.Padding(8, 31, 4, 5);
-            this.gbSubmitedFiles.Size = new System.Drawing.Size(1670, 713);
+            this.gbSubmitedFiles.Size = new System.Drawing.Size(1670, 716);
             this.gbSubmitedFiles.TabIndex = 2;
             this.gbSubmitedFiles.TabStop = false;
             // 
@@ -78,7 +79,7 @@
             this.actionToolStripMenuItem});
             this.menuAction.Location = new System.Drawing.Point(0, 0);
             this.menuAction.Name = "menuAction";
-            this.menuAction.Size = new System.Drawing.Size(1670, 36);
+            this.menuAction.Size = new System.Drawing.Size(1670, 33);
             this.menuAction.TabIndex = 3;
             this.menuAction.Text = "menuStrip1";
             // 
@@ -87,7 +88,7 @@
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importScriptToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(73, 32);
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(73, 29);
             this.menuToolStripMenuItem.Text = "Menu";
             // 
             // importScriptToolStripMenuItem
@@ -103,7 +104,7 @@
             this.publishPointMenu,
             this.printReportMenu});
             this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
-            this.actionToolStripMenuItem.Size = new System.Drawing.Size(79, 32);
+            this.actionToolStripMenuItem.Size = new System.Drawing.Size(79, 29);
             this.actionToolStripMenuItem.Text = "Action";
             // 
             // publishPointMenu
@@ -112,8 +113,9 @@
             this.publishPointMenu.Image = global::PE2A_WF_Lecturer.Properties.Resources.icShare;
             this.publishPointMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.publishPointMenu.Name = "publishPointMenu";
-            this.publishPointMenu.Size = new System.Drawing.Size(216, 34);
+            this.publishPointMenu.Size = new System.Drawing.Size(270, 34);
             this.publishPointMenu.Text = "Publish Point";
+            this.publishPointMenu.Click += new System.EventHandler(this.publishPointMenu_Click);
             // 
             // printReportMenu
             // 
@@ -121,8 +123,18 @@
             this.printReportMenu.Image = global::PE2A_WF_Lecturer.Properties.Resources.icPrint;
             this.printReportMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.printReportMenu.Name = "printReportMenu";
-            this.printReportMenu.Size = new System.Drawing.Size(216, 34);
+            this.printReportMenu.Size = new System.Drawing.Size(270, 34);
             this.printReportMenu.Text = "Print Report";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(296, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // LecturerForm
             // 
@@ -130,6 +142,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1670, 749);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.gbSubmitedFiles);
             this.Controls.Add(this.menuAction);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -159,5 +172,6 @@
         private System.Windows.Forms.ToolStripMenuItem printReportMenu;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;
+        private System.Windows.Forms.Button button1;
     }
 }

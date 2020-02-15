@@ -65,6 +65,7 @@ namespace PE2A_WF_Lecturer
             client.GetStream() // Get the stream and write the bytes to it  
                   .Write(bytes, 0,
                   bytes.Length); // Send the stream  
+            
         }
         public static void UnarchiveFile(string filePath, string destDirectory)
         {
