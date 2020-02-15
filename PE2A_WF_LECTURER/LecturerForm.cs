@@ -17,7 +17,7 @@ namespace PE2A_WF_Lecturer
     public partial class LecturerForm : Form
     {
         private int count = 0;
-        public TcpListener listener;
+        public TcpClient client;
         public List<StudentDTO> ListStudent { get; set; }
         public List<StudentDTO> ListStudentBackUp { get; set; }
         public string ScriptCodePrefix { get; set; }
@@ -68,14 +68,43 @@ namespace PE2A_WF_Lecturer
             s.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None,
                 ref clientEP, new AsyncCallback(DoReceiveFrom), buffer);
         }
+
+        private void StartTCPClient(string ipAddress, int port)
+        {
+            Task.Run(() =>
+            {
+                client = new System.Net.Sockets.TcpClient("127.0.0.1", 9997);
+                while (true)
+                {
+                    WaitForServerRequest(client);
+                }
+            });
+        }
+        private void WaitForServerRequest(TcpClient client)
+        {
+            if (client != null)
+            {
+                var getMsg = client.GetStream();
+                if (getMsg != null)
+                {
+                    byte[] data = new byte[1024 * 1024];
+                    getMsg.Read(data, 0, data.Length);
+                    Console.WriteLine("You got a package ..." + Util.receiveMessage(data));
+                    Console.WriteLine("Client send a message to server");
+                    String msg = "Hello I am Client";
+                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(msg), client);
+                }
+            }
+        }
         private void ReturnWebserviceURL(string ipAddress, int port, string studentCode)
         {
+           TcpClient clientTemp = new System.Net.Sockets.TcpClient(ipAddress, port);
             string scriptCode = "";
             string message;
             if (IsConnected(ipAddress))
             {
                 message = Constant.EXISTED_IP_MESSAGE;
-                SendMessage(ipAddress, port, message);
+                Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(message), clientTemp);
             }
             else
             {
@@ -114,7 +143,8 @@ namespace PE2A_WF_Lecturer
                     {
                         // Cập nhật giao diện ở đây
                         message = "here is your submission url =" + submissionURL + "=" + ScriptCodePrefix + scriptCode;
-                        SendMessage(ipAddress, port, message);
+                        //SendMessage(ipAddress, port, message);
+                        Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(message), clientTemp);
                         isSent = true;
 
                     }
@@ -423,44 +453,9 @@ namespace PE2A_WF_Lecturer
                 MessageBox.Show("Can not import script file!", "Error occurred");
             }
         }
-        // TCP LISTENER
-        private void StartServerTCP()
-        {
-            Task.Run(() =>
-            {
-                IPEndPoint ipEnd = new IPEndPoint(IPAddress.Any, 9997);
-                listener = new TcpListener(ipEnd);
-                listener.Start();
-                Console.WriteLine("Server starting ...");
-                while (true)
-                {
-                    try
-                    {
-                        TcpClient tcpClient = listener.AcceptTcpClient();
-                        if (tcpClient.Connected == true)
-                        {
-                            Console.WriteLine("Client connecting ...");
-                            String msg = "Hello I am server";
-                            byte[] data = System.Text.Encoding.Unicode.GetBytes(msg);
-                            Util.sendMessage(data, tcpClient);
-                        }
-                        byte[] clientData = new byte[1024 * 5000];
-                        var getStream = tcpClient.GetStream();
-                        if (getStream != null)
-                        {
-                            getStream.Read(clientData, 0, clientData.Length);
-                            String msg = Util.receiveMessage(clientData);
-                            Console.WriteLine("get file ..." + msg);
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                }
-            });
+       
 
-        }
+     
 
 
     }
