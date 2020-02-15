@@ -96,6 +96,7 @@ namespace PE2A_WF_Lecturer
                     studentDTO.IpAddress = IPAddress.Parse(ipAddress);
                     studentDTO.Port = port;
                     studentDTO.Status = Constant.STATUSLIST[0];
+                    studentDTO.NO = ListStudent.Count + 1;
                     ListStudent.Add(studentDTO);
                     scriptCode = studentDTO.ScriptCode;
                 }
@@ -124,6 +125,7 @@ namespace PE2A_WF_Lecturer
             }
 
         }
+
 
         private void InitDataSource()
         {
@@ -195,44 +197,12 @@ namespace PE2A_WF_Lecturer
         }
 
 
-        //private void GetResultFromFile()
-        //{
-        //    String directory = AppDomain.CurrentDomain.BaseDirectory + @"Results.txt";
-        //    var getFile = File.ReadAllText(directory).Replace("\n", "").Replace("\r", "");
-        //    for (int i = 0; i < getFile.Length; i++)
-        //    {
-        //        int startIndex = getFile.IndexOf("//" + i);
-        //        int endIndex = getFile.IndexOf("//end" + i) - startIndex;
-
-        //        if (startIndex != -1 && endIndex != -1)
-        //        {
-        //            String startString = getFile.Substring(startIndex, endIndex);
-        //            int startIndexCode = startString.IndexOf("SE");
-        //            int endIndexCode = startString.IndexOf("(StudentCode)") - startIndexCode;
-        //            String studentCode = startString.Substring(startIndexCode, endIndexCode);
-        //            int startIndexResult = startString.IndexOf("Result") + 8; // skip word result 
-        //            int endIndexResult = startString.IndexOf("(Point)") - startIndexResult;
-        //            String studentPoint = startString.Substring(startIndexResult, endIndexResult);
-        //            String splitPassed = studentPoint.Split('/')[0];
-        //            String splitTotal = studentPoint.Split('/')[1];
-        //            Double totalPoint = (Double.Parse(splitPassed) / Double.Parse(splitTotal)) * 10;
-        //            foreach (var item in ListStudent)
-        //            {
-        //                if (studentCode.ToUpper().Trim().Equals(item.StudentCode.ToUpper()))
-        //                {
-        //                    item.Point = totalPoint + "";
-        //                }
-        //            }
-
-        //        }
-        //    };
-        //}
-
         private void ReceiveStudentPointFromTCP(int serverPort)
         {
             while (true)
             {
                 string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
+                Console.WriteLine(receivedMessage);
                 StudentPointDTO studentPoint = JsonConvert.DeserializeObject<StudentPointDTO>(receivedMessage);
                 foreach (var student in ListStudent)
                 {
@@ -244,6 +214,25 @@ namespace PE2A_WF_Lecturer
                         student.Result = studentPoint.Result;
                         student.Point = studentPoint.TotalPoint;
                         student.Status = Constant.STATUSLIST[2];
+                        //dummy data
+                        if (studentPoint.StudentCode.ToUpper().Equals("SE63155"))
+                        {
+                            int count = 10;
+                            while(count < 40)
+                            {
+                                count++;
+                                string code = "SE632" + count;
+                                StudentDTO dto = ListStudent.Where(t => t.StudentCode == code).FirstOrDefault();
+                                if(dto != null)
+                                {
+                                    dto.ListQuestions = studentPoint.ListQuestions;
+                                    // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
+                                    dto.Result = studentPoint.Result;
+                                    dto.Point = studentPoint.TotalPoint;
+                                    dto.Status = Constant.STATUSLIST[2];
+                                }
+                            }
+                        }
                         ResetDataGridViewDataSource();
                         // For test
                         Console.WriteLine(studentPoint.StudentCode);
@@ -270,7 +259,9 @@ namespace PE2A_WF_Lecturer
         {
             while (true)
             {
+              
                 string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
+                Console.WriteLine(receivedMessage);
                 if (receivedMessage != null && !receivedMessage.Equals("") && receivedMessage.Contains('T'))
                 {
                     string[] messages = receivedMessage.Split('T');
@@ -351,7 +342,7 @@ namespace PE2A_WF_Lecturer
             //listen to student
             ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
             // listening to webservice for return student's submission
-            UpdateStudentSubmissionTable();
+          // UpdateStudentSubmissionTable();
             // listening to webservice for return student's point
             UpdateStudentPointTable();
 

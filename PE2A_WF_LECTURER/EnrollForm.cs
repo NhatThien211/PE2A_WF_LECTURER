@@ -39,7 +39,7 @@ namespace PE2A_WF_Lecturer
             }
         }
         string studentID;
-        List<StudentDTO> listStudent;
+        List<StudentDTO> listStudent = new List<StudentDTO>();
         private void btnEnroll_Click(object sender, EventArgs e)
         {
             
@@ -48,6 +48,7 @@ namespace PE2A_WF_Lecturer
             if (studentID.Equals("ADMIN"))
             {
                 LecturerForm lecturerForm = new LecturerForm();
+                AddData();
                 lecturerForm.ListStudent = listStudent;
                 List<StudentDTO> listTemp = new List<StudentDTO>();
                 listTemp.AddRange(listStudent);
@@ -58,6 +59,29 @@ namespace PE2A_WF_Lecturer
                 lecturerForm.Show();
                 this.Hide();
             }       
+        }
+
+        //for dummy data
+        private void AddData()
+        {
+            int count = 10;
+            StudentDTO dto = null;
+          for(int i = 0; i< listStudent.Count; i++)
+            {
+                if (listStudent[i].StudentCode.ToUpper() == "SE63155")
+                {
+                    dto = listStudent[i];
+                }
+            }
+            while (count < 40)
+            {
+                count++;
+                StudentDTO temp = (StudentDTO)dto.Shallowcopy();
+                temp.StudentCode = "SE632" + count;
+                temp.StudentName = "Nguyen Van " + count;
+
+                listStudent.Add(temp);
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
