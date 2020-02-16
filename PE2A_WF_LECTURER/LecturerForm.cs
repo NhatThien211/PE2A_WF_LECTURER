@@ -69,36 +69,35 @@ namespace PE2A_WF_Lecturer
                 ref clientEP, new AsyncCallback(DoReceiveFrom), buffer);
         }
 
-        private void StartTCPClient(string ipAddress, int port)
+        private void StartTCPClient(TcpClient client)
         {
             Task.Run(() =>
-            {
-                client = new System.Net.Sockets.TcpClient("127.0.0.1", 9997);
+            {              
                 while (true)
                 {
                     WaitForServerRequest(client);
                 }
             });
         }
+
         private void WaitForServerRequest(TcpClient client)
         {
             if (client != null)
             {
-                var getMsg = client.GetStream();
-                if (getMsg != null)
+                //Get time submission when student submit
+                var getDataTimeSubmission = GetTimeSubmission(client);
+                if (getDataTimeSubmission != null)
                 {
-                    byte[] data = new byte[1024 * 1024];
-                    getMsg.Read(data, 0, data.Length);
-                    Console.WriteLine("You got a package ..." + Util.receiveMessage(data));
-                    Console.WriteLine("Client send a message to server");
-                    String msg = "Hello I am Client";
-                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(msg), client);
+                    Console.WriteLine(getDataTimeSubmission[0]);
+                    //student.TimeSubmitted = getDataTimeSubmission[1]; //Set time to student
+                    Console.WriteLine(getDataTimeSubmission[1]);
                 }
             }
         }
         private void ReturnWebserviceURL(string ipAddress, int port, string studentCode)
         {
             TcpClient tcpClient = new System.Net.Sockets.TcpClient(ipAddress, port);
+            StartTCPClient(tcpClient);
             string scriptCode = "";
             string message;
             if (IsConnected(ipAddress))
@@ -133,13 +132,7 @@ namespace PE2A_WF_Lecturer
                     MessageBox.Show("Student not in class is connecting");
                     return;
                 }
-                //Get time submission when student submit
-                var getDataTimeSubmission = GetTimeSubmission(tcpClient);
-                if(getDataTimeSubmission != null)
-                {
-                    Console.WriteLine(student.StudentCode);
-                    student.TimeSubmitted = getDataTimeSubmission[1]; //Set time to student
-                }
+              
                 Console.WriteLine(ipAddress);
                 ResetDataGridViewDataSource();
                 while (!isSent)
@@ -161,6 +154,7 @@ namespace PE2A_WF_Lecturer
             }
 
         }
+
 
         private String[] GetTimeSubmission(TcpClient tcpClient)
         {
