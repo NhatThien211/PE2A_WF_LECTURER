@@ -36,7 +36,6 @@
             this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.publishPointMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.printReportMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudent)).BeginInit();
             this.gbSubmitedFiles.SuspendLayout();
             this.menuAction.SuspendLayout();
@@ -72,7 +71,6 @@
             // 
             // menuAction
             // 
-            this.menuAction.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuAction.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuAction.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
@@ -113,7 +111,7 @@
             this.publishPointMenu.Image = global::PE2A_WF_Lecturer.Properties.Resources.icShare;
             this.publishPointMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.publishPointMenu.Name = "publishPointMenu";
-            this.publishPointMenu.Size = new System.Drawing.Size(270, 34);
+            this.publishPointMenu.Size = new System.Drawing.Size(216, 34);
             this.publishPointMenu.Text = "Publish Point";
             this.publishPointMenu.Click += new System.EventHandler(this.publishPointMenu_Click);
             // 
@@ -123,18 +121,8 @@
             this.printReportMenu.Image = global::PE2A_WF_Lecturer.Properties.Resources.icPrint;
             this.printReportMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.printReportMenu.Name = "printReportMenu";
-            this.printReportMenu.Size = new System.Drawing.Size(270, 34);
+            this.printReportMenu.Size = new System.Drawing.Size(216, 34);
             this.printReportMenu.Text = "Print Report";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(296, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // LecturerForm
             // 
@@ -142,7 +130,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1670, 749);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.gbSubmitedFiles);
             this.Controls.Add(this.menuAction);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -172,6 +159,5 @@
         private System.Windows.Forms.ToolStripMenuItem printReportMenu;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;
-        private System.Windows.Forms.Button button1;
     }
 }

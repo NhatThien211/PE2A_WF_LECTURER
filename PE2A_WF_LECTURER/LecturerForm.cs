@@ -101,7 +101,7 @@ namespace PE2A_WF_Lecturer
            TcpClient tcpClient = new System.Net.Sockets.TcpClient(ipAddress, port);
             string scriptCode = "";
             string message;
-            if (IsConnected(tcpClient))
+            if (IsConnected(ipAddress))
             {
                 message = Constant.EXISTED_IP_MESSAGE;
                 Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(message), tcpClient);
@@ -184,14 +184,15 @@ namespace PE2A_WF_Lecturer
             this.InvokeEx(f => FitDataGridViewCollumn());
         }
 
-        private bool IsConnected(TcpClient tcpClient)
+        private bool IsConnected(string ipAddress)
         {
 
             foreach (var student in ListStudent)
             {
                 try
                 {
-                    if (student.TcpClient == tcpClient)
+                    IPAddress connectingIP = ((IPEndPoint)student.TcpClient.Client.RemoteEndPoint).Address;
+                    if (connectingIP.ToString().Equals(ipAddress))
                     {
                         return true;
                     }
