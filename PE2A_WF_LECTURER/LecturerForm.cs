@@ -98,7 +98,7 @@ namespace PE2A_WF_Lecturer
         }
         private void ReturnWebserviceURL(string ipAddress, int port, string studentCode)
         {
-           TcpClient tcpClient = new System.Net.Sockets.TcpClient(ipAddress, port);
+            TcpClient tcpClient = new System.Net.Sockets.TcpClient(ipAddress, port);
             string scriptCode = "";
             string message;
             if (IsConnected(ipAddress))
@@ -133,6 +133,13 @@ namespace PE2A_WF_Lecturer
                     MessageBox.Show("Student not in class is connecting");
                     return;
                 }
+                //Get time submission when student submit
+                var getDataTimeSubmission = GetTimeSubmission(tcpClient);
+                if(getDataTimeSubmission != null)
+                {
+                    Console.WriteLine(student.StudentCode);
+                    student.TimeSubmitted = getDataTimeSubmission[1]; //Set time to student
+                }
                 Console.WriteLine(ipAddress);
                 ResetDataGridViewDataSource();
                 while (!isSent)
@@ -155,7 +162,24 @@ namespace PE2A_WF_Lecturer
 
         }
 
-
+        private String[] GetTimeSubmission(TcpClient tcpClient)
+        {
+            var getStream = tcpClient.GetStream();
+            if(getStream.DataAvailable)
+            {
+                var dataByte = new byte[1024*1024];
+                var dataSize = tcpClient.ReceiveBufferSize;
+                getStream.Read(dataByte, 0, dataSize);
+                var dataConvert = Util.receiveMessage(dataByte);
+                if(dataConvert.Split('-').Length > 0)
+                {
+                    return dataConvert.Split('-');
+                }
+            }
+            return null;
+            
+            
+        }
         private void InitDataSource()
         {
             foreach (var item in ListStudent)
