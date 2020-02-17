@@ -25,6 +25,7 @@ namespace PE2A_WF_Lecturer
         public static string HEADER_COLUMN_STUDENTNAME = "Name";
         public static string HEADER_COLUMN_STUDENTCODE = "Code";
         public static string HEADER_COLUMN_SCRIPTCODE = "Script";
+        public static int MAXIMUM_SEND_TIME = 3;
 
         public static int COLUMN_WIDTH_A_LETTER = 20;
         public static int COLUMN_NO_LETTER = 2;

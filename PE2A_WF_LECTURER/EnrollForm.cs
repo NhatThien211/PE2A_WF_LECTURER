@@ -75,6 +75,7 @@ namespace PE2A_WF_Lecturer
             }
             while (count < 40)
             {
+                Console.WriteLine("AddData");
                 count++;
                 StudentDTO temp = (StudentDTO)dto.Shallowcopy();
                 temp.StudentCode = "SE632" + count;

@@ -37,10 +37,9 @@
             // 
             // btnEnroll
             // 
-            this.btnEnroll.Location = new System.Drawing.Point(152, 136);
-            this.btnEnroll.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEnroll.Location = new System.Drawing.Point(201, 213);
             this.btnEnroll.Name = "btnEnroll";
-            this.btnEnroll.Size = new System.Drawing.Size(85, 27);
+            this.btnEnroll.Size = new System.Drawing.Size(128, 42);
             this.btnEnroll.TabIndex = 8;
             this.btnEnroll.Text = "Enroll";
             this.btnEnroll.UseVisualStyleBackColor = true;
@@ -49,42 +48,40 @@
             // labelRollNumber
             // 
             this.labelRollNumber.AutoSize = true;
-            this.labelRollNumber.Location = new System.Drawing.Point(103, 68);
-            this.labelRollNumber.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelRollNumber.Location = new System.Drawing.Point(111, 108);
             this.labelRollNumber.Name = "labelRollNumber";
-            this.labelRollNumber.Size = new System.Drawing.Size(64, 13);
+            this.labelRollNumber.Size = new System.Drawing.Size(95, 20);
             this.labelRollNumber.TabIndex = 7;
             this.labelRollNumber.Text = "Enroll Name";
             // 
             // txtStudentID
             // 
-            this.txtStudentID.Location = new System.Drawing.Point(75, 94);
-            this.txtStudentID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtStudentID.Location = new System.Drawing.Point(115, 151);
             this.txtStudentID.Name = "txtStudentID";
-            this.txtStudentID.Size = new System.Drawing.Size(214, 20);
+            this.txtStudentID.Size = new System.Drawing.Size(319, 26);
             this.txtStudentID.TabIndex = 6;
             // 
             // loadingBox
             // 
             this.loadingBox.Image = global::PE2A_WF_Lecturer.Properties.Resources.loading;
-            this.loadingBox.Location = new System.Drawing.Point(95, 23);
-            this.loadingBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.loadingBox.Location = new System.Drawing.Point(115, 50);
             this.loadingBox.Name = "loadingBox";
-            this.loadingBox.Size = new System.Drawing.Size(161, 140);
+            this.loadingBox.Size = new System.Drawing.Size(242, 215);
             this.loadingBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.loadingBox.TabIndex = 9;
             this.loadingBox.TabStop = false;
             // 
             // LecturerEnroll
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(363, 194);
+            this.ClientSize = new System.Drawing.Size(544, 298);
             this.Controls.Add(this.loadingBox);
             this.Controls.Add(this.btnEnroll);
             this.Controls.Add(this.labelRollNumber);
             this.Controls.Add(this.txtStudentID);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.Name = "LecturerEnroll";
             this.Text = "LECUTER ENROLL FORM";

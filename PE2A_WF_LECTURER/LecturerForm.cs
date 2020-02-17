@@ -50,6 +50,7 @@ namespace PE2A_WF_Lecturer
 
         private void DoReceiveFrom(IAsyncResult iar)
         {
+            Console.WriteLine("DoReceiveFrom");
             EndPoint clientEP = new IPEndPoint(IPAddress.Any, 5656);
             int size = s.EndReceiveFrom(iar, ref clientEP);
             if (size > 0)
@@ -72,9 +73,10 @@ namespace PE2A_WF_Lecturer
         private void StartTCPClient(TcpClient client)
         {
             Task.Run(() =>
-            {              
+            {
                 while (true)
                 {
+                    Console.WriteLine("StartTCPClient");
                     WaitForServerRequest(client);
                 }
             });
@@ -85,12 +87,22 @@ namespace PE2A_WF_Lecturer
             if (client != null)
             {
                 //Get time submission when student submit
+
                 var getDataTimeSubmission = GetTimeSubmission(client);
                 if (getDataTimeSubmission != null)
                 {
-                    Console.WriteLine(getDataTimeSubmission[0]);
                     //student.TimeSubmitted = getDataTimeSubmission[1]; //Set time to student
                     Console.WriteLine(getDataTimeSubmission[1]);
+                    string studentCode = getDataTimeSubmission[0];
+                    string timeSubmitted = getDataTimeSubmission[1];
+                    if (studentCode != null && timeSubmitted != null)
+                    {
+                        StudentDTO dto = ListStudent.Where(t => t.StudentCode == studentCode).FirstOrDefault();
+                        dto.TimeSubmitted = timeSubmitted;
+                        dto.Status = Constant.STATUSLIST[1];
+                        ResetDataGridViewDataSource();
+                    }
+
                 }
             }
         }
@@ -132,23 +144,26 @@ namespace PE2A_WF_Lecturer
                     MessageBox.Show("Student not in class is connecting");
                     return;
                 }
-              
+
                 Console.WriteLine(ipAddress);
                 ResetDataGridViewDataSource();
-                while (!isSent)
+                int sentTime = 0;
+                while (sentTime < Constant.MAXIMUM_SEND_TIME)
                 {
+                    Console.WriteLine("ReturnWebserviceURL");
                     try
                     {
                         // Cập nhật giao diện ở đây
                         message = "here is your submission url =" + submissionURL + "=" + ScriptCodePrefix + scriptCode;
                         //SendMessage(ipAddress, port, message);
                         Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(message), tcpClient);
-                        isSent = true;
-
+                       
+                        break;
                     }
                     catch (Exception e)
                     {
-                        // resent message
+                        Console.WriteLine("[WARNING] SEND_TIME:" + sentTime);
+                        sentTime++;
                     }
                 }
             }
@@ -158,21 +173,19 @@ namespace PE2A_WF_Lecturer
 
         private String[] GetTimeSubmission(TcpClient tcpClient)
         {
+            
             var getStream = tcpClient.GetStream();
-            if(getStream.DataAvailable)
+            var dataByte = new byte[1024 * 1024];
+            var dataSize = tcpClient.ReceiveBufferSize;
+            getStream.Read(dataByte, 0, dataSize);
+            var dataConvert = Util.receiveMessage(dataByte);
+            if (dataConvert.Split('-').Length > 0)
             {
-                var dataByte = new byte[1024*1024];
-                var dataSize = tcpClient.ReceiveBufferSize;
-                getStream.Read(dataByte, 0, dataSize);
-                var dataConvert = Util.receiveMessage(dataByte);
-                if(dataConvert.Split('-').Length > 0)
-                {
-                    return dataConvert.Split('-');
-                }
+                return dataConvert.Split('-');
             }
             return null;
-            
-            
+
+
         }
         private void InitDataSource()
         {
@@ -224,41 +237,43 @@ namespace PE2A_WF_Lecturer
             return false;
         }
 
-        private void SendMessage(string ipAddress, int port, string message)
-        {
-            try
-            {
-                IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ipAddress), port);
+        //private void SendMessage(string ipAddress, int port, string message)
+        //{
+        //    try
+        //    {
+        //        IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ipAddress), port);
 
-                using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-                {
-                    socket.Connect(iPEnd);
-                    socket.Send(Encoding.UTF8.GetBytes(message));
-                    socket.Dispose();
-                }
+        //        using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+        //        {
+        //            socket.Connect(iPEnd);
+        //            socket.Send(Encoding.UTF8.GetBytes(message));
+        //            socket.Dispose();
+        //        }
 
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(Constant.CLIENT_SOCKET_CLOSED_MESSAGE);
-            }
-        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        MessageBox.Show(Constant.CLIENT_SOCKET_CLOSED_MESSAGE);
+        //    }
+        //}
 
 
         private void ReceiveStudentPointFromTCP(int serverPort)
         {
             while (true)
             {
+                Console.WriteLine("ReceiveStudentPointFromTCP");
                 string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
                 Console.WriteLine(receivedMessage);
                 StudentPointDTO studentPoint = JsonConvert.DeserializeObject<StudentPointDTO>(receivedMessage);
+                Console.WriteLine("ReceiveStudentPointFromTCP");
                 foreach (var student in ListStudent)
                 {
                     if (student.StudentCode.Equals(studentPoint.StudentCode))
                     {
                         // Update student result
                         student.ListQuestions = studentPoint.ListQuestions;
-                     // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
+                        // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
                         student.Result = studentPoint.Result;
                         student.Point = studentPoint.TotalPoint;
                         student.Status = Constant.STATUSLIST[2];
@@ -266,12 +281,13 @@ namespace PE2A_WF_Lecturer
                         if (studentPoint.StudentCode.ToUpper().Equals("SE63155"))
                         {
                             int count = 10;
-                            while(count < 40)
+                            while (count < 40)
                             {
+                                Console.WriteLine("ReceiveStudentPointFromTCP/40");
                                 count++;
                                 string code = "SE632" + count;
                                 StudentDTO dto = ListStudent.Where(t => t.StudentCode == code).FirstOrDefault();
-                                if(dto != null)
+                                if (dto != null)
                                 {
                                     dto.ListQuestions = studentPoint.ListQuestions;
                                     // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
@@ -303,38 +319,38 @@ namespace PE2A_WF_Lecturer
             Task.Run(() => ReceiveStudentPointFromTCP(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT)); // 6969
         }
 
-        private void ReceiveStudentSubmissionFromTCP(int serverPort)
-        {
-            while (true)
-            {
-              
-                string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
-                Console.WriteLine(receivedMessage);
-                if (receivedMessage != null && !receivedMessage.Equals("") && receivedMessage.Contains('T'))
-                {
-                    string[] messages = receivedMessage.Split('T');
-                    string studentCode = messages[0];
-                    string submissionTime = messages[1];
-                    foreach (var student in ListStudent)
-                    {
-                        if (student.StudentCode.Equals(studentCode))
-                        {
-                            // Update student submissiontime and status
-                            student.TimeSubmitted = submissionTime;
-                            student.Status = Constant.STATUSLIST[1];
-                            ResetDataGridViewDataSource();
-                            break;
-                        }
-                    }
-                }
-              
-            }
-        }
+        //private void ReceiveStudentSubmissionFromTCP(int serverPort)
+        //{
+        //    while (true)
+        //    {
 
-       private void UpdateStudentSubmissionTable()
-        {
-            Task.Run(() => ReceiveStudentSubmissionFromTCP(Constant.SOCKET_STUDENT_SUBMISSION_LISTENING_PORT));
-        }
+        //        string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
+        //        Console.WriteLine(receivedMessage);
+        //        if (receivedMessage != null && !receivedMessage.Equals("") && receivedMessage.Contains('T'))
+        //        {
+        //            string[] messages = receivedMessage.Split('T');
+        //            string studentCode = messages[0];
+        //            string submissionTime = messages[1];
+        //            foreach (var student in ListStudent)
+        //            {
+        //                if (student.StudentCode.Equals(studentCode))
+        //                {
+        //                    // Update student submissiontime and status
+        //                    student.TimeSubmitted = submissionTime;
+        //                    student.Status = Constant.STATUSLIST[1];
+        //                    ResetDataGridViewDataSource();
+        //                    break;
+        //                }
+        //            }
+        //        }
+
+        //    }
+        //}
+
+        //private void UpdateStudentSubmissionTable()
+        // {
+        //     Task.Run(() => ReceiveStudentSubmissionFromTCP(Constant.SOCKET_STUDENT_SUBMISSION_LISTENING_PORT));
+        // }
 
         private void FitDataGridViewCollumn()
         {
@@ -390,7 +406,7 @@ namespace PE2A_WF_Lecturer
             //listen to student
             ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
             // listening to webservice for return student's submission
-          // UpdateStudentSubmissionTable();
+            // UpdateStudentSubmissionTable();
             // listening to webservice for return student's point
             UpdateStudentPointTable();
 
@@ -405,7 +421,7 @@ namespace PE2A_WF_Lecturer
             {
                 try
                 {
-                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(item.Point+""), item.TcpClient);
+                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(item.Point + ""), item.TcpClient);
                 }
                 catch (Exception ex)
                 {
