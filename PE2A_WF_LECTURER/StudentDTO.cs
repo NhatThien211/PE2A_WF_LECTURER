@@ -18,16 +18,20 @@ namespace PE2A_WF_Lecturer
         public string ScriptCode { get; set; }
         public string Status { get; set; }
         public TcpClient TcpClient { get; set; }
+
+        // Student point details
         public Dictionary<string, string> ListQuestions { get; set; }
+        public string TotalPoint { get; set; }
+        public string SubmitTime { get; set; }
+        public string EvaluateTime { get; set; }
+        public string CodingConvention { get; set; }
         public string Result { get; set; }
-        public string Point { get; set; }
+        public string ErrorMsg { get; set; }
 
         public int Id { get; set; }
-
-        public string TimeSubmitted { get; set; }
         public string SubmitPath { get; set; }
-
         public Image Close { get; set; }
+
         public StudentDTO(string studentCode, TcpClient tcpClient)
         {
             StudentCode = studentCode;

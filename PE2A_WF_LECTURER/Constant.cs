@@ -11,7 +11,7 @@ namespace PE2A_WF_Lecturer
         public static int SOCKET_STUDENT_SUBMISSION_LISTENING_PORT = 9996;
         public static int MAXIMUM_REQUEST = 100;
         public static string EXISTED_IP_MESSAGE = "You Have Connected To Server";
-        public static string[] STATUSLIST = { "Connected", "Submitted", "Evaluated" };
+        public static string[] STATUSLIST = { "Connected", "Submitted", "Evaluated", "Cannot Evaluate"};
         public static string CLIENT_SOCKET_CLOSED_MESSAGE = "Clients closed their connection!!!";
         public static string PROTOCOL = "http://";
         public static string ENDPOINT = ":2020/api/submission";
@@ -19,7 +19,7 @@ namespace PE2A_WF_Lecturer
         public static string ENROLL_NAME_NOT_NULL_MESSAGE = "EnrollName is must NOT empty please";
         public static string CANNOT_CONNECT_API_MESSAGE = "Can not connect to online webservice";
         public static string ONLINE_API_URL = "localhost:8080/api/practical-exam/{id}/students";
-        public static List<string> HIDDEN_COLUMN = new List<string> { "TcpClient", "ListQuestions", "Id", "SubmitPath" };
+        public static List<string> HIDDEN_COLUMN = new List<string> { "TcpClient", "ListQuestions", "Id", "SubmitPath", "CodingConvention", "ErrorMsg"};
         public static string CLASS_EMPTY_MESSAGE = "Your class have no student please check again";
         public static string SCRIPT_PREFIX = "De";
         public static string HEADER_COLUMN_STUDENTNAME = "Name";

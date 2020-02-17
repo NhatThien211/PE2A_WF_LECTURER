@@ -72,7 +72,7 @@ namespace PE2A_WF_Lecturer
         private void StartTCPClient(TcpClient client)
         {
             Task.Run(() =>
-            {              
+            {
                 while (true)
                 {
                     WaitForServerRequest(client);
@@ -94,6 +94,7 @@ namespace PE2A_WF_Lecturer
                 }
             }
         }
+
         private void ReturnWebserviceURL(string ipAddress, int port, string studentCode)
         {
             TcpClient tcpClient = new System.Net.Sockets.TcpClient(ipAddress, port);
@@ -132,7 +133,7 @@ namespace PE2A_WF_Lecturer
                     MessageBox.Show("Student not in class is connecting");
                     return;
                 }
-              
+
                 Console.WriteLine(ipAddress);
                 ResetDataGridViewDataSource();
                 while (!isSent)
@@ -159,20 +160,20 @@ namespace PE2A_WF_Lecturer
         private String[] GetTimeSubmission(TcpClient tcpClient)
         {
             var getStream = tcpClient.GetStream();
-            if(getStream.DataAvailable)
+            if (getStream.DataAvailable)
             {
-                var dataByte = new byte[1024*1024];
+                var dataByte = new byte[1024 * 1024];
                 var dataSize = tcpClient.ReceiveBufferSize;
                 getStream.Read(dataByte, 0, dataSize);
                 var dataConvert = Util.receiveMessage(dataByte);
-                if(dataConvert.Split('-').Length > 0)
+                if (dataConvert.Split('-').Length > 0)
                 {
                     return dataConvert.Split('-');
                 }
             }
             return null;
-            
-            
+
+
         }
         private void InitDataSource()
         {
@@ -252,46 +253,57 @@ namespace PE2A_WF_Lecturer
                 string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
                 Console.WriteLine(receivedMessage);
                 StudentPointDTO studentPoint = JsonConvert.DeserializeObject<StudentPointDTO>(receivedMessage);
+
                 foreach (var student in ListStudent)
                 {
                     if (student.StudentCode.Equals(studentPoint.StudentCode))
                     {
-                        // Update student result
-                        student.ListQuestions = studentPoint.ListQuestions;
-                     // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
-                        student.Result = studentPoint.Result;
-                        student.Point = studentPoint.TotalPoint;
-                        student.Status = Constant.STATUSLIST[2];
-                        //dummy data
-                        if (studentPoint.StudentCode.ToUpper().Equals("SE63155"))
+                        if (studentPoint.ErrorMsg == null)
                         {
-                            int count = 10;
-                            while(count < 40)
+                            // Update student result
+                            student.ListQuestions = studentPoint.ListQuestions;
+                            // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
+                            student.Result = studentPoint.Result;
+                            student.TotalPoint = studentPoint.TotalPoint;
+                            student.Status = Constant.STATUSLIST[2];
+                            student.EvaluateTime = studentPoint.EvaluateTime;
+                            //dummy data
+                            if (studentPoint.StudentCode.ToUpper().Equals("SE63155"))
                             {
-                                count++;
-                                string code = "SE632" + count;
-                                StudentDTO dto = ListStudent.Where(t => t.StudentCode == code).FirstOrDefault();
-                                if(dto != null)
+                                int count = 10;
+                                while (count < 40)
                                 {
-                                    dto.ListQuestions = studentPoint.ListQuestions;
-                                    // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
-                                    dto.Result = studentPoint.Result;
-                                    dto.Point = studentPoint.TotalPoint;
-                                    dto.Status = Constant.STATUSLIST[2];
+                                    count++;
+                                    string code = "SE632" + count;
+                                    StudentDTO dto = ListStudent.Where(t => t.StudentCode == code).FirstOrDefault();
+                                    if (dto != null)
+                                    {
+                                        dto.ListQuestions = studentPoint.ListQuestions;
+                                        // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
+                                        dto.Result = studentPoint.Result;
+                                        dto.TotalPoint = studentPoint.TotalPoint;
+                                        dto.Status = Constant.STATUSLIST[2];
+                                    }
                                 }
                             }
+                            ResetDataGridViewDataSource();
+                            // For test
+                            Console.WriteLine("Student code: " + studentPoint.StudentCode);
+                            Dictionary<string, string> listQuestions = studentPoint.ListQuestions;
+                            foreach (var ques in listQuestions)
+                            {
+                                Console.WriteLine(ques.Key + ": " + ques.Value);
+                            }
+                            Console.WriteLine("Total point: " + studentPoint.TotalPoint);
+                            Console.WriteLine("Result: " + studentPoint.Result);
+                            Console.WriteLine("Evaluate time: " + studentPoint.EvaluateTime);
                         }
-                        ResetDataGridViewDataSource();
-                        // For test
-                        Console.WriteLine(studentPoint.StudentCode);
-                        Dictionary<string, string> listQuestions = studentPoint.ListQuestions;
-                        foreach (var ques in listQuestions)
+                        else
                         {
-                            Console.WriteLine(ques.Key + ": " + ques.Value);
+                            // Update status of the student when cannot evaluate the submission
+                            student.Status = Constant.STATUSLIST[3];
+                            ResetDataGridViewDataSource();
                         }
-                        Console.WriteLine(studentPoint.TotalPoint);
-                        Console.WriteLine(studentPoint.Result);
-                        Console.WriteLine(studentPoint.Time);
                         break;
                     }
                 }
@@ -300,14 +312,14 @@ namespace PE2A_WF_Lecturer
 
         private void UpdateStudentPointTable()
         {
-            Task.Run(() => ReceiveStudentPointFromTCP(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT)); // 6969
+            Task.Run(() => ReceiveStudentPointFromTCP(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT));
         }
 
         private void ReceiveStudentSubmissionFromTCP(int serverPort)
         {
             while (true)
             {
-              
+
                 string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
                 Console.WriteLine(receivedMessage);
                 if (receivedMessage != null && !receivedMessage.Equals("") && receivedMessage.Contains('T'))
@@ -320,18 +332,18 @@ namespace PE2A_WF_Lecturer
                         if (student.StudentCode.Equals(studentCode))
                         {
                             // Update student submissiontime and status
-                            student.TimeSubmitted = submissionTime;
+                            student.SubmitTime = submissionTime;
                             student.Status = Constant.STATUSLIST[1];
                             ResetDataGridViewDataSource();
                             break;
                         }
                     }
                 }
-              
+
             }
         }
 
-       private void UpdateStudentSubmissionTable()
+        private void UpdateStudentSubmissionTable()
         {
             Task.Run(() => ReceiveStudentSubmissionFromTCP(Constant.SOCKET_STUDENT_SUBMISSION_LISTENING_PORT));
         }
@@ -340,7 +352,7 @@ namespace PE2A_WF_Lecturer
         {
             int baseWidth = Constant.COLUMN_WIDTH_A_LETTER;
             dgvStudent.Columns[nameof(StudentDTO.NO)].Width = Constant.COLUMN_NO_LETTER * baseWidth;
-            dgvStudent.Columns[nameof(StudentDTO.Point)].Width = Constant.COLUMN_POINT_LETTER * baseWidth;
+            dgvStudent.Columns[nameof(StudentDTO.TotalPoint)].Width = Constant.COLUMN_POINT_LETTER * baseWidth;
             dgvStudent.Columns[nameof(StudentDTO.Result)].Width = Constant.COLUMN_RESULT_LETTER * baseWidth;
             dgvStudent.Columns[nameof(StudentDTO.StudentCode)].Width = Constant.COLUMN_STUDENTCODE_LETTER * baseWidth;
             dgvStudent.Columns[nameof(StudentDTO.ScriptCode)].Width = Constant.COLUMN_SCRIPTCODE_LETTER * baseWidth;
@@ -390,7 +402,7 @@ namespace PE2A_WF_Lecturer
             //listen to student
             ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
             // listening to webservice for return student's submission
-          // UpdateStudentSubmissionTable();
+            // UpdateStudentSubmissionTable();
             // listening to webservice for return student's point
             UpdateStudentPointTable();
 
@@ -405,7 +417,7 @@ namespace PE2A_WF_Lecturer
             {
                 try
                 {
-                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(item.Point+""), item.TcpClient);
+                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(item.TotalPoint + ""), item.TcpClient);
                 }
                 catch (Exception ex)
                 {
