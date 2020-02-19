@@ -54,9 +54,11 @@ namespace PE2A_WF_Lecturer
                 listTemp.AddRange(listStudent);
                 lecturerForm.ListStudentBackUp = listTemp;
                 string scriptCode = listStudent[0].ScriptCode;
-                string practicalPrefix = scriptCode.Substring(0,scriptCode.IndexOf(Constant.SCRIPT_PREFIX));
+                string practicalPrefix = scriptCode.Substring(0, scriptCode.IndexOf(Constant.SCRIPT_PREFIX));
                 lecturerForm.ScriptCodePrefix = practicalPrefix;
-                lecturerForm.Show();
+                //lecturerForm.Show();
+                ImportScriptForm importScriptForm = new ImportScriptForm(this, lecturerForm);
+                importScriptForm.Show();
                 this.Hide();
             }       
         }

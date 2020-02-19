@@ -60,6 +60,12 @@
     <Compile Include="EnrollForm.Designer.cs">
       <DependentUpon>EnrollForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImportScriptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportScriptForm.Designer.cs">
+      <DependentUpon>ImportScriptForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ISynchronizeInvokeExtensions.cs" />
     <Compile Include="LecturerForm.cs">
       <SubType>Form</SubType>
@@ -74,6 +80,9 @@
     <Compile Include="Util.cs" />
     <EmbeddedResource Include="EnrollForm.resx">
       <DependentUpon>EnrollForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportScriptForm.resx">
+      <DependentUpon>ImportScriptForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LecturerForm.resx">
       <DependentUpon>LecturerForm.cs</DependentUpon>

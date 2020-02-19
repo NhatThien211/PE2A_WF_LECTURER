@@ -434,58 +434,58 @@ namespace PE2A_WF_Lecturer
 
         private void ImportScriptToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                using (var openFileDialog = new OpenFileDialog())
-                {
-                    openFileDialog.Filter = "Supported file formats|*.zip;*.rar|ZIP files|*.zip|RAR files|*.rar";
-                    openFileDialog.Multiselect = false;
-                    openFileDialog.RestoreDirectory = true;
-                    if (openFileDialog.ShowDialog().Equals(DialogResult.OK))
-                    {
-                        var filePath = openFileDialog.FileName;
-                        if (File.Exists(filePath))
-                        {
-                            /*
-                             * 
-                             * This block is for local test (IDE test)
-                             * 
-                             */
+            //try
+            //{
+            //    using (var openFileDialog = new OpenFileDialog())
+            //    {
+            //        openFileDialog.Filter = "Supported file formats|*.zip;*.rar|ZIP files|*.zip|RAR files|*.rar";
+            //        openFileDialog.Multiselect = false;
+            //        openFileDialog.RestoreDirectory = true;
+            //        if (openFileDialog.ShowDialog().Equals(DialogResult.OK))
+            //        {
+            //            var filePath = openFileDialog.FileName;
+            //            if (File.Exists(filePath))
+            //            {
+            //                /*
+            //                 * 
+            //                 * This block is for local test (IDE test)
+            //                 * 
+            //                 */
 
-                            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-                            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
-                            var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+            //                var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+            //                var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
+            //                var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
 
-                            /*
-                             * 
-                             * This block is for release app
-                             * 
-                             */
+            //                /*
+            //                 * 
+            //                 * This block is for release app
+            //                 * 
+            //                 */
 
-                            //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-                            //var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+            //                //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+            //                //var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
 
-                            if (Directory.Exists(destinationPath))
-                            {
-                                Util.UnarchiveFile(filePath, destinationPath);
-                                MessageBox.Show("Import success!", "Information");
-                            }
-                            else
-                            {
-                                MessageBox.Show("Can not import script file!", "Error occurred");
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("The file does not exist!", "Error occurred");
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Can not import script file!", "Error occurred");
-            }
+            //                if (Directory.Exists(destinationPath))
+            //                {
+            //                    Util.UnarchiveFile(filePath, destinationPath);
+            //                    MessageBox.Show("Import success!", "Information");
+            //                }
+            //                else
+            //                {
+            //                    MessageBox.Show("Can not import script file!", "Error occurred");
+            //                }
+            //            }
+            //            else
+            //            {
+            //                MessageBox.Show("The file does not exist!", "Error occurred");
+            //            }
+            //        }
+            //    }
+            //}
+            //catch
+            //{
+            //    MessageBox.Show("Can not import script file!", "Error occurred");
+            //}
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -38,5 +38,7 @@ namespace PE2A_WF_Lecturer
         public static string ZIP_EXTENSION = ".zip";
         public static string RAR_EXTENSION = ".rar";
         public const string SCRIPT_FILE_PATH = @"\submission\PracticalExams";
+        public const string SUBMISSION_FOLDER_PATH = @"\submission";
+        public const string PRACTICAL_INFO = "practical-info.json";
     }
 }
