@@ -153,9 +153,9 @@ namespace PE2A_WF_Lecturer
                         // Cập nhật giao diện ở đây
                         message = "here is your submission url =" + submissionURL + "=" + ScriptCodePrefix + scriptCode;
                         //SendMessage(ipAddress, port, message);
-                        Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(message), tcpClient);
+                        var messageEncode = Util.Encode(message, "SE1267");
+                        Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(messageEncode), tcpClient);
                         isSent = true;
-
                     }
                     catch (Exception e)
                     {
