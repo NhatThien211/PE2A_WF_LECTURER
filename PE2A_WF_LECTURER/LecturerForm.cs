@@ -501,7 +501,9 @@ namespace PE2A_WF_Lecturer
             {
                 try
                 {
-                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(item.TotalPoint + ""), item.TcpClient);
+                    string point = item.TotalPoint;
+                    var messageEncode = Util.Encode(point, "SE1267");
+                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(messageEncode), item.TcpClient);
                 }
                 catch (Exception ex)
                 {
