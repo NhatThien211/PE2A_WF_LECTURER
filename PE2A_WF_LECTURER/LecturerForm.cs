@@ -151,7 +151,7 @@ namespace PE2A_WF_Lecturer
                     {
 
                         // Cập nhật giao diện ở đây
-                        message = "here is your submission url =" + submissionURL + "=" + ScriptCodePrefix + scriptCode;
+                        message = "here is your submission url =" + submissionURL + "=" + scriptCode;
                         //SendMessage(ipAddress, port, message);
                         var messageEncode = Util.Encode(message, "SE1267");
                         Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(messageEncode), tcpClient);
@@ -189,7 +189,7 @@ namespace PE2A_WF_Lecturer
                 count++;
                 item.NO = count;
                 item.Close = CloseImage;
-                item.ScriptCode = item.ScriptCode.Replace(ScriptCodePrefix, "");
+                item.ScriptCode = item.ScriptCode;
             }
             dgvStudent.DataSource = ListStudent;
             foreach (var item in Constant.HIDDEN_COLUMN)

@@ -100,6 +100,7 @@ namespace PE2A_WF_Lecturer
                     if (openFileDialog.ShowDialog().Equals(DialogResult.OK))
                     {
                         var filePath = openFileDialog.FileName;
+                       
                         if (File.Exists(filePath))
                         {
                             var destinationPath = Path.Combine(GetProjectDirectory() + Constant.SCRIPT_FILE_PATH);
@@ -115,7 +116,8 @@ namespace PE2A_WF_Lecturer
                                 CopyPracticalInfoToSubmissionFolder(scriptFolder);
                                 // MessageBox.Show("Import success!", "Information");
                              
-                                GetListStudentFromCSV();
+                                var practicalExamCode = openFileDialog.SafeFileName.Split('.')[0];
+                                GetListStudentFromCSV(practicalExamCode);
                                 LecturerForm lecturerForm = new LecturerForm();
                                 //AddData();
                                 lecturerForm.ListStudent = StudentList;
@@ -123,8 +125,6 @@ namespace PE2A_WF_Lecturer
                                 listTemp.AddRange(StudentList);
                                 lecturerForm.ListStudentBackUp = listTemp;
                                 string scriptCode = StudentList[0].ScriptCode;
-                                string practicalPrefix = scriptCode.Substring(0, scriptCode.IndexOf(Constant.SCRIPT_PREFIX));
-                                lecturerForm.ScriptCodePrefix = practicalPrefix;
                                 lecturerForm.Show();
                                 Hide();
                             }
@@ -184,9 +184,9 @@ namespace PE2A_WF_Lecturer
             }
         }
 
-        private void GetListStudentFromCSV()
+        private void GetListStudentFromCSV(string practicalExamCode)
         {
-            string practicalExam = "Practical_Java_SE1269_05022020";
+            string practicalExam = practicalExamCode;
             int count = 0;
             var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
             var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
