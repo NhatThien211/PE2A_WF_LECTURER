@@ -17,8 +17,9 @@ namespace PE2A_WF_Lecturer
         public static string ENDPOINT = ":2020/api/submission";
         public static string REMOVE_STUDENT_MESSAGE = "Do you want to remove ";
         public static string ENROLL_NAME_NOT_NULL_MESSAGE = "EnrollName is must NOT empty please";
+        public static string PASSWORD_NOT_NULL_MESSAGE = "Password is must NOT empty please";
         public static string CANNOT_CONNECT_API_MESSAGE = "Can not connect to online webservice";
-        public static string ONLINE_API_URL = "localhost:8080/api/practical-exam/{id}/students";
+        public static string ONLINE_API_URL = "localhost:8080/api/practical-exam/lecturer/enroll";
         public static List<string> HIDDEN_COLUMN = new List<string> { "TcpClient", "ListQuestions", "Id", "SubmitPath", "CodingConvention", "ErrorMsg"};
         public static string CLASS_EMPTY_MESSAGE = "Your class have no student please check again";
         public static string SCRIPT_PREFIX = "De";
@@ -40,5 +41,13 @@ namespace PE2A_WF_Lecturer
         public const string SCRIPT_FILE_PATH = @"\submission\PracticalExams";
         public const string SUBMISSION_FOLDER_PATH = @"\submission";
         public const string PRACTICAL_INFO = "practical-info.json";
+
+        // read student list from csv
+        public static string STUDENT_LIST_FILE_NAME = "Student_List.csv";
+        public static int STUDENT_CODE_INDEX = 1;
+        public static int STUDENT_NAME_INDEX = 2;
+        public static int SCRIPT_CODE_INDEX = 3;
+
+        public static string[] PRACTICAL_STATUS = {"DONE","NOT_EVALUATE","ERROR" };
     }
 }

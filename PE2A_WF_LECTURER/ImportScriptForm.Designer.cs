@@ -36,6 +36,9 @@
             this.dgvScriptFiles = new System.Windows.Forms.DataGridView();
             this.dgvHeaderNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvHeaderScriptName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subjectCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -47,19 +50,22 @@
             this.panel1.Controls.Add(this.menuStrip1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(518, 36);
+            this.panel1.Size = new System.Drawing.Size(1078, 45);
             this.panel1.TabIndex = 0;
             // 
             // menuStrip1
             // 
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(518, 36);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1078, 45);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -68,13 +74,13 @@
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ImportTemplateToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(73, 41);
             this.menuToolStripMenuItem.Text = "Menu";
             // 
             // ImportTemplateToolStripMenuItem
             // 
             this.ImportTemplateToolStripMenuItem.Name = "ImportTemplateToolStripMenuItem";
-            this.ImportTemplateToolStripMenuItem.Size = new System.Drawing.Size(195, 26);
+            this.ImportTemplateToolStripMenuItem.Size = new System.Drawing.Size(245, 34);
             this.ImportTemplateToolStripMenuItem.Text = "Import Template";
             this.ImportTemplateToolStripMenuItem.Click += new System.EventHandler(this.ImportTemplateToolStripMenuItem_Click);
             // 
@@ -83,29 +89,37 @@
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.panel2.Controls.Add(this.dgvScriptFiles);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 36);
+            this.panel2.Location = new System.Drawing.Point(0, 45);
+            this.panel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(15, 10, 15, 15);
-            this.panel2.Size = new System.Drawing.Size(518, 581);
+            this.panel2.Padding = new System.Windows.Forms.Padding(17, 12, 17, 19);
+            this.panel2.Size = new System.Drawing.Size(1078, 726);
             this.panel2.TabIndex = 1;
             // 
             // dgvScriptFiles
             // 
             this.dgvScriptFiles.AllowUserToAddRows = false;
             this.dgvScriptFiles.AllowUserToDeleteRows = false;
+            this.dgvScriptFiles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvScriptFiles.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.dgvScriptFiles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvScriptFiles.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgvHeaderNo,
-            this.dgvHeaderScriptName});
+            this.dgvHeaderScriptName,
+            this.subjectCode,
+            this.date,
+            this.status});
             this.dgvScriptFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvScriptFiles.GridColor = System.Drawing.SystemColors.Control;
-            this.dgvScriptFiles.Location = new System.Drawing.Point(15, 10);
+            this.dgvScriptFiles.Location = new System.Drawing.Point(17, 12);
+            this.dgvScriptFiles.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvScriptFiles.Name = "dgvScriptFiles";
             this.dgvScriptFiles.ReadOnly = true;
+            this.dgvScriptFiles.RowHeadersWidth = 62;
             this.dgvScriptFiles.RowTemplate.Height = 24;
-            this.dgvScriptFiles.Size = new System.Drawing.Size(488, 556);
+            this.dgvScriptFiles.Size = new System.Drawing.Size(1044, 695);
             this.dgvScriptFiles.TabIndex = 0;
+            this.dgvScriptFiles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvScriptFiles_CellClick);
             // 
             // dgvHeaderNo
             // 
@@ -119,23 +133,46 @@
             // 
             // dgvHeaderScriptName
             // 
-            this.dgvHeaderScriptName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgvHeaderScriptName.HeaderText = "Script Name";
+            this.dgvHeaderScriptName.HeaderText = "Practical Code";
+            this.dgvHeaderScriptName.MinimumWidth = 8;
             this.dgvHeaderScriptName.Name = "dgvHeaderScriptName";
             this.dgvHeaderScriptName.ReadOnly = true;
             this.dgvHeaderScriptName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // subjectCode
+            // 
+            this.subjectCode.HeaderText = "Subject Code";
+            this.subjectCode.MinimumWidth = 8;
+            this.subjectCode.Name = "subjectCode";
+            this.subjectCode.ReadOnly = true;
+            // 
+            // date
+            // 
+            this.date.HeaderText = "Date";
+            this.date.MinimumWidth = 8;
+            this.date.Name = "date";
+            this.date.ReadOnly = true;
+            // 
+            // status
+            // 
+            this.status.HeaderText = "Status";
+            this.status.MinimumWidth = 8;
+            this.status.Name = "status";
+            this.status.ReadOnly = true;
+            // 
             // ImportScriptForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(518, 617);
+            this.ClientSize = new System.Drawing.Size(1078, 771);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "ImportScriptForm";
             this.Text = "Import Script";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ImportScriptForm_FormClosing);
+            this.Load += new System.EventHandler(this.ImportScriptForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -157,5 +194,8 @@
         private System.Windows.Forms.DataGridView dgvScriptFiles;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvHeaderNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvHeaderScriptName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subjectCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status;
     }
 }

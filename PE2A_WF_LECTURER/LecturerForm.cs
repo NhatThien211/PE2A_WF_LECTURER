@@ -452,7 +452,7 @@ namespace PE2A_WF_Lecturer
             //                 * 
             //                 */
 
-            //                var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+            //                var appDomainDir = Path.s(AppDomain.CurrentDomain.BaseDirectory);
             //                var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
             //                var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
 
