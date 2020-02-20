@@ -115,18 +115,8 @@ namespace PE2A_WF_Lecturer
 
                                 CopyPracticalInfoToSubmissionFolder(scriptFolder);
                                 // MessageBox.Show("Import success!", "Information");
-                             
                                 var practicalExamCode = openFileDialog.SafeFileName.Split('.')[0];
-                                GetListStudentFromCSV(practicalExamCode);
-                                LecturerForm lecturerForm = new LecturerForm();
-                                //AddData();
-                                lecturerForm.ListStudent = StudentList;
-                                List<StudentDTO> listTemp = new List<StudentDTO>();
-                                listTemp.AddRange(StudentList);
-                                lecturerForm.ListStudentBackUp = listTemp;
-                                string scriptCode = StudentList[0].ScriptCode;
-                                lecturerForm.Show();
-                                Hide();
+                                ShowLecturerForm(practicalExamCode, Constant.PRACTICAL_STATUS[1]);
                             }
                             else
                             {
@@ -145,6 +135,21 @@ namespace PE2A_WF_Lecturer
             {
                 MessageBox.Show("Can not import script file!", "Error occurred");
             }
+        }
+
+        private void ShowLecturerForm(string practicalExamCode,string practicalStatus)
+        {
+            GetListStudentFromCSV(practicalExamCode);
+            LecturerForm lecturerForm = new LecturerForm();
+            //AddData();
+            lecturerForm.ListStudent = StudentList;
+            List<StudentDTO> listTemp = new List<StudentDTO>();
+            listTemp.AddRange(StudentList);
+            lecturerForm.ListStudentBackUp = listTemp;
+            lecturerForm.PracticalExamStatus = practicalStatus;
+            lecturerForm.PracticalExamCode = practicalExamCode;
+            lecturerForm.Show();
+            Hide();
         }
 
         private void CopyPracticalInfoToSubmissionFolder(string scriptFolder)
@@ -182,6 +187,10 @@ namespace PE2A_WF_Lecturer
             {
                 ImportTemplateToolStripMenuItem_Click(sender, e);
             }
+            else
+            {
+                ShowLecturerForm(dto.Code, dto.Status);
+            }
         }
 
         private void GetListStudentFromCSV(string practicalExamCode)
@@ -199,11 +208,24 @@ namespace PE2A_WF_Lecturer
                     var line = reader.ReadLine();
                     if (count != 0)
                     {
-                        var values = line.Split(',');
                         StudentDTO dto = new StudentDTO();
-                        dto.StudentCode = values[Constant.STUDENT_CODE_INDEX];
-                        dto.StudentName = values[Constant.STUDENT_NAME_INDEX];
-                        dto.ScriptCode = values[Constant.SCRIPT_CODE_INDEX];
+                        try
+                        {
+                            var values = line.Split(',');
+                            dto.StudentCode = values[Constant.STUDENT_CODE_INDEX];
+                            dto.StudentName = values[Constant.STUDENT_NAME_INDEX];
+                            dto.ScriptCode = values[Constant.SCRIPT_CODE_INDEX];
+                            dto.SubmitTime = values[Constant.SUBMITTED_TIME_INDEX];
+                            dto.EvaluateTime = values[Constant.EVALUATED_TIME_INDEX];
+                            dto.CodingConvention = values[Constant.CODING_CONVENTION_INDEX];
+                            dto.Result = values[Constant.RESULT_INDEX];
+                            dto.TotalPoint = values[Constant.TOTAL_POINT_INDEX];
+                            dto.ErrorMsg = values[Constant.ERROR_INDEX];
+                        }
+                        catch
+                        {
+                          
+                        }
                         StudentList.Add(dto);
                     }
                     count++;

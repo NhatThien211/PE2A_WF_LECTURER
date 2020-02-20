@@ -139,7 +139,7 @@
             this.Text = "LECTURER FORM";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LecturerForm_FormClosing);
-            this.Load += new System.EventHandler(this.LecturerForm_Load);
+            this.Load += new System.EventHandler(this.LecturerForm_LoadAsync);
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudent)).EndInit();
             this.gbSubmitedFiles.ResumeLayout(false);
             this.menuAction.ResumeLayout(false);

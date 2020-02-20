@@ -6,6 +6,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -19,8 +21,10 @@ namespace PE2A_WF_Lecturer
         private int count = 0;
         public TcpClient client;
         public List<StudentDTO> ListStudent { get; set; }
+        public string PracticalExamStatus { get; set; }
+        public string PracticalExamCode { get; set; }
         public List<StudentDTO> ListStudentBackUp { get; set; }
-        public string ScriptCodePrefix { get; set; }
+
 
         Image CloseImage = PE2A_WF_Lecturer.Properties.Resources.close;
 
@@ -404,15 +408,90 @@ namespace PE2A_WF_Lecturer
             Application.Exit();
         }
 
-        private void LecturerForm_Load(object sender, EventArgs e)
+        private void LecturerForm_LoadAsync(object sender, EventArgs e)
         {
             InitDataSource();
-            //listen to student
-            ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
-            // listening to webservice for return student's submission
-            // UpdateStudentSubmissionTable();
-            // listening to webservice for return student's point
-            UpdateStudentPointTable();
+            if (Constant.PRACTICAL_STATUS[0].Equals(PracticalExamStatus))
+            {
+                ShowMenuAction(false);
+            }
+            else if (Constant.PRACTICAL_STATUS[1].Equals(PracticalExamStatus))
+            {
+                //listen to student
+                ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
+                // listening to webservice for return student's submission
+                // UpdateStudentSubmissionTable();
+                // listening to webservice for return student's point
+                UpdateStudentPointTable();
+            }
+            else
+            {
+                ShowMenuAction(false);
+                UpdateStudentPointTable();
+                var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+                var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
+                var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+                string listStudentPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.SUMISSION_FOLDER_NAME;
+                foreach (StudentDTO dto in ListStudent)
+                {
+                    if (!"".Equals(dto.ErrorMsg))
+                    {
+                        listStudentPath = listStudentPath + "\\" + dto.StudentCode +Constant.ZIP_EXTENSION;
+                       Task.Run(async delegate {
+
+                           string result = await sendFile(listStudentPath, dto.StudentCode, dto.ScriptCode);
+                           Console.WriteLine(result);
+                       }
+                       );
+                       
+                    }
+                }
+            }
+
+        }
+
+        private async Task<String> sendFile(String fileName, string studentID, string scriptCode)
+        {
+            //var client = new WebClient();
+            string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
+            var uri = new Uri(submissionURL);
+            string fileExtension = fileName.Substring(fileName.IndexOf('.'));
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    var stream = File.ReadAllBytes(fileName);
+                    MultipartFormDataContent form = new MultipartFormDataContent();
+                    //form.Add(new ByteArrayContent(stream,0,stream.Length), "file");
+                    //file => byte[]
+                    //multipartFile => stream
+                    HttpContent content = new StreamContent(new FileStream(fileName, FileMode.Open));
+                    content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "file",
+                        FileName = studentID + fileExtension
+                    };
+                    form.Add(content, "file");
+                    form.Add(new StringContent(studentID), "studentCode");
+                    form.Add(new StringContent(scriptCode), "scriptCode");
+                    using (var message = await client.PostAsync(uri, form))
+                    {
+                        var result = await message.Content.ReadAsStringAsync();
+                        return result;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return "Error !";
+
+        }
+
+        private void ShowMenuAction(bool isShowing)
+        {
+            menuAction.Visible = isShowing;
         }
 
         private void publishPointMenu_Click(object sender, EventArgs e)
@@ -488,19 +567,5 @@ namespace PE2A_WF_Lecturer
             //}
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            foreach (var item in ListStudent)
-            {
-                try
-                {
-                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes("chipu"), item.TcpClient);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("PUBLISH POINT: " + item.StudentCode + " has disconnected");
-                }
-            }
-        }
     }
 }

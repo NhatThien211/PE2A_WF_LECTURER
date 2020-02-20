@@ -47,7 +47,14 @@ namespace PE2A_WF_Lecturer
         public static int STUDENT_CODE_INDEX = 1;
         public static int STUDENT_NAME_INDEX = 2;
         public static int SCRIPT_CODE_INDEX = 3;
+        public static int SUBMITTED_TIME_INDEX = 4;
+        public static int EVALUATED_TIME_INDEX = 5;
+        public static int CODING_CONVENTION_INDEX = 6;
+        public static int RESULT_INDEX= 7;
+        public static int TOTAL_POINT_INDEX= 8;
+        public static int ERROR_INDEX= 9;
 
         public static string[] PRACTICAL_STATUS = {"DONE","NOT_EVALUATE","ERROR" };
+        public static string SUMISSION_FOLDER_NAME = "Submissions";
     }
 }
