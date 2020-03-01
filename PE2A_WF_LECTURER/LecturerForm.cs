@@ -381,9 +381,9 @@ namespace PE2A_WF_Lecturer
 
         private void dgvStudent_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (ListStudent.Count == 0) return;
             int columnClicked = e.ColumnIndex;
             int rowClicked = e.RowIndex;
+            if (ListStudent.Count == 0 || rowClicked < 0 || rowClicked > ListStudent.Count -1) return;
             if (columnClicked == dgvStudent.Columns[nameof(StudentDTO.Close)].Index && rowClicked >= 0)
             {
 
@@ -399,6 +399,25 @@ namespace PE2A_WF_Lecturer
                         item.NO = count;
                     }
                     ResetDataGridViewDataSource();
+                }
+            }
+            else if (Constant.PRACTICAL_STATUS[2].Equals(PracticalExamStatus))
+            {
+                StudentDTO dto = ListStudent[rowClicked];
+                DialogResult result = MessageBox.Show(Constant.REEVALUATE_STUDENT_MESSAGE + dto.StudentCode, "RE-Evaluate", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+                    var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
+                    var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+                    string listStudentPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.SUMISSION_FOLDER_NAME;
+                    listStudentPath = listStudentPath + "\\" + dto.StudentCode + Constant.ZIP_EXTENSION;
+                    Task.Run(async delegate {
+
+                        string message = await sendFile(listStudentPath, dto.StudentCode, dto.ScriptCode);
+                        Console.WriteLine(message);
+                    }
+                    );
                 }
             }
         }
@@ -428,21 +447,12 @@ namespace PE2A_WF_Lecturer
             {
                 ShowMenuAction(false);
                 UpdateStudentPointTable();
-                var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-                var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
-                var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
-                string listStudentPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.SUMISSION_FOLDER_NAME;
+               
                 foreach (StudentDTO dto in ListStudent)
                 {
                     if (!"".Equals(dto.ErrorMsg))
                     {
-                        listStudentPath = listStudentPath + "\\" + dto.StudentCode +Constant.ZIP_EXTENSION;
-                       Task.Run(async delegate {
-
-                           string result = await sendFile(listStudentPath, dto.StudentCode, dto.ScriptCode);
-                           Console.WriteLine(result);
-                       }
-                       );
+                       
                        
                     }
                 }

@@ -16,6 +16,7 @@ namespace PE2A_WF_Lecturer
         public static string PROTOCOL = "http://";
         public static string ENDPOINT = ":2020/api/submission";
         public static string REMOVE_STUDENT_MESSAGE = "Do you want to remove ";
+        public static string REEVALUATE_STUDENT_MESSAGE = "Do you want to re evaluate ";
         public static string ENROLL_NAME_NOT_NULL_MESSAGE = "EnrollName is must NOT empty please";
         public static string PASSWORD_NOT_NULL_MESSAGE = "Password is must NOT empty please";
         public static string CANNOT_CONNECT_API_MESSAGE = "Can not connect to online webservice";
