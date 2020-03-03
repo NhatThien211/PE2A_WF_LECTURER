@@ -183,9 +183,9 @@ namespace PE2A_WF_Lecturer
             var dataSize = tcpClient.ReceiveBufferSize;
             getStream.Read(dataByte, 0, dataSize);
             var dataConvert = Util.receiveMessage(dataByte);
-            if (dataConvert.Split('-').Length > 0)
+            if (dataConvert.Split('=').Length > 0)
             {
-                return dataConvert.Split('-');
+                return dataConvert.Split('=');
             }
             return null;
 
@@ -284,6 +284,7 @@ namespace PE2A_WF_Lecturer
                             student.TotalPoint = studentPoint.TotalPoint;
                             student.Status = Constant.STATUSLIST[2];
                             student.EvaluateTime = studentPoint.EvaluateTime;
+
                             //dummy data
                             if (studentPoint.StudentCode.ToUpper().Equals("SE63155"))
                             {
@@ -303,9 +304,11 @@ namespace PE2A_WF_Lecturer
                                     }
                                 }
                             }
+                            ReadFile(student);
                             ResetDataGridViewDataSource();
                             // For test
                             Console.WriteLine("Student code: " + studentPoint.StudentCode);
+
                             Dictionary<string, string> listQuestions = studentPoint.ListQuestions;
                             foreach (var ques in listQuestions)
                             {
@@ -326,7 +329,28 @@ namespace PE2A_WF_Lecturer
                 }
             }
         }
-
+        private void ReadFile(StudentDTO dto)
+        {
+            string practicalExam = PracticalExamCode;
+            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
+            var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+            string listStudentPath = destinationPath + "\\" + practicalExam + "\\" + Constant.STUDENT_LIST_FILE_NAME;
+            string newCSV = "";
+            string[] readAllText = File.ReadAllLines(listStudentPath);
+            foreach (var item in readAllText)
+            {
+                if (item.Contains(dto.StudentCode))
+                {
+                    newCSV += dto.NO + "," + dto.StudentCode + "," + dto.StudentName + "," + dto.ScriptCode + "," + dto.SubmitTime + "," + dto.EvaluateTime + "," + "0" + "," + dto.Result + "(correct)," + dto.TotalPoint + "," + dto.ErrorMsg + "," + "\r\n";
+                }
+                else
+                {
+                    newCSV += item + ",\r\n";
+                }
+            }
+            File.WriteAllText(listStudentPath, newCSV);
+        }
         private void UpdateStudentPointTable()
         {
             Task.Run(() => ReceiveStudentPointFromTCP(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT));
@@ -518,7 +542,7 @@ namespace PE2A_WF_Lecturer
             {
                 try
                 {
-                    string point = Constant.RETURN_POINT+ item.TotalPoint;
+                    string point = Constant.RETURN_POINT + item.TotalPoint;
                     Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(point), item.TcpClient);
                 }
                 catch (Exception ex)
@@ -596,14 +620,12 @@ namespace PE2A_WF_Lecturer
             {
                 try
                 {
-                    if (ExamScriptList.ContainsKey(item.ScriptCode))
+                    var temp = ExamScriptList.Where(x => item.ScriptCode.Contains(x.Key)).FirstOrDefault();
+                    if (temp.Key != null)
                     {
-                        var filePath = ExamScriptList[item.ScriptCode];
+                        var filePath = ExamScriptList[temp.Key];
                         byte[] bytes = File.ReadAllBytes(filePath);
                         Util.sendMessage(bytes, item.TcpClient);
-
-
-                 
                     }
                 }
                 catch (Exception ex)
@@ -628,7 +650,7 @@ namespace PE2A_WF_Lecturer
                 fileNameWithExtension = Path.GetFileName(file);
                 if (fileNameWithExtension.Contains(Constant.WORD_FILE_EXTENSION))
                 {
-                      fileName = fileNameWithExtension.Replace(Constant.WORD_FILE_EXTENSION, "");
+                    fileName = fileNameWithExtension.Replace(Constant.WORD_FILE_EXTENSION, "");
                     //  loadPracticalDoc(fileName, file);
                     ExamScriptList.Add(fileName, file);
                 }
@@ -655,6 +677,6 @@ namespace PE2A_WF_Lecturer
             application.Quit(ref missing, ref missing, ref missing);
         }
 
-    
+
     }
 }

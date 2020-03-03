@@ -110,7 +110,7 @@ public class TestResultLoggerExtension implements TestWatcher, AfterAllCallback 
                 String studentPointJson = objectMapper.writeValueAsString(studentPointDto);
 
                 // send TCP message with port 9997 to localhost
-                socketUtils.sendTCPMessage(studentPointJson, SOCKET_SERVER_LOCAL_HOST, SOCKET_SERVER_LISTENING_PORT);
+                //socketUtils.sendTCPMessage(studentPointJson, SOCKET_SERVER_LOCAL_HOST, SOCKET_SERVER_LISTENING_PORT);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
