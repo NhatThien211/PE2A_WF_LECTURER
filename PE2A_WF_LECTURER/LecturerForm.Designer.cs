@@ -31,11 +31,11 @@
             this.dgvStudent = new System.Windows.Forms.DataGridView();
             this.gbSubmitedFiles = new System.Windows.Forms.GroupBox();
             this.menuAction = new System.Windows.Forms.MenuStrip();
-            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.publishPointMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.printReportMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.publishPointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtTime = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudent)).BeginInit();
             this.gbSubmitedFiles.SuspendLayout();
             this.menuAction.SuspendLayout();
@@ -52,7 +52,7 @@
             this.dgvStudent.Name = "dgvStudent";
             this.dgvStudent.RowHeadersWidth = 62;
             this.dgvStudent.RowTemplate.Height = 28;
-            this.dgvStudent.Size = new System.Drawing.Size(1658, 655);
+            this.dgvStudent.Size = new System.Drawing.Size(1658, 652);
             this.dgvStudent.TabIndex = 0;
             this.dgvStudent.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudent_CellContentClick);
             // 
@@ -61,68 +61,67 @@
             this.gbSubmitedFiles.Controls.Add(this.dgvStudent);
             this.gbSubmitedFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSubmitedFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbSubmitedFiles.Location = new System.Drawing.Point(0, 33);
+            this.gbSubmitedFiles.Location = new System.Drawing.Point(0, 36);
             this.gbSubmitedFiles.Margin = new System.Windows.Forms.Padding(0);
             this.gbSubmitedFiles.Name = "gbSubmitedFiles";
             this.gbSubmitedFiles.Padding = new System.Windows.Forms.Padding(8, 31, 4, 5);
-            this.gbSubmitedFiles.Size = new System.Drawing.Size(1670, 716);
+            this.gbSubmitedFiles.Size = new System.Drawing.Size(1670, 713);
             this.gbSubmitedFiles.TabIndex = 2;
             this.gbSubmitedFiles.TabStop = false;
             // 
             // menuAction
             // 
+            this.menuAction.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuAction.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuAction.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuToolStripMenuItem,
-            this.actionToolStripMenuItem});
+            this.publishPointToolStripMenuItem,
+            this.printReportToolStripMenuItem,
+            this.startToolStripMenuItem});
             this.menuAction.Location = new System.Drawing.Point(0, 0);
             this.menuAction.Name = "menuAction";
-            this.menuAction.Size = new System.Drawing.Size(1670, 33);
+            this.menuAction.Size = new System.Drawing.Size(1670, 36);
             this.menuAction.TabIndex = 3;
             this.menuAction.Text = "menuStrip1";
             // 
-            // menuToolStripMenuItem
+            // publishPointToolStripMenuItem
             // 
-            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.importScriptToolStripMenuItem});
-            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(73, 29);
-            this.menuToolStripMenuItem.Text = "Menu";
+            this.publishPointToolStripMenuItem.Image = global::PE2A_WF_Lecturer.Properties.Resources.icShare;
+            this.publishPointToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.publishPointToolStripMenuItem.Name = "publishPointToolStripMenuItem";
+            this.publishPointToolStripMenuItem.Size = new System.Drawing.Size(144, 29);
+            this.publishPointToolStripMenuItem.Text = "Publish Point";
+            this.publishPointToolStripMenuItem.Click += new System.EventHandler(this.publishPointMenu_Click);
             // 
-            // importScriptToolStripMenuItem
+            // printReportToolStripMenuItem
             // 
-            this.importScriptToolStripMenuItem.Name = "importScriptToolStripMenuItem";
-            this.importScriptToolStripMenuItem.Size = new System.Drawing.Size(219, 34);
-            this.importScriptToolStripMenuItem.Text = "Import Script";
-            this.importScriptToolStripMenuItem.Click += new System.EventHandler(this.ImportScriptToolStripMenuItem_Click);
+            this.printReportToolStripMenuItem.Image = global::PE2A_WF_Lecturer.Properties.Resources.icPrint;
+            this.printReportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.printReportToolStripMenuItem.Name = "printReportToolStripMenuItem";
+            this.printReportToolStripMenuItem.Size = new System.Drawing.Size(134, 29);
+            this.printReportToolStripMenuItem.Text = "Print Report";
             // 
-            // actionToolStripMenuItem
+            // startToolStripMenuItem
             // 
-            this.actionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.publishPointMenu,
-            this.printReportMenu});
-            this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
-            this.actionToolStripMenuItem.Size = new System.Drawing.Size(79, 29);
-            this.actionToolStripMenuItem.Text = "Action";
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(64, 29);
+            this.startToolStripMenuItem.Text = "Start";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
-            // publishPointMenu
+            // txtTime
             // 
-            this.publishPointMenu.BackColor = System.Drawing.Color.White;
-            this.publishPointMenu.Image = global::PE2A_WF_Lecturer.Properties.Resources.icShare;
-            this.publishPointMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.publishPointMenu.Name = "publishPointMenu";
-            this.publishPointMenu.Size = new System.Drawing.Size(216, 34);
-            this.publishPointMenu.Text = "Publish Point";
-            this.publishPointMenu.Click += new System.EventHandler(this.publishPointMenu_Click);
+            this.txtTime.Location = new System.Drawing.Point(379, 6);
+            this.txtTime.Name = "txtTime";
+            this.txtTime.Size = new System.Drawing.Size(211, 26);
+            this.txtTime.TabIndex = 4;
             // 
-            // printReportMenu
+            // label1
             // 
-            this.printReportMenu.BackColor = System.Drawing.Color.White;
-            this.printReportMenu.Image = global::PE2A_WF_Lecturer.Properties.Resources.icPrint;
-            this.printReportMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.printReportMenu.Name = "printReportMenu";
-            this.printReportMenu.Size = new System.Drawing.Size(216, 34);
-            this.printReportMenu.Text = "Print Report";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(607, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 20);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Minutes";
             // 
             // LecturerForm
             // 
@@ -130,6 +129,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1670, 749);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtTime);
             this.Controls.Add(this.gbSubmitedFiles);
             this.Controls.Add(this.menuAction);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -154,10 +155,10 @@
         private System.Windows.Forms.DataGridView dgvStudent;
         private System.Windows.Forms.GroupBox gbSubmitedFiles;
         private System.Windows.Forms.MenuStrip menuAction;
-        private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem publishPointMenu;
-        private System.Windows.Forms.ToolStripMenuItem printReportMenu;
-        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem publishPointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printReportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
+        private System.Windows.Forms.TextBox txtTime;
+        private System.Windows.Forms.Label label1;
     }
 }

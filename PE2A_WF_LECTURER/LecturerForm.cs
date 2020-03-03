@@ -25,6 +25,8 @@ namespace PE2A_WF_Lecturer
         public string PracticalExamCode { get; set; }
         public List<StudentDTO> ListStudentBackUp { get; set; }
 
+        private Dictionary<string, string> ExamScriptList = new Dictionary<string, string>();
+
 
         Image CloseImage = PE2A_WF_Lecturer.Properties.Resources.close;
 
@@ -155,10 +157,13 @@ namespace PE2A_WF_Lecturer
                     {
 
                         // Cập nhật giao diện ở đây
-                        message = "here is your submission url =" + submissionURL + "=" + scriptCode;
+                        message = "=" + submissionURL + "=" + scriptCode;
                         //SendMessage(ipAddress, port, message);
                         var messageEncode = Util.Encode(message, "SE1267");
+                        messageEncode = Constant.RETURN_URL_CODE + messageEncode;
                         Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(messageEncode), tcpClient);
+                        //byte[] bytes = File.ReadAllBytes(@"D:\Capstone_WF_Lecturer\PE2A_WF_LECTURER\submission\PracticalExams\Practical_Java_SE1269_05022020\TestScripts\Java_SE1269_05_02_2020_De1.java");
+                        //Util.sendMessage(bytes, tcpClient);
                         isSent = true;
                     }
                     catch (Exception e)
@@ -383,7 +388,7 @@ namespace PE2A_WF_Lecturer
         {
             int columnClicked = e.ColumnIndex;
             int rowClicked = e.RowIndex;
-            if (ListStudent.Count == 0 || rowClicked < 0 || rowClicked > ListStudent.Count -1) return;
+            if (ListStudent.Count == 0 || rowClicked < 0 || rowClicked > ListStudent.Count - 1) return;
             if (columnClicked == dgvStudent.Columns[nameof(StudentDTO.Close)].Index && rowClicked >= 0)
             {
 
@@ -412,7 +417,8 @@ namespace PE2A_WF_Lecturer
                     var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
                     string listStudentPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.SUMISSION_FOLDER_NAME;
                     listStudentPath = listStudentPath + "\\" + dto.StudentCode + Constant.ZIP_EXTENSION;
-                    Task.Run(async delegate {
+                    Task.Run(async delegate
+                    {
 
                         string message = await sendFile(listStudentPath, dto.StudentCode, dto.ScriptCode);
                         Console.WriteLine(message);
@@ -441,19 +447,20 @@ namespace PE2A_WF_Lecturer
                 // listening to webservice for return student's submission
                 // UpdateStudentSubmissionTable();
                 // listening to webservice for return student's point
+                GetAllPracticalDocFile();
                 UpdateStudentPointTable();
             }
             else
             {
                 ShowMenuAction(false);
                 UpdateStudentPointTable();
-               
+
                 foreach (StudentDTO dto in ListStudent)
                 {
                     if (!"".Equals(dto.ErrorMsg))
                     {
-                       
-                       
+                        // ghi ket qua vo file
+
                     }
                 }
             }
@@ -511,9 +518,8 @@ namespace PE2A_WF_Lecturer
             {
                 try
                 {
-                    string point = item.TotalPoint;
-                    var messageEncode = Util.Encode(point, "SE1267");
-                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(messageEncode), item.TcpClient);
+                    string point = Constant.RETURN_POINT+ item.TotalPoint;
+                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(point), item.TcpClient);
                 }
                 catch (Exception ex)
                 {
@@ -579,5 +585,76 @@ namespace PE2A_WF_Lecturer
             //}
         }
 
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string time = txtTime.Text;
+            if ("".Equals(time))
+            {
+                return;
+            }
+            foreach (var item in ListStudent)
+            {
+                try
+                {
+                    if (ExamScriptList.ContainsKey(item.ScriptCode))
+                    {
+                        var filePath = ExamScriptList[item.ScriptCode];
+                        byte[] bytes = File.ReadAllBytes(filePath);
+                        Util.sendMessage(bytes, item.TcpClient);
+
+
+                 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("PUBLISH POINT: " + item.StudentCode + " has disconnected");
+                }
+            }
+        }
+
+        private void GetAllPracticalDocFile()
+        {
+            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
+            var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+            string examScriptFolderPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.EXAM_SCIPT_FOLDER_NAME;
+            string[] fileEntries = Directory.GetFiles(examScriptFolderPath);
+            string fileNameWithExtension;
+            string fileName;
+            foreach (string file in fileEntries)
+            {
+
+                fileNameWithExtension = Path.GetFileName(file);
+                if (fileNameWithExtension.Contains(Constant.WORD_FILE_EXTENSION))
+                {
+                      fileName = fileNameWithExtension.Replace(Constant.WORD_FILE_EXTENSION, "");
+                    //  loadPracticalDoc(fileName, file);
+                    ExamScriptList.Add(fileName, file);
+                }
+            }
+        }
+
+        private void loadPracticalDoc(string examsciptName, string path)
+        {
+            object readOnly = true;
+            object visible = true;
+            object save = false;
+            object fileName = path;
+            object newTemplate = false;
+            object docType = 0;
+            object missing = Type.Missing;
+            Microsoft.Office.Interop.Word.Document document;
+            Microsoft.Office.Interop.Word.Application application = new Microsoft.Office.Interop.Word.Application() { Visible = false };
+            document = application.Documents.Open(ref fileName, ref missing, ref readOnly, ref missing, ref missing, ref missing,
+                ref missing, ref missing, ref missing, ref missing, ref missing, ref visible, ref missing, ref missing, ref missing);
+            document.ActiveWindow.Selection.WholeStory();
+            document.ActiveWindow.Selection.Copy();
+            IDataObject dataObject = Clipboard.GetDataObject();
+            ExamScriptList.Add(examsciptName, dataObject.GetData(DataFormats.Rtf).ToString());
+            application.Quit(ref missing, ref missing, ref missing);
+        }
+
+    
     }
 }

@@ -57,5 +57,14 @@ namespace PE2A_WF_Lecturer
 
         public static string[] PRACTICAL_STATUS = {"DONE","NOT_EVALUATE","ERROR" };
         public static string SUMISSION_FOLDER_NAME = "Submissions";
+
+        // read exam script 
+        public static string EXAM_SCIPT_FOLDER_NAME = "ExamScripts";
+        public static string WORD_FILE_EXTENSION = ".docx";
+
+        // TCP code
+        public static string RETURN_URL_CODE = "[RETURN_URL]";
+        public static string RETURN_EXAM_SCIPT = "[RETURN_EXAM_SCRIPT]";
+        public static string RETURN_POINT = "[RETURN_POINT]";
     }
 }
