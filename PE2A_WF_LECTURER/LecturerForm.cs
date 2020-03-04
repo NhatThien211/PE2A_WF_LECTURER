@@ -30,11 +30,82 @@ namespace PE2A_WF_Lecturer
 
         Image CloseImage = PE2A_WF_Lecturer.Properties.Resources.close;
 
+
+        // for dummy data
+        string[] listStudetnCode = { "SE63146", "SE63155", "SE62847", "SE62882" };
+
+        private void dummyDataConnect()
+        {
+            foreach(StudentDTO dto in ListStudent)
+            {
+                if (!listStudetnCode.Contains(dto.StudentCode))
+                {
+                    dto.Status = Constant.STATUSLIST[0];
+                   this.InvokeEx(f=> ResetDataGridViewDataSource());
+                }
+            }
+        }
+
+        private void dummyDataSubmission()
+        {
+            foreach (StudentDTO dto in ListStudent)
+            {
+                if (!listStudetnCode.Contains(dto.StudentCode))
+                {
+                    string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    dto.SubmitTime = time;
+                    dto.Status = Constant.STATUSLIST[1];
+                    ResetDataGridViewDataSource();
+                }
+            }
+        }
+
+        private void dummyDataGetPoint()
+        {
+            Random ran = new Random();
+            
+            foreach (StudentDTO dto in ListStudent)
+            {
+                if (!listStudetnCode.Contains(dto.StudentCode))
+                {
+                    string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    dto.EvaluateTime = time;
+                    int correctQuesiton = ran.Next(0, 4);
+                    switch (correctQuesiton)
+                    {
+                        case 0:
+                            dto.TotalPoint = 0+"";
+                            dto.Result = "0/4";
+                            break;
+                        case 1:
+                            dto.TotalPoint = 3 + "";
+                            dto.Result = "1/4";
+                            break;
+                        case 2:
+                            dto.TotalPoint = 6 + "";
+                            dto.Result = "2/4";
+                            break;
+                        case 3:
+                            dto.TotalPoint = 8 + "";
+                            dto.Result = "3/4";
+                            break;
+                        case 4:
+                            dto.TotalPoint = 10 + "";
+                            dto.Result = "4/4";
+                            break;
+                    }
+                    dto.Status = Constant.STATUSLIST[2];
+                    ResetDataGridViewDataSource();
+                }
+            }
+        }
+
         public LecturerForm()
         {
             InitializeComponent();
 
         }
+
 
         static Socket s;
         static Byte[] buffer;
@@ -285,24 +356,26 @@ namespace PE2A_WF_Lecturer
                             student.Status = Constant.STATUSLIST[2];
                             student.EvaluateTime = studentPoint.EvaluateTime;
                             //dummy data
-                            if (studentPoint.StudentCode.ToUpper().Equals("SE63155"))
-                            {
-                                int count = 10;
-                                while (count < 40)
-                                {
-                                    count++;
-                                    string code = "SE632" + count;
-                                    StudentDTO dto = ListStudent.Where(t => t.StudentCode == code).FirstOrDefault();
-                                    if (dto != null)
-                                    {
-                                        dto.ListQuestions = studentPoint.ListQuestions;
-                                        // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
-                                        dto.Result = studentPoint.Result;
-                                        dto.TotalPoint = studentPoint.TotalPoint;
-                                        dto.Status = Constant.STATUSLIST[2];
-                                    }
-                                }
-                            }
+                            //if (studentPoint.StudentCode.ToUpper().Equals("SE63155"))
+                            //{
+                            //    int count = 10;
+                            //    while (count < 40)
+                            //    {
+                            //        count++;
+                            //        string code = "SE632" + count;
+                            //        StudentDTO dto = ListStudent.Where(t => t.StudentCode == code).FirstOrDefault();
+                            //        if (dto != null)
+                            //        {
+                            //            dto.ListQuestions = studentPoint.ListQuestions;
+                            //            change tested time to submisstime student.TimeSubmitted = studentPoint.Time;
+                            //            dto.Result = studentPoint.Result;
+                            //            dto.TotalPoint = studentPoint.TotalPoint;
+                            //            dto.Status = Constant.STATUSLIST[2];
+                            //        }
+                            //    }
+                            //}
+                            ReadFile(student);
+                            
                             ResetDataGridViewDataSource();
                             // For test
                             Console.WriteLine("Student code: " + studentPoint.StudentCode);
@@ -326,7 +399,29 @@ namespace PE2A_WF_Lecturer
                 }
             }
         }
+        private void ReadFile( StudentDTO dto)
+        {
+            string practicalExam = PracticalExamCode;
+            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
+            var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+            string listStudentPath = destinationPath + "\\" + practicalExam + "\\" + Constant.STUDENT_LIST_FILE_NAME;
+            string newCSV = "";
+            string[] readAllText = File.ReadAllLines(listStudentPath);
+            foreach (var item in readAllText)
+            {
+                if (item.Contains(dto.StudentCode))
+                {
+                    newCSV +=dto.NO +","+  dto.StudentCode+ "," + dto.StudentName + "," + dto.ScriptCode + "," + dto.SubmitTime+"," + dto.EvaluateTime+"," + "0" + "," + "," + dto.Result+"," + dto.TotalPoint +","+dto.ErrorMsg+","+ "\r\n";
+                }
+                else
+                {
+                    newCSV += item + "\r\n";
+                }
+            }
+           
 
+        }
         private void UpdateStudentPointTable()
         {
             Task.Run(() => ReceiveStudentPointFromTCP(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT));
@@ -449,6 +544,7 @@ namespace PE2A_WF_Lecturer
                 // listening to webservice for return student's point
                 GetAllPracticalDocFile();
                 UpdateStudentPointTable();
+                Task.Run(() => { dummyDataConnect(); });
             }
             else
             {
@@ -596,14 +692,12 @@ namespace PE2A_WF_Lecturer
             {
                 try
                 {
+                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(Constant.RETURN_EXAM_SCIPT + time), item.TcpClient);
                     if (ExamScriptList.ContainsKey(item.ScriptCode))
                     {
                         var filePath = ExamScriptList[item.ScriptCode];
                         byte[] bytes = File.ReadAllBytes(filePath);
                         Util.sendMessage(bytes, item.TcpClient);
-
-
-                 
                     }
                 }
                 catch (Exception ex)
@@ -611,6 +705,10 @@ namespace PE2A_WF_Lecturer
                     Console.WriteLine("PUBLISH POINT: " + item.StudentCode + " has disconnected");
                 }
             }
+
+            dummyDataSubmission();
+            dummyDataGetPoint();
+
         }
 
         private void GetAllPracticalDocFile()
@@ -635,25 +733,25 @@ namespace PE2A_WF_Lecturer
             }
         }
 
-        private void loadPracticalDoc(string examsciptName, string path)
-        {
-            object readOnly = true;
-            object visible = true;
-            object save = false;
-            object fileName = path;
-            object newTemplate = false;
-            object docType = 0;
-            object missing = Type.Missing;
-            Microsoft.Office.Interop.Word.Document document;
-            Microsoft.Office.Interop.Word.Application application = new Microsoft.Office.Interop.Word.Application() { Visible = false };
-            document = application.Documents.Open(ref fileName, ref missing, ref readOnly, ref missing, ref missing, ref missing,
-                ref missing, ref missing, ref missing, ref missing, ref missing, ref visible, ref missing, ref missing, ref missing);
-            document.ActiveWindow.Selection.WholeStory();
-            document.ActiveWindow.Selection.Copy();
-            IDataObject dataObject = Clipboard.GetDataObject();
-            ExamScriptList.Add(examsciptName, dataObject.GetData(DataFormats.Rtf).ToString());
-            application.Quit(ref missing, ref missing, ref missing);
-        }
+        //private void loadPracticalDoc(string examsciptName, string path)
+        //{
+        //    object readOnly = true;
+        //    object visible = true;
+        //    object save = false;
+        //    object fileName = path;
+        //    object newTemplate = false;
+        //    object docType = 0;
+        //    object missing = Type.Missing;
+        //    Microsoft.Office.Interop.Word.Document document;
+        //    Microsoft.Office.Interop.Word.Application application = new Microsoft.Office.Interop.Word.Application() { Visible = false };
+        //    document = application.Documents.Open(ref fileName, ref missing, ref readOnly, ref missing, ref missing, ref missing,
+        //        ref missing, ref missing, ref missing, ref missing, ref missing, ref visible, ref missing, ref missing, ref missing);
+        //    document.ActiveWindow.Selection.WholeStory();
+        //    document.ActiveWindow.Selection.Copy();
+        //    IDataObject dataObject = Clipboard.GetDataObject();
+        //    ExamScriptList.Add(examsciptName, dataObject.GetData(DataFormats.Rtf).ToString());
+        //    application.Quit(ref missing, ref missing, ref missing);
+        //}
 
     
     }

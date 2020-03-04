@@ -52,7 +52,7 @@
             this.dgvStudent.Name = "dgvStudent";
             this.dgvStudent.RowHeadersWidth = 62;
             this.dgvStudent.RowTemplate.Height = 28;
-            this.dgvStudent.Size = new System.Drawing.Size(1658, 652);
+            this.dgvStudent.Size = new System.Drawing.Size(1658, 655);
             this.dgvStudent.TabIndex = 0;
             this.dgvStudent.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudent_CellContentClick);
             // 
@@ -61,11 +61,11 @@
             this.gbSubmitedFiles.Controls.Add(this.dgvStudent);
             this.gbSubmitedFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSubmitedFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbSubmitedFiles.Location = new System.Drawing.Point(0, 36);
+            this.gbSubmitedFiles.Location = new System.Drawing.Point(0, 33);
             this.gbSubmitedFiles.Margin = new System.Windows.Forms.Padding(0);
             this.gbSubmitedFiles.Name = "gbSubmitedFiles";
             this.gbSubmitedFiles.Padding = new System.Windows.Forms.Padding(8, 31, 4, 5);
-            this.gbSubmitedFiles.Size = new System.Drawing.Size(1670, 713);
+            this.gbSubmitedFiles.Size = new System.Drawing.Size(1670, 716);
             this.gbSubmitedFiles.TabIndex = 2;
             this.gbSubmitedFiles.TabStop = false;
             // 
@@ -79,7 +79,7 @@
             this.startToolStripMenuItem});
             this.menuAction.Location = new System.Drawing.Point(0, 0);
             this.menuAction.Name = "menuAction";
-            this.menuAction.Size = new System.Drawing.Size(1670, 36);
+            this.menuAction.Size = new System.Drawing.Size(1670, 33);
             this.menuAction.TabIndex = 3;
             this.menuAction.Text = "menuStrip1";
             // 
