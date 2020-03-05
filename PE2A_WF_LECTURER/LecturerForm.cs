@@ -36,12 +36,12 @@ namespace PE2A_WF_Lecturer
 
         private void dummyDataConnect()
         {
-            foreach(StudentDTO dto in ListStudent)
+            foreach (StudentDTO dto in ListStudent)
             {
                 if (!listStudetnCode.Contains(dto.StudentCode))
                 {
                     dto.Status = Constant.STATUSLIST[0];
-                   this.InvokeEx(f=> ResetDataGridViewDataSource());
+                    this.InvokeEx(f => ResetDataGridViewDataSource());
                 }
             }
         }
@@ -63,7 +63,7 @@ namespace PE2A_WF_Lecturer
         private void dummyDataGetPoint()
         {
             Random ran = new Random();
-            
+
             foreach (StudentDTO dto in ListStudent)
             {
                 if (!listStudetnCode.Contains(dto.StudentCode))
@@ -74,7 +74,7 @@ namespace PE2A_WF_Lecturer
                     switch (correctQuesiton)
                     {
                         case 0:
-                            dto.TotalPoint = 0+"";
+                            dto.TotalPoint = 0 + "";
                             dto.Result = "0/4";
                             break;
                         case 1:
@@ -380,7 +380,7 @@ namespace PE2A_WF_Lecturer
                 }
             }
         }
-        private void ReadFile( StudentDTO dto)
+        private void ReadFile(StudentDTO dto)
 
         {
             string practicalExam = PracticalExamCode;
@@ -679,6 +679,7 @@ namespace PE2A_WF_Lecturer
                     {
                         var filePath = ExamScriptList[temp.Key];
                         byte[] bytes = File.ReadAllBytes(filePath);
+                        Thread.Sleep(2000);
                         Util.sendMessage(bytes, item.TcpClient);
                     }
                 }
