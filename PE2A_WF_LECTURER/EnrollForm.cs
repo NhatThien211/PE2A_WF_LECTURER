@@ -44,7 +44,6 @@ namespace PE2A_WF_Lecturer
         //    }
         //}
         string studentID;
-        string password;
         //List<StudentDTO> listStudent = new List<StudentDTO>();
         List<PracticalDTO> listPractical;
         private void btnEnroll_Click(object sender, EventArgs e)
@@ -159,8 +158,7 @@ namespace PE2A_WF_Lecturer
                
                 uri = "http://" + uri;
                 var values = new Dictionary<string, string>{
-                { "username", studentID },
-                 { "password", password }
+                { "enrollKey", studentID }
                 };
                 HttpContent content = new FormUrlEncodedContent(values);
                 HttpResponseMessage response = await client.PostAsync(new Uri(uri), content);

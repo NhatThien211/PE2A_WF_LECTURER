@@ -23,7 +23,7 @@ namespace PE2A_WF_Lecturer
         public static string ONLINE_API_URL = "localhost:8080/api/practical-exam/lecturer/enroll";
         public static List<string> HIDDEN_COLUMN = new List<string> { "TcpClient", "ListQuestions", "Id", "SubmitPath", "CodingConvention", "ErrorMsg"};
         public static string CLASS_EMPTY_MESSAGE = "Your class have no student please check again";
-        public static string SCRIPT_PREFIX = "De";
+        public static string SCRIPT_PREFIX = "DE";
         public static string HEADER_COLUMN_STUDENTNAME = "Name";
         public static string HEADER_COLUMN_STUDENTCODE = "Code";
         public static string HEADER_COLUMN_SCRIPTCODE = "Script";
@@ -33,9 +33,11 @@ namespace PE2A_WF_Lecturer
         public static int COLUMN_NO_LETTER = 2;
         public static int COLUMN_POINT_LETTER = 4;
         public static int COLUMN_RESULT_LETTER = 4;
-        public static int COLUMN_STUDENTCODE_LETTER = 8;
+        public static int COLUMN_STUDENTCODE_LETTER = 5;
         public static int COLUMN_SCRIPTCODE_LETTER = 3;
         public static int COLUMN_CLOSE_LETTER = 3;
+
+        public static string COLUMN_SCRIPTCODE_NAME = "ScriptCodes";
 
         public static string ZIP_EXTENSION = ".zip";
         public static string RAR_EXTENSION = ".rar";
@@ -66,5 +68,7 @@ namespace PE2A_WF_Lecturer
         public static string RETURN_URL_CODE = "[RETURN_URL]";
         public static string RETURN_EXAM_SCIPT = "[RETURN_EXAM_SCRIPT]";
         public static string RETURN_POINT = "[RETURN_POINT]";
+
+        public static string REGEX_NUMBER = @"[0-9]+$";
     }
 }

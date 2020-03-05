@@ -36,6 +36,17 @@
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtTime = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StudentCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StudentName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ScriptCodes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalPoint = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SubmitTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EvaluateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Result = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Error = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Close = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudent)).BeginInit();
             this.gbSubmitedFiles.SuspendLayout();
             this.menuAction.SuspendLayout();
@@ -46,6 +57,18 @@
             this.dgvStudent.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvStudent.BackgroundColor = System.Drawing.Color.White;
             this.dgvStudent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvStudent.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.No,
+            this.StudentCode,
+            this.StudentName,
+            this.ScriptCodes,
+            this.Status,
+            this.TotalPoint,
+            this.SubmitTime,
+            this.EvaluateTime,
+            this.Result,
+            this.Error,
+            this.Close});
             this.dgvStudent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvStudent.Location = new System.Drawing.Point(8, 56);
             this.dgvStudent.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -123,6 +146,80 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Minutes";
             // 
+            // No
+            // 
+            this.No.HeaderText = "NO";
+            this.No.MinimumWidth = 8;
+            this.No.Name = "No";
+            // 
+            // StudentCode
+            // 
+            this.StudentCode.HeaderText = "Student Code";
+            this.StudentCode.MinimumWidth = 8;
+            this.StudentCode.Name = "StudentCode";
+            // 
+            // StudentName
+            // 
+            this.StudentName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.StudentName.HeaderText = "Student Name";
+            this.StudentName.MinimumWidth = 8;
+            this.StudentName.Name = "StudentName";
+            this.StudentName.Width = 183;
+            // 
+            // ScriptCodes
+            // 
+            this.ScriptCodes.HeaderText = "Script Code";
+            this.ScriptCodes.MinimumWidth = 8;
+            this.ScriptCodes.Name = "ScriptCodes";
+            // 
+            // Status
+            // 
+            this.Status.HeaderText = "Status";
+            this.Status.MinimumWidth = 8;
+            this.Status.Name = "Status";
+            // 
+            // TotalPoint
+            // 
+            this.TotalPoint.HeaderText = "Total Point";
+            this.TotalPoint.MinimumWidth = 8;
+            this.TotalPoint.Name = "TotalPoint";
+            // 
+            // SubmitTime
+            // 
+            this.SubmitTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.SubmitTime.HeaderText = "Submit Time";
+            this.SubmitTime.MinimumWidth = 8;
+            this.SubmitTime.Name = "SubmitTime";
+            this.SubmitTime.Width = 167;
+            // 
+            // EvaluateTime
+            // 
+            this.EvaluateTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.EvaluateTime.HeaderText = "Evaluate Time";
+            this.EvaluateTime.MinimumWidth = 8;
+            this.EvaluateTime.Name = "EvaluateTime";
+            this.EvaluateTime.Width = 183;
+            // 
+            // Result
+            // 
+            this.Result.HeaderText = "Result";
+            this.Result.MinimumWidth = 8;
+            this.Result.Name = "Result";
+            // 
+            // Error
+            // 
+            this.Error.HeaderText = "Error";
+            this.Error.MinimumWidth = 8;
+            this.Error.Name = "Error";
+            // 
+            // Close
+            // 
+            this.Close.HeaderText = "Action";
+            this.Close.MinimumWidth = 8;
+            this.Close.Name = "Close";
+            this.Close.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Close.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // LecturerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -160,5 +257,16 @@
         private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
         private System.Windows.Forms.TextBox txtTime;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn No;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StudentCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StudentName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ScriptCodes;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalPoint;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SubmitTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EvaluateTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Result;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Error;
+        private System.Windows.Forms.DataGridViewImageColumn Close;
     }
 }

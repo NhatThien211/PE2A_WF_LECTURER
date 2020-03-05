@@ -54,7 +54,7 @@ namespace PE2A_WF_Lecturer
                 {
                     scriptFileCounter++;
                     PracticalDTO dto = PracticalList[i];
-                    dgvScriptFiles.Rows.Add(new string[] { scriptFileCounter.ToString(), dto.Code, dto.SubjectCode, dto.Date, dto.Status });
+                    dgvScriptFiles.Rows.Add(new string[] { scriptFileCounter.ToString(), dto.Code, dto.SubjectCode, dto.Date, dto.State });
                 }
             }
         }
@@ -183,13 +183,13 @@ namespace PE2A_WF_Lecturer
             int index = e.RowIndex;
             if (index < 0 || index > PracticalList.Count - 1) return;
             PracticalDTO dto = PracticalList[index];
-            if (Constant.PRACTICAL_STATUS[1].Equals(dto.Status))
+            if (Constant.PRACTICAL_STATUS[1].Equals(dto.State))
             {
                 ImportTemplateToolStripMenuItem_Click(sender, e);
             }
             else
             {
-                ShowLecturerForm(dto.Code, dto.Status);
+                ShowLecturerForm(dto.Code, dto.State);
             }
         }
 

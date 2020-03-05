@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,7 +26,7 @@ namespace PE2A_WF_Lecturer
         public string PracticalExamCode { get; set; }
         public List<StudentDTO> ListStudentBackUp { get; set; }
 
-        private Dictionary<string, string> ExamScriptList = new Dictionary<string, string>();
+        private Dictionary<string, byte[]> ExamScriptList = new Dictionary<string, byte[]>();
 
 
         Image CloseImage = PE2A_WF_Lecturer.Properties.Resources.close;
@@ -41,7 +42,7 @@ namespace PE2A_WF_Lecturer
                 if (!listStudetnCode.Contains(dto.StudentCode))
                 {
                     dto.Status = Constant.STATUSLIST[0];
-                    this.InvokeEx(f => ResetDataGridViewDataSource());
+                  ResetDataGridViewDataSource();
                 }
             }
         }
@@ -270,24 +271,24 @@ namespace PE2A_WF_Lecturer
                 item.NO = count;
                 item.Close = CloseImage;
                 item.ScriptCode = item.ScriptCode;
-            }
-            dgvStudent.DataSource = ListStudent;
-            foreach (var item in Constant.HIDDEN_COLUMN)
-            {
-                this.dgvStudent.Columns[item].Visible = false;
+                AddRowDataGridView(item);
             }
             FitDataGridViewCollumn();
+        }
+        string scriptCode;
+        private void AddRowDataGridView(StudentDTO dto)
+        {
+            scriptCode = dto.ScriptCode.Substring(dto.ScriptCode.IndexOf(Constant.SCRIPT_PREFIX));
+            dgvStudent.Rows.Add(dto.NO.ToString(), dto.StudentCode, dto.StudentName, scriptCode, dto.Status,dto.TotalPoint,dto.SubmitTime, dto.EvaluateTime,dto.Result,dto.ErrorMsg,dto.Close);
         }
 
         private void ResetDataGridViewDataSource()
         {
-            this.InvokeEx(f => dgvStudent.DataSource = null);
-            this.InvokeEx(f => dgvStudent.DataSource = ListStudent);
-            foreach (var item in Constant.HIDDEN_COLUMN)
+            this.InvokeEx(f => this.dgvStudent.Rows.Clear());
+            foreach(StudentDTO dto in ListStudent)
             {
-                this.InvokeEx(f => this.dgvStudent.Columns[item].Visible = false);
+                this.InvokeEx(f => AddRowDataGridView(dto));
             }
-            this.InvokeEx(f => FitDataGridViewCollumn());
         }
 
         private bool IsConnected(string ipAddress)
@@ -311,27 +312,6 @@ namespace PE2A_WF_Lecturer
             }
             return false;
         }
-
-        //private void SendMessage(string ipAddress, int port, string message)
-        //{
-        //    try
-        //    {
-        //        IPEndPoint iPEnd = new IPEndPoint(IPAddress.Parse(ipAddress), port);
-
-        //        using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-        //        {
-        //            socket.Connect(iPEnd);
-        //            socket.Send(Encoding.UTF8.GetBytes(message));
-        //            socket.Dispose();
-        //        }
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        MessageBox.Show(Constant.CLIENT_SOCKET_CLOSED_MESSAGE);
-        //    }
-        //}
-
 
         private void ReceiveStudentPointFromTCP(int serverPort)
         {
@@ -448,9 +428,9 @@ namespace PE2A_WF_Lecturer
             dgvStudent.Columns[nameof(StudentDTO.TotalPoint)].Width = Constant.COLUMN_POINT_LETTER * baseWidth;
             dgvStudent.Columns[nameof(StudentDTO.Result)].Width = Constant.COLUMN_RESULT_LETTER * baseWidth;
             dgvStudent.Columns[nameof(StudentDTO.StudentCode)].Width = Constant.COLUMN_STUDENTCODE_LETTER * baseWidth;
-            dgvStudent.Columns[nameof(StudentDTO.ScriptCode)].Width = Constant.COLUMN_SCRIPTCODE_LETTER * baseWidth;
+            dgvStudent.Columns[Constant.COLUMN_SCRIPTCODE_NAME].Width = Constant.COLUMN_SCRIPTCODE_LETTER * baseWidth;
             dgvStudent.Columns[nameof(StudentDTO.Close)].Width = Constant.COLUMN_CLOSE_LETTER * baseWidth;
-            ChangeDataGridViewHeaderName();
+         //   ChangeDataGridViewHeaderName();
         }
 
         private void ChangeDataGridViewHeaderName()
@@ -525,21 +505,12 @@ namespace PE2A_WF_Lecturer
                 // listening to webservice for return student's point
                 GetAllPracticalDocFile();
                 UpdateStudentPointTable();
-                Task.Run(() => { dummyDataConnect(); });
+               // Task.Run(() => { dummyDataConnect(); });
             }
             else
             {
                 ShowMenuAction(false);
                 UpdateStudentPointTable();
-
-                foreach (StudentDTO dto in ListStudent)
-                {
-                    if (!"".Equals(dto.ErrorMsg))
-                    {
-                        // ghi ket qua vo file
-
-                    }
-                }
             }
 
         }
@@ -606,81 +577,24 @@ namespace PE2A_WF_Lecturer
 
         }
 
-        private void ImportScriptToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //try
-            //{
-            //    using (var openFileDialog = new OpenFileDialog())
-            //    {
-            //        openFileDialog.Filter = "Supported file formats|*.zip;*.rar|ZIP files|*.zip|RAR files|*.rar";
-            //        openFileDialog.Multiselect = false;
-            //        openFileDialog.RestoreDirectory = true;
-            //        if (openFileDialog.ShowDialog().Equals(DialogResult.OK))
-            //        {
-            //            var filePath = openFileDialog.FileName;
-            //            if (File.Exists(filePath))
-            //            {
-            //                /*
-            //                 * 
-            //                 * This block is for local test (IDE test)
-            //                 * 
-            //                 */
-
-            //                var appDomainDir = Path.s(AppDomain.CurrentDomain.BaseDirectory);
-            //                var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
-            //                var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
-
-            //                /*
-            //                 * 
-            //                 * This block is for release app
-            //                 * 
-            //                 */
-
-            //                //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-            //                //var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
-
-            //                if (Directory.Exists(destinationPath))
-            //                {
-            //                    Util.UnarchiveFile(filePath, destinationPath);
-            //                    MessageBox.Show("Import success!", "Information");
-            //                }
-            //                else
-            //                {
-            //                    MessageBox.Show("Can not import script file!", "Error occurred");
-            //                }
-            //            }
-            //            else
-            //            {
-            //                MessageBox.Show("The file does not exist!", "Error occurred");
-            //            }
-            //        }
-            //    }
-            //}
-            //catch
-            //{
-            //    MessageBox.Show("Can not import script file!", "Error occurred");
-            //}
-        }
-
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string time = txtTime.Text;
-            if ("".Equals(time))
+            Regex regex = new Regex(Constant.REGEX_NUMBER);
+            if ("".Equals(time)|| !regex.IsMatch(time) || !isDoneReadExamDocument)
             {
+                MessageBox.Show("Reading Exam document");
                 return;
             }
             foreach (var item in ListStudent)
             {
                 try
                 {
-
+                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(Constant.RETURN_EXAM_SCIPT + time), item.TcpClient);
                     var temp = ExamScriptList.Where(x => item.ScriptCode.Contains(x.Key)).FirstOrDefault();
                     if (temp.Key != null)
                     {
-                        var filePath = ExamScriptList[temp.Key];
-                        byte[] bytes = File.ReadAllBytes(filePath);
-                        Thread.Sleep(2000);
-                        Util.sendMessage(bytes, item.TcpClient);
+                        Util.sendMessage(ExamScriptList[temp.Key], item.TcpClient);
                     }
                 }
                 catch (Exception ex)
@@ -691,9 +605,9 @@ namespace PE2A_WF_Lecturer
 
             dummyDataSubmission();
             dummyDataGetPoint();
-
         }
 
+        bool isDoneReadExamDocument = false;
         private void GetAllPracticalDocFile()
         {
             var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
@@ -703,15 +617,25 @@ namespace PE2A_WF_Lecturer
             string[] fileEntries = Directory.GetFiles(examScriptFolderPath);
             string fileNameWithExtension;
             string fileName;
+            int readedFile = 0;
             foreach (string file in fileEntries)
             {
 
                 fileNameWithExtension = Path.GetFileName(file);
                 if (fileNameWithExtension.Contains(Constant.WORD_FILE_EXTENSION))
                 {
-                    fileName = fileNameWithExtension.Replace(Constant.WORD_FILE_EXTENSION, "");
-                    //  loadPracticalDoc(fileName, file);
-                    ExamScriptList.Add(fileName, file);
+                        fileName = fileNameWithExtension.Replace(Constant.WORD_FILE_EXTENSION, "");
+                        byte[] bytes = File.ReadAllBytes(file);
+                        //  loadPracticalDoc(fileName, file);
+                        ExamScriptList.Add(fileName, bytes);
+                        readedFile++;
+                        if(readedFile == fileEntries.Length)
+                        {
+                            isDoneReadExamDocument = true;
+                            MessageBox.Show("Done Reading exam document");
+                        }
+    
+                  
                 }
             }
         }
