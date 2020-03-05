@@ -22,9 +22,7 @@ namespace PE2A_WF_Lecturer
         private void ShowControls(bool isVisble)
         {
             labelRollNumber.Visible = isVisble;
-            lbPassword.Visible = isVisble;
             txtStudentID.Visible = isVisble;
-            txtPassword.Visible = isVisble;
             btnEnroll.Visible = isVisble;
             loadingBox.Visible = !isVisble;
         }
@@ -53,7 +51,6 @@ namespace PE2A_WF_Lecturer
         {
 
             studentID = txtStudentID.Text.ToUpper().Trim();
-            password = txtPassword.Text;
             if (!CheckInput()) return;
             ShowControls(false);
             GetPracticalList();
@@ -112,11 +109,6 @@ namespace PE2A_WF_Lecturer
             if (studentID.Equals("") || studentID == null)
             {
                 MessageBox.Show(Constant.ENROLL_NAME_NOT_NULL_MESSAGE);
-                return false;
-            }
-            if (password.Equals("") || password == null)
-            {
-                MessageBox.Show(Constant.PASSWORD_NOT_NULL_MESSAGE);
                 return false;
             }
             return true;
@@ -209,5 +201,9 @@ namespace PE2A_WF_Lecturer
             }
         }
 
+        private void labelRollNumber_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
