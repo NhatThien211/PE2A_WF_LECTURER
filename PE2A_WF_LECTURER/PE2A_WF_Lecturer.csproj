@@ -73,6 +73,12 @@
     <Compile Include="LecturerForm.Designer.cs">
       <DependentUpon>LecturerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PointDetailMsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PointDetailMsgBox.Designer.cs">
+      <DependentUpon>PointDetailMsgBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="PracticalDTO.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LecturerForm.resx">
       <DependentUpon>LecturerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PointDetailMsgBox.resx">
+      <DependentUpon>PointDetailMsgBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

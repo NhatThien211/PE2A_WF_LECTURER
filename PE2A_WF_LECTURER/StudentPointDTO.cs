@@ -17,6 +17,8 @@ namespace PE2A_WF_Lecturer
         public string Result { get; set; }
         public string ErrorMsg { get; set; }
 
+        public StudentPointDTO() { }
+
         public StudentPointDTO(
             string studentCode, 
             Dictionary<string, string> listQuestions, 

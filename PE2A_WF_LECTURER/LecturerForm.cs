@@ -176,6 +176,7 @@ namespace PE2A_WF_Lecturer
             var getStream = tcpClient.GetStream();
             var dataByte = new byte[1024 * 1024];
             var dataSize = tcpClient.ReceiveBufferSize;
+            // handle loi o day, khi dang lam bai ma student tat app
             getStream.Read(dataByte, 0, dataSize);
             var dataConvert = Util.receiveMessage(dataByte);
             if (dataConvert.Split('-').Length > 0)
@@ -523,61 +524,14 @@ namespace PE2A_WF_Lecturer
 
         }
 
-        private void ImportScriptToolStripMenuItem_Click(object sender, EventArgs e)
+        private void dgvStudent_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //try
-            //{
-            //    using (var openFileDialog = new OpenFileDialog())
-            //    {
-            //        openFileDialog.Filter = "Supported file formats|*.zip;*.rar|ZIP files|*.zip|RAR files|*.rar";
-            //        openFileDialog.Multiselect = false;
-            //        openFileDialog.RestoreDirectory = true;
-            //        if (openFileDialog.ShowDialog().Equals(DialogResult.OK))
-            //        {
-            //            var filePath = openFileDialog.FileName;
-            //            if (File.Exists(filePath))
-            //            {
-            //                /*
-            //                 * 
-            //                 * This block is for local test (IDE test)
-            //                 * 
-            //                 */
-
-            //                var appDomainDir = Path.s(AppDomain.CurrentDomain.BaseDirectory);
-            //                var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
-            //                var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
-
-            //                /*
-            //                 * 
-            //                 * This block is for release app
-            //                 * 
-            //                 */
-
-            //                //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-            //                //var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
-
-            //                if (Directory.Exists(destinationPath))
-            //                {
-            //                    Util.UnarchiveFile(filePath, destinationPath);
-            //                    MessageBox.Show("Import success!", "Information");
-            //                }
-            //                else
-            //                {
-            //                    MessageBox.Show("Can not import script file!", "Error occurred");
-            //                }
-            //            }
-            //            else
-            //            {
-            //                MessageBox.Show("The file does not exist!", "Error occurred");
-            //            }
-            //        }
-            //    }
-            //}
-            //catch
-            //{
-            //    MessageBox.Show("Can not import script file!", "Error occurred");
-            //}
+            var selectedRow = dgvStudent.CurrentCell.RowIndex;
+            string number = dgvStudent.Rows[selectedRow].Cells[0].Value.ToString();
+            string studentCode = dgvStudent.Rows[selectedRow].Cells[1].Value.ToString();
+            StudentDTO studentDto = ListStudent.Where(student => student.StudentCode == studentCode).FirstOrDefault();
+            PointDetailMsgBox msgBox = new PointDetailMsgBox(studentDto);
+            msgBox.Show();
         }
-
     }
 }
