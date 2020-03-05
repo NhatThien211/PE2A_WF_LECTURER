@@ -59,7 +59,7 @@ namespace PE2A_WF_Lecturer
         public static string SUMISSION_FOLDER_NAME = "Submissions";
 
         // read exam script 
-        public static string EXAM_SCIPT_FOLDER_NAME = "ExamScripts";
+        public static string EXAM_SCIPT_FOLDER_NAME = "ExamDocuments";
         public static string WORD_FILE_EXTENSION = ".docx";
 
         // TCP code

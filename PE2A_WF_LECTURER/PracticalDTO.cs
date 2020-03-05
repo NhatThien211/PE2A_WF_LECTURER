@@ -12,6 +12,6 @@ namespace PE2A_WF_Lecturer
         public string Code { get; set; }
         public string Date { get; set; }
         public string SubjectCode { get; set; }
-        public string Status { get; set; }
+        public string State { get; set; }
     }
 }
