@@ -40,6 +40,22 @@ namespace PE2A_WF_Lecturer
             return receivedMessage.Substring(0, size);
         }
 
+        private static Socket listeningSockets;
+        public static string GetMessageFromTCPConnections(int listeningPort, int maximumRequest)
+        {
+            listeningSockets = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            byte[] buffer = new byte[1024];
+            IPEndPoint senders = new IPEndPoint(IPAddress.Any, listeningPort);
+            listeningSockets.Bind(senders);
+            listeningSockets.Listen(maximumRequest);
+            Socket conn = listeningSockets.Accept();
+            int size = conn.Receive(buffer);
+            ASCIIEncoding eEncpding = new ASCIIEncoding();
+            string receivedMessage = eEncpding.GetString(buffer);
+            listeningSockets.Close();
+            return receivedMessage.Substring(0, size);
+        }
+
         public static IPAddress GetLocalIPAddress()
         {
             string hostName = Dns.GetHostName();
