@@ -253,6 +253,7 @@ namespace PE2A_WF_Lecturer
             var getStream = tcpClient.GetStream();
             var dataByte = new byte[1024 * 1024];
             var dataSize = tcpClient.ReceiveBufferSize;
+            // handle loi o day, khi dang lam bai ma student tat app
             getStream.Read(dataByte, 0, dataSize);
             var dataConvert = Util.receiveMessage(dataByte);
             if (dataConvert.Split('=').Length > 0)
@@ -638,6 +639,16 @@ namespace PE2A_WF_Lecturer
                   
                 }
             }
+        }
+
+        private void dgvStudent_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var selectedRow = dgvStudent.CurrentCell.RowIndex;
+            string number = dgvStudent.Rows[selectedRow].Cells[0].Value.ToString();
+            string studentCode = dgvStudent.Rows[selectedRow].Cells[1].Value.ToString();
+            StudentDTO studentDto = ListStudent.Where(student => student.StudentCode == studentCode).FirstOrDefault();
+            PointDetailMsgBox msgBox = new PointDetailMsgBox(studentDto);
+            msgBox.Show();
         }
 
         //private void loadPracticalDoc(string examsciptName, string path)
