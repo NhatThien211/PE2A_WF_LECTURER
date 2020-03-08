@@ -46,16 +46,23 @@ namespace PE2A_WF_Lecturer
 
         private void LoadPractical()
         {
-            if (PracticalList.Count > 0)
+            if (PracticalList != null)
             {
-                scriptFileCounter = 0;
-                dgvScriptFiles.Rows.Clear();
-                for (int i = 0; i < PracticalList.Count; i++)
+                if (PracticalList.Count > 0)
                 {
-                    scriptFileCounter++;
-                    PracticalDTO dto = PracticalList[i];
-                    dgvScriptFiles.Rows.Add(new string[] { scriptFileCounter.ToString(), dto.Code, dto.SubjectCode, dto.Date, dto.State });
+                    scriptFileCounter = 0;
+                    dgvScriptFiles.Rows.Clear();
+                    for (int i = 0; i < PracticalList.Count; i++)
+                    {
+                        scriptFileCounter++;
+                        PracticalDTO dto = PracticalList[i];
+                        dgvScriptFiles.Rows.Add(new string[] { scriptFileCounter.ToString(), dto.Code, dto.SubjectCode, dto.Date, dto.State });
+                    }
                 }
+            }
+            else
+            {
+                MessageBox.Show("Practical list is empty!");
             }
         }
 
@@ -66,29 +73,29 @@ namespace PE2A_WF_Lecturer
             dgvScriptFiles.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
-        private string GetProjectDirectory()
-        {
-            /*
-            * 
-            * This block is for local test (IDE test)
-            * 
-            */
+        //private string GetProjectDirectory()
+        //{
+        //    /*
+        //    * 
+        //    * This block is for local test (IDE test)
+        //    * 
+        //    */
 
-            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
+        //    var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+        //    var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
 
-            /*
-             * 
-             * This block is for release app
-             * 
-             */
+        //    /*
+        //     * 
+        //     * This block is for release app
+        //     * 
+        //     */
 
-            //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+        //    //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
 
-            return projectNameDir;
-        }
+        //    return projectNameDir;
+        //}
 
-        private void ImportTemplateToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ImportTemplate(string apiPracticalExamCode)
         {
             try
             {
@@ -99,19 +106,24 @@ namespace PE2A_WF_Lecturer
                     openFileDialog.RestoreDirectory = true;
                     if (openFileDialog.ShowDialog().Equals(DialogResult.OK))
                     {
+                        // Get full zip file path
                         var filePath = openFileDialog.FileName;
-                       
-                        if (File.Exists(filePath))
-                        {
-                            var destinationPath = Path.Combine(GetProjectDirectory() + Constant.SCRIPT_FILE_PATH);
 
+                        var destinationPath = Path.Combine(Util.GetProjectDirectory() + Constant.SCRIPT_FILE_PATH);
+
+                        // Get zip file name without extension
+                        var filename = Path.GetFileNameWithoutExtension(filePath);
+
+                        // Get script folder
+                        var scriptFolder = Path.Combine(destinationPath, filename);
+
+                        // Compare zip file name with practical exam code from api
+                        if (apiPracticalExamCode.Equals(filename))
+                        {
                             if (Directory.Exists(destinationPath))
                             {
                                 Util.UnarchiveFile(filePath, destinationPath);
                                 // LoadTemplateHistory();
-
-                                var filename = Path.GetFileNameWithoutExtension(filePath);
-                                var scriptFolder = Path.Combine(destinationPath, filename);
 
                                 CopyPracticalInfoToSubmissionFolder(scriptFolder);
                                 // MessageBox.Show("Import success!", "Information");
@@ -125,11 +137,10 @@ namespace PE2A_WF_Lecturer
                         }
                         else
                         {
-                            MessageBox.Show("The file does not exist!", "Error occurred");
+                            MessageBox.Show("Script name does not match the exam code!", "Information");
                         }
                     }
                 }
-            
             }
             catch
             {
@@ -137,7 +148,7 @@ namespace PE2A_WF_Lecturer
             }
         }
 
-        private void ShowLecturerForm(string practicalExamCode,string practicalStatus)
+        private void ShowLecturerForm(string practicalExamCode, string practicalStatus)
         {
             GetListStudentFromCSV(practicalExamCode);
             LecturerForm lecturerForm = new LecturerForm();
@@ -162,7 +173,7 @@ namespace PE2A_WF_Lecturer
                     && Path.GetFileName(fileEntries[0]).Equals(Constant.PRACTICAL_INFO, StringComparison.OrdinalIgnoreCase))
                 {
                     var sourceFile = fileEntries[0];
-                    var destinationFile = Path.Combine(GetProjectDirectory() + Constant.SUBMISSION_FOLDER_PATH, Constant.PRACTICAL_INFO);
+                    var destinationFile = Path.Combine(Util.GetProjectDirectory() + Constant.SUBMISSION_FOLDER_PATH, Constant.PRACTICAL_INFO);
                     File.Copy(sourceFile, destinationFile, true);
                 }
             }
@@ -185,7 +196,7 @@ namespace PE2A_WF_Lecturer
             PracticalDTO dto = PracticalList[index];
             if (Constant.PRACTICAL_STATUS[1].Equals(dto.State))
             {
-                ImportTemplateToolStripMenuItem_Click(sender, e);
+                ImportTemplate(dto.Code);
             }
             else
             {
@@ -224,7 +235,7 @@ namespace PE2A_WF_Lecturer
                         }
                         catch
                         {
-                          
+
                         }
                         StudentList.Add(dto);
                     }

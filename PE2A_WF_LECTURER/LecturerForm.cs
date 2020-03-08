@@ -516,7 +516,7 @@ namespace PE2A_WF_Lecturer
 
         }
 
-        private async Task<String> sendFile(String fileName, string studentID, string scriptCode)
+        private async Task<string> sendFile(string fileName, string studentID, string scriptCode)
         {
             //var client = new WebClient();
             string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
@@ -649,6 +649,33 @@ namespace PE2A_WF_Lecturer
             StudentDTO studentDto = ListStudent.Where(student => student.StudentCode == studentCode).FirstOrDefault();
             PointDetailMsgBox msgBox = new PointDetailMsgBox(studentDto);
             msgBox.Show();
+        }
+
+        private void printReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string projectDirectory = Util.GetProjectDirectory();
+
+            // Get student result report folder
+            string reportDirectory = Path.Combine(projectDirectory + Constant.SCRIPT_FILE_PATH, this.PracticalExamCode);
+            string destinationDirectory;
+            FolderBrowserDialog browserDialog = new FolderBrowserDialog();
+            if (browserDialog.ShowDialog() == DialogResult.OK)
+            {
+                destinationDirectory = browserDialog.SelectedPath;
+                string reportFile = Path.Combine(reportDirectory, Constant.STUDENT_LIST_FILE_NAME);
+                string destinationFile = Path.Combine(destinationDirectory, Constant.STUDENT_LIST_FILE_NAME);
+
+                // Check if the report file existed
+                if (File.Exists(reportFile))
+                {
+                    File.Copy(reportFile, destinationFile, true);
+                    MessageBox.Show("Report file saved.");
+                }
+                else
+                {
+                    MessageBox.Show("Cannot export report!", "Error occured");
+                }
+            }
         }
 
         //private void loadPracticalDoc(string examsciptName, string path)
