@@ -27,10 +27,14 @@ namespace PE2A_WF_Lecturer
         public List<StudentDTO> ListStudentBackUp { get; set; }
 
         private Dictionary<string, byte[]> ExamScriptList = new Dictionary<string, byte[]>();
-
+        
 
         Image CloseImage = PE2A_WF_Lecturer.Properties.Resources.close;
 
+        public LecturerForm()
+        {
+            InitializeComponent();
+        }
 
         // for dummy data
         string[] listStudetnCode = { "SE63146", "SE63155", "SE62847", "SE62882" };
@@ -42,7 +46,7 @@ namespace PE2A_WF_Lecturer
                 if (!listStudetnCode.Contains(dto.StudentCode))
                 {
                     dto.Status = Constant.STATUSLIST[0];
-                  ResetDataGridViewDataSource();
+                    ResetDataGridViewDataSource();
                 }
             }
         }
@@ -100,13 +104,6 @@ namespace PE2A_WF_Lecturer
                 }
             }
         }
-
-        public LecturerForm()
-        {
-            InitializeComponent();
-
-        }
-
 
         static Socket s;
         static Byte[] buffer;
@@ -184,7 +181,7 @@ namespace PE2A_WF_Lecturer
         private void ReturnWebserviceURL(string ipAddress, int port, string studentCode)
         {
             TcpClient tcpClient = new System.Net.Sockets.TcpClient(ipAddress, port);
-           // StartTCPClient(tcpClient);
+            // StartTCPClient(tcpClient);
             string scriptCode = "";
             string message;
             if (IsConnected(ipAddress))
@@ -280,13 +277,13 @@ namespace PE2A_WF_Lecturer
         private void AddRowDataGridView(StudentDTO dto)
         {
             scriptCode = dto.ScriptCode.Substring(dto.ScriptCode.IndexOf(Constant.SCRIPT_PREFIX));
-            dgvStudent.Rows.Add(dto.NO.ToString(), dto.StudentCode, dto.StudentName, scriptCode, dto.Status,dto.TotalPoint,dto.SubmitTime, dto.EvaluateTime,dto.Result,dto.ErrorMsg,dto.Close);
+            dgvStudent.Rows.Add(dto.NO.ToString(), dto.StudentCode, dto.StudentName, scriptCode, dto.Status, dto.TotalPoint, dto.SubmitTime, dto.EvaluateTime, dto.Result, dto.ErrorMsg, dto.Close);
         }
 
         private void ResetDataGridViewDataSource()
         {
             this.InvokeEx(f => this.dgvStudent.Rows.Clear());
-            foreach(StudentDTO dto in ListStudent)
+            foreach (StudentDTO dto in ListStudent)
             {
                 this.InvokeEx(f => AddRowDataGridView(dto));
             }
@@ -501,7 +498,7 @@ namespace PE2A_WF_Lecturer
                 GetAllPracticalDocFile();
                 UpdateStudentSubmissionTable();
                 UpdateStudentPointTable();
-               // Task.Run(() => { dummyDataConnect(); });
+                // Task.Run(() => { dummyDataConnect(); });
             }
             else
             {
@@ -577,7 +574,7 @@ namespace PE2A_WF_Lecturer
         {
             string time = txtTime.Text;
             Regex regex = new Regex(Constant.REGEX_NUMBER);
-            if ("".Equals(time)|| !regex.IsMatch(time) || !isDoneReadExamDocument)
+            if ("".Equals(time) || !regex.IsMatch(time) || !isDoneReadExamDocument)
             {
                 MessageBox.Show("Reading Exam document");
                 return;
@@ -620,18 +617,18 @@ namespace PE2A_WF_Lecturer
                 fileNameWithExtension = Path.GetFileName(file);
                 if (fileNameWithExtension.Contains(Constant.WORD_FILE_EXTENSION))
                 {
-                        fileName = fileNameWithExtension.Replace(Constant.WORD_FILE_EXTENSION, "");
-                        byte[] bytes = File.ReadAllBytes(file);
-                        //  loadPracticalDoc(fileName, file);
-                        ExamScriptList.Add(fileName, bytes);
-                        readedFile++;
-                        if(readedFile == fileEntries.Length)
-                        {
-                            isDoneReadExamDocument = true;
-                            MessageBox.Show("Done Reading exam document");
-                        }
-    
-                  
+                    fileName = fileNameWithExtension.Replace(Constant.WORD_FILE_EXTENSION, "");
+                    byte[] bytes = File.ReadAllBytes(file);
+                    //  loadPracticalDoc(fileName, file);
+                    ExamScriptList.Add(fileName, bytes);
+                    readedFile++;
+                    if (readedFile == fileEntries.Length)
+                    {
+                        isDoneReadExamDocument = true;
+                        MessageBox.Show("Done Reading exam document");
+                    }
+
+
                 }
             }
         }

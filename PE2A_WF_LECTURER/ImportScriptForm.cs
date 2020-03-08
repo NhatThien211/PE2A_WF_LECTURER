@@ -182,6 +182,7 @@ namespace PE2A_WF_Lecturer
         private void ImportScriptForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             enrollForm.Show();
+            Dispose();
         }
 
         private void ImportScriptForm_Load(object sender, EventArgs e)
