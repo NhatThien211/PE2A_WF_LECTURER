@@ -178,6 +178,26 @@ namespace PE2A_WF_Lecturer
             return Convert.ToBase64String(bytesEncrypted);
         }
 
+        public static string GetProjectDirectory()
+        {
+            /*
+            * 
+            * This block is for local test (IDE test)
+            * 
+            */
 
+            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
+
+            /*
+             * 
+             * This block is for release app
+             * 
+             */
+
+            //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+
+            return projectNameDir;
+        }
     }
 }

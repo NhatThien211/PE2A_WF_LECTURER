@@ -197,6 +197,7 @@
             this.printReportToolStripMenuItem.Name = "printReportToolStripMenuItem";
             this.printReportToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.printReportToolStripMenuItem.Text = "Print Report";
+            this.printReportToolStripMenuItem.Click += new System.EventHandler(this.printReportToolStripMenuItem_Click);
             // 
             // startToolStripMenuItem
             // 
@@ -208,7 +209,7 @@
             // txtTime
             // 
             this.txtTime.Location = new System.Drawing.Point(253, 4);
-            this.txtTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTime.Margin = new System.Windows.Forms.Padding(2);
             this.txtTime.Name = "txtTime";
             this.txtTime.Size = new System.Drawing.Size(142, 20);
             this.txtTime.TabIndex = 4;
