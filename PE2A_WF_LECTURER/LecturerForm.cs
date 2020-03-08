@@ -148,43 +148,43 @@ namespace PE2A_WF_Lecturer
                 ref clientEP, new AsyncCallback(DoReceiveFrom), buffer);
         }
 
-        private void StartTCPClient(TcpClient client)
-        {
-            Task.Run(() =>
-            {
-                while (!isPublishedPoint)
-                {
-                    Console.WriteLine("StartTCPClient");
-                    WaitForServerRequest(client);
-                }
-            });
-        }
+        //private void StartTCPClient(TcpClient client)
+        //{
+        //    Task.Run(() =>
+        //    {
+        //        while (!isPublishedPoint)
+        //        {
+        //            Console.WriteLine("StartTCPClient");
+        //            WaitForServerRequest(client);
+        //        }
+        //    });
+        //}
 
-        private void WaitForServerRequest(TcpClient client)
-        {
-            if (client != null)
-            {
-                //Get time submission when student submit
-                var getDataTimeSubmission = GetTimeSubmission(client);
-                if (getDataTimeSubmission != null)
-                {
-                    string studentCode = getDataTimeSubmission[0];
-                    string timeSubmitted = getDataTimeSubmission[1];
-                    if (studentCode != null && timeSubmitted != null)
-                    {
-                        StudentDTO dto = ListStudent.Where(t => t.StudentCode == studentCode).FirstOrDefault();
-                        dto.SubmitTime = timeSubmitted;
-                        dto.Status = Constant.STATUSLIST[1];
-                        ResetDataGridViewDataSource();
-                    }
-                }
-            }
-        }
+        //private void WaitForServerRequest(TcpClient client)
+        //{
+        //    if (client != null)
+        //    {
+        //        //Get time submission when student submit
+        //        var getDataTimeSubmission = GetTimeSubmission(client);
+        //        if (getDataTimeSubmission != null)
+        //        {
+        //            string studentCode = getDataTimeSubmission[0];
+        //            string timeSubmitted = getDataTimeSubmission[1];
+        //            if (studentCode != null && timeSubmitted != null)
+        //            {
+        //                StudentDTO dto = ListStudent.Where(t => t.StudentCode == studentCode).FirstOrDefault();
+        //                dto.SubmitTime = timeSubmitted;
+        //                dto.Status = Constant.STATUSLIST[1];
+        //                ResetDataGridViewDataSource();
+        //            }
+        //        }
+        //    }
+        //}
 
         private void ReturnWebserviceURL(string ipAddress, int port, string studentCode)
         {
             TcpClient tcpClient = new System.Net.Sockets.TcpClient(ipAddress, port);
-            StartTCPClient(tcpClient);
+           // StartTCPClient(tcpClient);
             string scriptCode = "";
             string message;
             if (IsConnected(ipAddress))
@@ -389,38 +389,40 @@ namespace PE2A_WF_Lecturer
             Task.Run(() => ReceiveStudentPointFromTCP(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT));
         }
 
-        //private void ReceiveStudentSubmissionFromTCP(int serverPort)
-        //{
-        //    while (true)
-        //    {
-        //        Console.WriteLine("ReceiveStudentSubmissionFromTCP");
-        //        string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
-        //        Console.WriteLine(receivedMessage);
-        //        if (receivedMessage != null && !receivedMessage.Equals("") && receivedMessage.Contains('T'))
-        //        {
-        //            string[] messages = receivedMessage.Split('T');
-        //            string studentCode = messages[0];
-        //            string submissionTime = messages[1];
-        //            foreach (var student in ListStudent)
-        //            {
-        //                if (student.StudentCode.Equals(studentCode))
-        //                {
-        //                    // Update student submissiontime and status
-        //                    student.SubmitTime = submissionTime;
-        //                    student.Status = Constant.STATUSLIST[1];
-        //                    ResetDataGridViewDataSource();
-        //                    break;
-        //                }
-        //            }
-        //        }
+        private void ReceiveStudentSubmissionFromTCP(int serverPort)
+        {
+            while (true)
+            {
+                Console.WriteLine("ReceiveStudentSubmissionFromTCP");
+                string receivedMessage = Util.GetMessageFromTCPConnections(serverPort, Constant.MAXIMUM_REQUEST);
+                Console.WriteLine(receivedMessage);
+                if (receivedMessage != null && !receivedMessage.Equals("") && receivedMessage.Contains('T'))
+                {
+                    string[] messages = receivedMessage.Split('T');
+                    string studentCode = messages[0];
+                    string submissionTime = messages[1];
+                    foreach (var student in ListStudent)
+                    {
+                        if (student.StudentCode.Equals(studentCode))
+                        {
+                            // Update student submissiontime and status
+                            student.SubmitTime = submissionTime;
+                            student.Status = Constant.STATUSLIST[1];
+                            ResetDataGridViewDataSource();
+                            break;
+                        }
+                    }
+                }
 
-        //    }
-        //}
+            }
+        }
 
-        //private void UpdateStudentSubmissionTable()
-        //{
-        //    Task.Run(() => ReceiveStudentSubmissionFromTCP(Constant.SOCKET_STUDENT_SUBMISSION_LISTENING_PORT));
-        //}
+
+
+        private void UpdateStudentSubmissionTable()
+        {
+            Task.Run(() => ReceiveStudentSubmissionFromTCP(Constant.SOCKET_STUDENT_SUBMISSION_LISTENING_PORT));
+        }
 
         private void FitDataGridViewCollumn()
         {
@@ -431,14 +433,6 @@ namespace PE2A_WF_Lecturer
             dgvStudent.Columns[nameof(StudentDTO.StudentCode)].Width = Constant.COLUMN_STUDENTCODE_LETTER * baseWidth;
             dgvStudent.Columns[Constant.COLUMN_SCRIPTCODE_NAME].Width = Constant.COLUMN_SCRIPTCODE_LETTER * baseWidth;
             dgvStudent.Columns[nameof(StudentDTO.Close)].Width = Constant.COLUMN_CLOSE_LETTER * baseWidth;
-         //   ChangeDataGridViewHeaderName();
-        }
-
-        private void ChangeDataGridViewHeaderName()
-        {
-            dgvStudent.Columns[nameof(StudentDTO.StudentName)].HeaderText = Constant.HEADER_COLUMN_STUDENTNAME;
-            dgvStudent.Columns[nameof(StudentDTO.StudentCode)].HeaderText = Constant.HEADER_COLUMN_STUDENTCODE;
-            dgvStudent.Columns[nameof(StudentDTO.ScriptCode)].HeaderText = Constant.HEADER_COLUMN_SCRIPTCODE;
         }
 
         private void dgvStudent_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -505,6 +499,7 @@ namespace PE2A_WF_Lecturer
                 // UpdateStudentSubmissionTable();
                 // listening to webservice for return student's point
                 GetAllPracticalDocFile();
+                UpdateStudentSubmissionTable();
                 UpdateStudentPointTable();
                // Task.Run(() => { dummyDataConnect(); });
             }
