@@ -30,7 +30,7 @@
         {
             this.btnEnroll = new System.Windows.Forms.Button();
             this.labelRollNumber = new System.Windows.Forms.Label();
-            this.txtStudentID = new System.Windows.Forms.TextBox();
+            this.txtEnrollKey = new System.Windows.Forms.TextBox();
             this.loadingBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.loadingBox)).BeginInit();
             this.SuspendLayout();
@@ -38,7 +38,7 @@
             // btnEnroll
             // 
             this.btnEnroll.Location = new System.Drawing.Point(134, 138);
-            this.btnEnroll.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnEnroll.Margin = new System.Windows.Forms.Padding(2);
             this.btnEnroll.Name = "btnEnroll";
             this.btnEnroll.Size = new System.Drawing.Size(85, 27);
             this.btnEnroll.TabIndex = 8;
@@ -55,21 +55,20 @@
             this.labelRollNumber.Size = new System.Drawing.Size(54, 13);
             this.labelRollNumber.TabIndex = 7;
             this.labelRollNumber.Text = "Enroll Key";
-            this.labelRollNumber.Click += new System.EventHandler(this.labelRollNumber_Click);
             // 
-            // txtStudentID
+            // txtEnrollKey
             // 
-            this.txtStudentID.Location = new System.Drawing.Point(98, 60);
-            this.txtStudentID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.txtStudentID.Name = "txtStudentID";
-            this.txtStudentID.Size = new System.Drawing.Size(214, 20);
-            this.txtStudentID.TabIndex = 6;
+            this.txtEnrollKey.Location = new System.Drawing.Point(98, 60);
+            this.txtEnrollKey.Margin = new System.Windows.Forms.Padding(2);
+            this.txtEnrollKey.Name = "txtEnrollKey";
+            this.txtEnrollKey.Size = new System.Drawing.Size(214, 20);
+            this.txtEnrollKey.TabIndex = 6;
             // 
             // loadingBox
             // 
             this.loadingBox.Image = global::PE2A_WF_Lecturer.Properties.Resources.loading;
             this.loadingBox.Location = new System.Drawing.Point(98, 18);
-            this.loadingBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.loadingBox.Margin = new System.Windows.Forms.Padding(2);
             this.loadingBox.Name = "loadingBox";
             this.loadingBox.Size = new System.Drawing.Size(161, 140);
             this.loadingBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -85,11 +84,10 @@
             this.Controls.Add(this.loadingBox);
             this.Controls.Add(this.btnEnroll);
             this.Controls.Add(this.labelRollNumber);
-            this.Controls.Add(this.txtStudentID);
+            this.Controls.Add(this.txtEnrollKey);
             this.MaximizeBox = false;
             this.Name = "LecturerEnroll";
             this.Text = "LECUTER ENROLL FORM";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.loadingBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -100,7 +98,7 @@
 
         private System.Windows.Forms.Button btnEnroll;
         private System.Windows.Forms.Label labelRollNumber;
-        private System.Windows.Forms.TextBox txtStudentID;
+        private System.Windows.Forms.TextBox txtEnrollKey;
         private System.Windows.Forms.PictureBox loadingBox;
     }
 }

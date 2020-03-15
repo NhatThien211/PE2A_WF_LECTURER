@@ -27,10 +27,14 @@ namespace PE2A_WF_Lecturer
         public List<StudentDTO> ListStudentBackUp { get; set; }
 
         private Dictionary<string, byte[]> ExamScriptList = new Dictionary<string, byte[]>();
-
+        
 
         Image CloseImage = PE2A_WF_Lecturer.Properties.Resources.close;
 
+        public LecturerForm()
+        {
+            InitializeComponent();
+        }
 
         // for dummy data
         string[] listStudetnCode = { "SE63146", "SE63155", "SE62847", "SE62882" };
@@ -100,13 +104,6 @@ namespace PE2A_WF_Lecturer
                 }
             }
         }
-
-        public LecturerForm()
-        {
-            InitializeComponent();
-
-        }
-
 
         static Socket s;
         static Byte[] buffer;
@@ -229,7 +226,7 @@ namespace PE2A_WF_Lecturer
                     {
 
                         // Cập nhật giao diện ở đây
-                        message = "=" + submissionURL + "=" + scriptCode + "=" + PracticalExamCode;
+                        message = "=" + submissionURL + "=" + scriptCode;
                         //SendMessage(ipAddress, port, message);
                         var messageEncode = Util.Encode(message, "SE1267");
                         messageEncode = Constant.RETURN_URL_CODE + messageEncode;
@@ -253,6 +250,7 @@ namespace PE2A_WF_Lecturer
             var getStream = tcpClient.GetStream();
             var dataByte = new byte[1024 * 1024];
             var dataSize = tcpClient.ReceiveBufferSize;
+            // handle loi o day, khi dang lam bai ma student tat app
             getStream.Read(dataByte, 0, dataSize);
             var dataConvert = Util.receiveMessage(dataByte);
             if (dataConvert.Split('=').Length > 0)
@@ -510,7 +508,7 @@ namespace PE2A_WF_Lecturer
 
         }
 
-        private async Task<String> sendFile(String fileName, string studentID, string scriptCode)
+        private async Task<string> sendFile(string fileName, string studentID, string scriptCode)
         {
             //var client = new WebClient();
             string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
@@ -631,6 +629,43 @@ namespace PE2A_WF_Lecturer
                     }
 
 
+                }
+            }
+        }
+
+        private void dgvStudent_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var selectedRow = dgvStudent.CurrentCell.RowIndex;
+            string number = dgvStudent.Rows[selectedRow].Cells[0].Value.ToString();
+            string studentCode = dgvStudent.Rows[selectedRow].Cells[1].Value.ToString();
+            StudentDTO studentDto = ListStudent.Where(student => student.StudentCode == studentCode).FirstOrDefault();
+            PointDetailMsgBox msgBox = new PointDetailMsgBox(studentDto);
+            msgBox.Show();
+        }
+
+        private void printReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string projectDirectory = Util.GetProjectDirectory();
+
+            // Get student result report folder
+            string reportDirectory = Path.Combine(projectDirectory + Constant.SCRIPT_FILE_PATH, this.PracticalExamCode);
+            string destinationDirectory;
+            FolderBrowserDialog browserDialog = new FolderBrowserDialog();
+            if (browserDialog.ShowDialog() == DialogResult.OK)
+            {
+                destinationDirectory = browserDialog.SelectedPath;
+                string reportFile = Path.Combine(reportDirectory, Constant.STUDENT_LIST_FILE_NAME);
+                string destinationFile = Path.Combine(destinationDirectory, Constant.STUDENT_LIST_FILE_NAME);
+
+                // Check if the report file existed
+                if (File.Exists(reportFile))
+                {
+                    File.Copy(reportFile, destinationFile, true);
+                    MessageBox.Show("Report file saved.");
+                }
+                else
+                {
+                    MessageBox.Show("Cannot export report!", "Error occured");
                 }
             }
         }

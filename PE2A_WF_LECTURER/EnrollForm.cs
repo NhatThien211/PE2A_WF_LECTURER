@@ -22,12 +22,12 @@ namespace PE2A_WF_Lecturer
         private void ShowControls(bool isVisble)
         {
             labelRollNumber.Visible = isVisble;
-            txtStudentID.Visible = isVisble;
+            txtEnrollKey.Visible = isVisble;
             btnEnroll.Visible = isVisble;
             loadingBox.Visible = !isVisble;
         }
 
-      
+
         //private async Task GetListStudentssAsync()
         //{
         //    listStudent = await GetClassStudentListAsync();
@@ -43,16 +43,14 @@ namespace PE2A_WF_Lecturer
         //        this.InvokeEx(f => ShowControls(true));
         //    }
         //}
-        string studentID;
         //List<StudentDTO> listStudent = new List<StudentDTO>();
         List<PracticalDTO> listPractical;
         private void btnEnroll_Click(object sender, EventArgs e)
         {
-
-            studentID = txtStudentID.Text.ToUpper().Trim();
-            if (!CheckInput()) return;
+            string enrollKey = txtEnrollKey.Text.ToUpper().Trim();
+            if (!CheckInput(enrollKey)) return;
             ShowControls(false);
-            GetPracticalList();
+            GetPracticalList(enrollKey);
             ImportScriptForm importScriptForm = new ImportScriptForm(this);
             //importScriptForm.PracticalList = listPractical;
             //importScriptForm.Show();
@@ -98,14 +96,9 @@ namespace PE2A_WF_Lecturer
         //    }
         //}
 
-        private void Form1_Load(object sender, EventArgs e)
+        private bool CheckInput(string enrollKey)
         {
-
-        }
-
-        private bool CheckInput()
-        {
-            if (studentID.Equals("") || studentID == null)
+            if (enrollKey == null || enrollKey.Equals(""))
             {
                 MessageBox.Show(Constant.ENROLL_NAME_NOT_NULL_MESSAGE);
                 return false;
@@ -150,15 +143,14 @@ namespace PE2A_WF_Lecturer
 
         //    return message;
         //}
-        private async Task<string> GetPracticalListFromAPI(HttpClient client, string uri)
+        private async Task<string> GetPracticalListFromAPI(HttpClient client, string uri, string enrollKey)
         {
             string message = "";
             try
             {
-               
                 uri = "http://" + uri;
                 var values = new Dictionary<string, string>{
-                { "enrollKey", studentID }
+                { "enrollKey", enrollKey }
                 };
                 HttpContent content = new FormUrlEncodedContent(values);
                 HttpResponseMessage response = await client.PostAsync(new Uri(uri), content);
@@ -166,17 +158,15 @@ namespace PE2A_WF_Lecturer
                 {
                     message = await response.Content.ReadAsStringAsync();
                 }
-
             }
             catch (Exception e)
             {
 
             }
-         
             return message;
         }
 
-        private async void GetPracticalList()
+        private async void GetPracticalList(string enrollKey)
         {
             string apiUrl = Constant.ONLINE_API_URL;
             using (HttpClient client = new HttpClient())
@@ -185,7 +175,7 @@ namespace PE2A_WF_Lecturer
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 try
                 {
-                    string result = await GetPracticalListFromAPI(client, apiUrl);
+                    string result = await GetPracticalListFromAPI(client, apiUrl, enrollKey);
                     listPractical = JsonConvert.DeserializeObject<List<PracticalDTO>>(result);
                     ImportScriptForm importScript = new ImportScriptForm(this);
                     importScript.PracticalList = listPractical;
@@ -198,11 +188,6 @@ namespace PE2A_WF_Lecturer
                     MessageBox.Show(Constant.CANNOT_CONNECT_API_MESSAGE);
                 }
             }
-        }
-
-        private void labelRollNumber_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
