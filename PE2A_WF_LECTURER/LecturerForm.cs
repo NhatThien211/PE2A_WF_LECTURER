@@ -226,7 +226,7 @@ namespace PE2A_WF_Lecturer
                     {
 
                         // Cập nhật giao diện ở đây
-                        message = "=" + submissionURL + "=" + scriptCode;
+                        message = "=" + submissionURL + "=" + scriptCode + "=" + PracticalExamCode;
                         //SendMessage(ipAddress, port, message);
                         var messageEncode = Util.Encode(message, "SE1267");
                         messageEncode = Constant.RETURN_URL_CODE + messageEncode;
