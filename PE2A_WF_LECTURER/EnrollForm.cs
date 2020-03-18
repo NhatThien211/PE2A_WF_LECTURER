@@ -150,7 +150,7 @@ namespace PE2A_WF_Lecturer
             {
                 uri = "http://" + uri;
                 var values = new Dictionary<string, string>{
-                { "enrollKey", enrollKey }
+                { "code", enrollKey }
                 };
                 HttpContent content = new FormUrlEncodedContent(values);
                 HttpResponseMessage response = await client.PostAsync(new Uri(uri), content);
