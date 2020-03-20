@@ -8,6 +8,7 @@ using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using System.IO;
 using System.Security.Cryptography;
+using System.Windows.Forms;
 
 namespace PE2A_WF_Lecturer
 {
@@ -186,8 +187,8 @@ namespace PE2A_WF_Lecturer
             * 
             */
 
-            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
+            var appDomainDir = Util.ExecutablePath();
+            
 
             /*
              * 
@@ -197,7 +198,22 @@ namespace PE2A_WF_Lecturer
 
             //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
 
-            return projectNameDir;
+            return appDomainDir;
         }
+
+        //release path
+        public static String ExecutablePath()
+        {
+            string appPath = Path.GetDirectoryName(Application.ExecutablePath);
+            return appPath;
+        }
+
+        ////debug path
+        //public static String ExecutablePath()
+        //{
+        //    string startupPath = System.IO.Directory.GetCurrentDirectory();
+        //    string projectDirectory = Directory.GetParent(startupPath).Parent.FullName;
+        //    return projectDirectory;
+        //}
     }
 }

@@ -362,9 +362,8 @@ namespace PE2A_WF_Lecturer
 
         {
             string practicalExam = PracticalExamCode;
-            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
-            var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+            var appDomainDir = Util.ExecutablePath();
+            var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
             string listStudentPath = destinationPath + "\\" + practicalExam + "\\" + Constant.STUDENT_LIST_FILE_NAME;
             string newCSV = "";
             string[] readAllText = File.ReadAllLines(listStudentPath);
@@ -460,14 +459,12 @@ namespace PE2A_WF_Lecturer
                 DialogResult result = MessageBox.Show(Constant.REEVALUATE_STUDENT_MESSAGE + dto.StudentCode, "RE-Evaluate", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-                    var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
-                    var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+                    var appDomainDir = Util.ExecutablePath();       
+                    var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
                     string listStudentPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.SUMISSION_FOLDER_NAME;
                     listStudentPath = listStudentPath + "\\" + dto.StudentCode + Constant.ZIP_EXTENSION;
                     Task.Run(async delegate
                     {
-
                         string message = await sendFile(listStudentPath, dto.StudentCode, dto.ScriptCode);
                         Console.WriteLine(message);
                     }
@@ -603,9 +600,8 @@ namespace PE2A_WF_Lecturer
         bool isDoneReadExamDocument = false;
         private void GetAllPracticalDocFile()
         {
-            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
-            var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+            var appDomainDir = Util.ExecutablePath();       
+            var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
             string examScriptFolderPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.EXAM_SCIPT_FOLDER_NAME;
             string[] fileEntries = Directory.GetFiles(examScriptFolderPath);
             string fileNameWithExtension;
