@@ -83,7 +83,7 @@ namespace PE2A_WF_Lecturer
             client.GetStream() // Get the stream and write the bytes to it  
                   .Write(bytes, 0,
                   bytes.Length); // Send the stream  
-            
+
         }
         public static void UnarchiveFile(string filePath, string destDirectory)
         {
@@ -181,35 +181,30 @@ namespace PE2A_WF_Lecturer
 
         public static string GetProjectDirectory()
         {
-            /*
-            * 
-            * This block is for local test (IDE test)
-            * 
-            */
-
             var appDomainDir = Util.ExecutablePath();
-            
-
-            /*
-             * 
-             * This block is for release app
-             * 
-             */
-
             //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
 
             return appDomainDir;
         }
 
-        //release path
-        public static String ExecutablePath()
+
+        /*
+        * 
+        * This block is for release app
+        * 
+        */
+        public static string ExecutablePath()
         {
             string appPath = Path.GetDirectoryName(Application.ExecutablePath);
             return appPath;
         }
 
-        ////debug path
-        //public static String ExecutablePath()
+        /*
+        * 
+        * This block is for local test (IDE test)
+        * 
+        */
+        //public static string ExecutablePath()
         //{
         //    string startupPath = System.IO.Directory.GetCurrentDirectory();
         //    string projectDirectory = Directory.GetParent(startupPath).Parent.FullName;

@@ -235,8 +235,6 @@
             this.Controls.Add(this.txtTime);
             this.Controls.Add(this.gbSubmitedFiles);
             this.Controls.Add(this.menuAction);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "LecturerForm";
             this.Text = "LECTURER FORM";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
