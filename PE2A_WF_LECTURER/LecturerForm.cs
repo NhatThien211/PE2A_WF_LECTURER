@@ -178,6 +178,7 @@ namespace PE2A_WF_Lecturer
 
                     // Exam code
                     scriptCode = student.ScriptCode;
+                    ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
                 }
                 else if (studentDisconnected != null)
                 {
@@ -187,13 +188,14 @@ namespace PE2A_WF_Lecturer
                     studentDTO.NO = ListStudent.Count + 1;
                     ListStudent.Add(studentDTO);
                     scriptCode = studentDTO.ScriptCode;
+                    ResetDataGridViewDataSourceWithDto(studentDTO, Constant.ACTION_ADD);
                 }
                 else
                 {
                     MessageBox.Show("Student not in class is connecting");
                     return;
                 }
-                ResetDataGridViewDataSourceWithDto(student);
+
 
                 //ResetDataGridViewDataSource();
                 while (!isSent)
@@ -220,12 +222,12 @@ namespace PE2A_WF_Lecturer
 
         private void InitDataSource()
         {
+            dgvStudent.Rows.Clear();
             foreach (var item in ListStudent)
             {
                 count++;
                 item.NO = count;
                 item.Close = CloseImage;
-                item.ScriptCode = item.ScriptCode;
                 AddRowDataGridView(item);
             }
             FitDataGridViewCollumn();
@@ -247,9 +249,20 @@ namespace PE2A_WF_Lecturer
 
         }
 
-        private void ResetDataGridViewDataSourceWithDto(StudentDTO dto)
+        private void ResetDataGridViewDataSourceWithDto(StudentDTO dto, string action)
         {
-            this.InvokeEx(f => SearchRecord(dto));
+            switch (action)
+            {
+                case Constant.ACTION_ADD:
+                    this.InvokeEx(f => AddRecord(dto));
+                    break;
+                case Constant.ACTION_REMOVE:
+                    this.InvokeEx(f => RemoveRecord(dto));
+                    break;
+                case Constant.ACTION_UPDATE:
+                    this.InvokeEx(f => UpdateRecord(dto));
+                    break;
+            }
         }
 
         private bool IsConnected(string ipAddress)
@@ -295,7 +308,7 @@ namespace PE2A_WF_Lecturer
                             student.Status = Constant.STATUSLIST[2];
                             student.EvaluateTime = studentPoint.EvaluateTime;
                             ReadFile(student);
-                            ResetDataGridViewDataSourceWithDto(student);
+                            ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
                             //ResetDataGridViewDataSource();
                             // For test
                             Console.WriteLine("Student code: " + studentPoint.StudentCode);
@@ -312,7 +325,7 @@ namespace PE2A_WF_Lecturer
                         {
                             // Update status of the student when cannot evaluate the submission
                             student.Status = Constant.STATUSLIST[3];
-                            ResetDataGridViewDataSourceWithDto(student);
+                            ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
                             //ResetDataGridViewDataSource();
                         }
                         break;
@@ -366,7 +379,7 @@ namespace PE2A_WF_Lecturer
                             // Update student submissiontime and status
                             student.SubmitTime = submissionTime;
                             student.Status = Constant.STATUSLIST[1];
-                            ResetDataGridViewDataSourceWithDto(student);
+                            ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
                             //ResetDataGridViewDataSource();
                             break;
                         }
@@ -406,15 +419,9 @@ namespace PE2A_WF_Lecturer
                 DialogResult result = MessageBox.Show(Constant.REMOVE_STUDENT_MESSAGE + studentCode, "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    ListStudent.Remove(ListStudent.Where(f => f.StudentCode == studentCode).FirstOrDefault());
-                    count = 0;
-                    foreach (var item in ListStudent)
-                    {
-                        count++;
-                        item.NO = count;
-                        ResetDataGridViewDataSourceWithDto(item);
-
-                    }
+                    StudentDTO removeStudent = ListStudent.Where(f => f.StudentCode == studentCode).FirstOrDefault();
+                    ListStudent.Remove(removeStudent);
+                    ResetDataGridViewDataSourceWithDto(removeStudent, Constant.ACTION_REMOVE);
                     //ResetDataGridViewDataSource();
                 }
             }
@@ -632,12 +639,12 @@ namespace PE2A_WF_Lecturer
         }
 
 
-        private void SearchRecord(StudentDTO dto)
+        private void UpdateRecord(StudentDTO dto)
         {
-            for (int i = 0; i < this.dgvStudent.RowCount-1; i++)
+            for (int i = 0; i < this.dgvStudent.RowCount - 1; i++)
             {
-                var getStudentId = this.dgvStudent[1,i].Value.ToString();
-                if(getStudentId.Equals(dto.StudentCode))
+                var getStudentId = this.dgvStudent[1, i].Value.ToString();
+                if (getStudentId.Equals(dto.StudentCode))
                 {
                     this.dgvStudent[4, i].Value = dto.Status;
                     this.dgvStudent[5, i].Value = dto.TotalPoint;
@@ -650,26 +657,26 @@ namespace PE2A_WF_Lecturer
             }
         }
 
-        //private void loadPracticalDoc(string examsciptName, string path)
-        //{
-        //    object readOnly = true;
-        //    object visible = true;
-        //    object save = false;
-        //    object fileName = path;
-        //    object newTemplate = false;
-        //    object docType = 0;
-        //    object missing = Type.Missing;
-        //    Microsoft.Office.Interop.Word.Document document;
-        //    Microsoft.Office.Interop.Word.Application application = new Microsoft.Office.Interop.Word.Application() { Visible = false };
-        //    document = application.Documents.Open(ref fileName, ref missing, ref readOnly, ref missing, ref missing, ref missing,
-        //        ref missing, ref missing, ref missing, ref missing, ref missing, ref visible, ref missing, ref missing, ref missing);
-        //    document.ActiveWindow.Selection.WholeStory();
-        //    document.ActiveWindow.Selection.Copy();
-        //    IDataObject dataObject = Clipboard.GetDataObject();
-        //    ExamScriptList.Add(examsciptName, dataObject.GetData(DataFormats.Rtf).ToString());
-        //    application.Quit(ref missing, ref missing, ref missing);
-        //}
-
-
+        private void RemoveRecord(StudentDTO dto)
+        {
+            int rowIndex = 1;
+            for (int i = 0; i < this.dgvStudent.RowCount - 1; i++)
+            {
+                var getStudentId = this.dgvStudent[1, i].Value.ToString();
+                if (getStudentId.Equals(dto.StudentCode))
+                {
+                    dgvStudent.Rows.Remove(dgvStudent.Rows[i]);
+                }
+                this.dgvStudent[0, i].Value = rowIndex;
+                rowIndex++;
+            }
+        }
+        private void AddRecord(StudentDTO dto)
+        {
+            int index = dgvStudent.Rows.Count;
+            dto.NO = index;
+            dto.Close = CloseImage;
+            AddRowDataGridView(dto);
+        }
     }
 }

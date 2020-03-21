@@ -76,5 +76,9 @@ namespace PE2A_WF_Lecturer
         public static string RETURN_POINT = "[RETURN_POINT]";
 
         public static string REGEX_NUMBER = @"[0-9]+$";
+
+        public const string ACTION_UPDATE = "UPDATE";
+        public const string ACTION_REMOVE = "REMOVE";
+        public const string ACTION_ADD = "ADD";
     }
 }
