@@ -27,7 +27,7 @@ namespace PE2A_WF_Lecturer
         public List<StudentDTO> ListStudentBackUp { get; set; }
 
         private Dictionary<string, byte[]> ExamScriptList = new Dictionary<string, byte[]>();
-        
+
 
         Image CloseImage = PE2A_WF_Lecturer.Properties.Resources.close;
 
@@ -41,68 +41,68 @@ namespace PE2A_WF_Lecturer
 
         private void dummyDataConnect()
         {
-            foreach (StudentDTO dto in ListStudent)
-            {
-                if (!listStudetnCode.Contains(dto.StudentCode))
-                {
-                    dto.Status = Constant.STATUSLIST[0];
-                    ResetDataGridViewDataSource();
-                }
-            }
+            //foreach (StudentDTO dto in ListStudent)
+            //{
+            //    if (!listStudetnCode.Contains(dto.StudentCode))
+            //    {
+            //        dto.Status = Constant.STATUSLIST[0];
+            //        ResetDataGridViewDataSource();
+            //    }
+            //}
         }
 
         private void dummyDataSubmission()
         {
-            foreach (StudentDTO dto in ListStudent)
-            {
-                if (!listStudetnCode.Contains(dto.StudentCode))
-                {
-                    string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                    dto.SubmitTime = time;
-                    dto.Status = Constant.STATUSLIST[1];
-                    ResetDataGridViewDataSource();
-                }
-            }
+            //foreach (StudentDTO dto in ListStudent)
+            //{
+            //    if (!listStudetnCode.Contains(dto.StudentCode))
+            //    {
+            //        string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //        dto.SubmitTime = time;
+            //        dto.Status = Constant.STATUSLIST[1];
+            //        ResetDataGridViewDataSource();
+            //    }
+            //}
         }
 
         private void dummyDataGetPoint()
         {
-            Random ran = new Random();
+            //Random ran = new Random();
 
-            foreach (StudentDTO dto in ListStudent)
-            {
-                if (!listStudetnCode.Contains(dto.StudentCode))
-                {
-                    string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                    dto.EvaluateTime = time;
-                    int correctQuesiton = ran.Next(0, 4);
-                    switch (correctQuesiton)
-                    {
-                        case 0:
-                            dto.TotalPoint = 0 + "";
-                            dto.Result = "0/4";
-                            break;
-                        case 1:
-                            dto.TotalPoint = 3 + "";
-                            dto.Result = "1/4";
-                            break;
-                        case 2:
-                            dto.TotalPoint = 6 + "";
-                            dto.Result = "2/4";
-                            break;
-                        case 3:
-                            dto.TotalPoint = 8 + "";
-                            dto.Result = "3/4";
-                            break;
-                        case 4:
-                            dto.TotalPoint = 10 + "";
-                            dto.Result = "4/4";
-                            break;
-                    }
-                    dto.Status = Constant.STATUSLIST[2];
-                    ResetDataGridViewDataSource();
-                }
-            }
+            //foreach (StudentDTO dto in ListStudent)
+            //{
+            //    if (!listStudetnCode.Contains(dto.StudentCode))
+            //    {
+            //        string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //        dto.EvaluateTime = time;
+            //        int correctQuesiton = ran.Next(0, 4);
+            //        switch (correctQuesiton)
+            //        {
+            //            case 0:
+            //                dto.TotalPoint = 0 + "";
+            //                dto.Result = "0/4";
+            //                break;
+            //            case 1:
+            //                dto.TotalPoint = 3 + "";
+            //                dto.Result = "1/4";
+            //                break;
+            //            case 2:
+            //                dto.TotalPoint = 6 + "";
+            //                dto.Result = "2/4";
+            //                break;
+            //            case 3:
+            //                dto.TotalPoint = 8 + "";
+            //                dto.Result = "3/4";
+            //                break;
+            //            case 4:
+            //                dto.TotalPoint = 10 + "";
+            //                dto.Result = "4/4";
+            //                break;
+            //        }
+            //        dto.Status = Constant.STATUSLIST[2];
+            //        ResetDataGridViewDataSource();
+            //    }
+            //}
         }
 
         static Socket s;
@@ -319,7 +319,6 @@ namespace PE2A_WF_Lecturer
                 string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
                 Console.WriteLine(receivedMessage);
                 StudentPointDTO studentPoint = JsonConvert.DeserializeObject<StudentPointDTO>(receivedMessage);
-
                 foreach (var student in ListStudent)
                 {
                     if (student.StudentCode.Equals(studentPoint.StudentCode))
@@ -351,6 +350,7 @@ namespace PE2A_WF_Lecturer
                         {
                             // Update status of the student when cannot evaluate the submission
                             student.Status = Constant.STATUSLIST[3];
+                            student.ErrorMsg = studentPoint.ErrorMsg;
                             ResetDataGridViewDataSource();
                         }
                         break;
@@ -627,8 +627,6 @@ namespace PE2A_WF_Lecturer
                         isDoneReadExamDocument = true;
                         MessageBox.Show("Done Reading exam document");
                     }
-
-
                 }
             }
         }
