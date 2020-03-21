@@ -31,6 +31,10 @@ namespace PE2A_WF_Lecturer
 
         Image CloseImage = PE2A_WF_Lecturer.Properties.Resources.close;
 
+        static Socket udpSocket;
+        static Byte[] buffer;
+        private bool isPublishedPoint = false;
+
         public LecturerForm()
         {
             InitializeComponent();
@@ -46,7 +50,8 @@ namespace PE2A_WF_Lecturer
             //    if (!listStudetnCode.Contains(dto.StudentCode))
             //    {
             //        dto.Status = Constant.STATUSLIST[0];
-            //        ResetDataGridViewDataSource();
+            //        ResetDataGridViewDataSourceWithDto(dto);
+            //        //ResetDataGridViewDataSource();
             //    }
             //}
         }
@@ -60,7 +65,9 @@ namespace PE2A_WF_Lecturer
             //        string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             //        dto.SubmitTime = time;
             //        dto.Status = Constant.STATUSLIST[1];
-            //        ResetDataGridViewDataSource();
+            //        ResetDataGridViewDataSourceWithDto(dto);
+
+            //        //ResetDataGridViewDataSource();
             //    }
             //}
         }
@@ -100,90 +107,58 @@ namespace PE2A_WF_Lecturer
             //                break;
             //        }
             //        dto.Status = Constant.STATUSLIST[2];
-            //        ResetDataGridViewDataSource();
+            //        ResetDataGridViewDataSourceWithDto(dto);
+
+            //        //ResetDataGridViewDataSource();
             //    }
             //}
         }
 
-        static Socket s;
-        static Byte[] buffer;
-        private bool isPublishedPoint = false;
-
         private void ListeningToBroadcastUDPConnection(int listeningPort)
         {
-            s = new Socket(AddressFamily.InterNetwork,
+            udpSocket = new Socket(AddressFamily.InterNetwork,
                           SocketType.Dgram,
                                 ProtocolType.Udp);
 
             IPEndPoint senders = new IPEndPoint(IPAddress.Any, listeningPort);
             EndPoint tempRemoteEP = (EndPoint)senders;
-            s.Bind(senders);
+            udpSocket.Bind(senders);
             buffer = new byte[1024];
-            s.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None, ref tempRemoteEP,
+            udpSocket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None, ref tempRemoteEP,
                                             new AsyncCallback(DoReceiveFrom), buffer);
-
         }
 
         private void DoReceiveFrom(IAsyncResult iar)
         {
             EndPoint clientEP = new IPEndPoint(IPAddress.Any, 5656);
-            int size = s.EndReceiveFrom(iar, ref clientEP);
+            int size = udpSocket.EndReceiveFrom(iar, ref clientEP);
             if (size > 0)
             {
-                byte[] receivedData = new Byte[size];
+                byte[] receivedData = new byte[size];
                 receivedData = (byte[])iar.AsyncState;
-                ASCIIEncoding eEncpding = new ASCIIEncoding();
-                string receivedMessage = eEncpding.GetString(receivedData);
+                ASCIIEncoding encoding = new ASCIIEncoding();
+
+                // Receive IP & Port from student
+                string receivedMessage = encoding.GetString(receivedData);
                 receivedMessage = receivedMessage.Substring(0, size);
-                Console.WriteLine("received message:" + receivedMessage);
+
                 string[] data = receivedMessage.Split('-');
                 Thread t = new Thread(() => ReturnWebserviceURL(data[0], int.Parse(data[1]), data[2]));
                 t.Start();
-
             }
-            s.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None,
+            udpSocket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None,
                 ref clientEP, new AsyncCallback(DoReceiveFrom), buffer);
         }
 
-        //private void StartTCPClient(TcpClient client)
-        //{
-        //    Task.Run(() =>
-        //    {
-        //        while (!isPublishedPoint)
-        //        {
-        //            Console.WriteLine("StartTCPClient");
-        //            WaitForServerRequest(client);
-        //        }
-        //    });
-        //}
-
-        //private void WaitForServerRequest(TcpClient client)
-        //{
-        //    if (client != null)
-        //    {
-        //        //Get time submission when student submit
-        //        var getDataTimeSubmission = GetTimeSubmission(client);
-        //        if (getDataTimeSubmission != null)
-        //        {
-        //            string studentCode = getDataTimeSubmission[0];
-        //            string timeSubmitted = getDataTimeSubmission[1];
-        //            if (studentCode != null && timeSubmitted != null)
-        //            {
-        //                StudentDTO dto = ListStudent.Where(t => t.StudentCode == studentCode).FirstOrDefault();
-        //                dto.SubmitTime = timeSubmitted;
-        //                dto.Status = Constant.STATUSLIST[1];
-        //                ResetDataGridViewDataSource();
-        //            }
-        //        }
-        //    }
-        //}
-
+        // Return submission API - document questions - expired time to student
         private void ReturnWebserviceURL(string ipAddress, int port, string studentCode)
         {
+            // Student's TCP information
             TcpClient tcpClient = new System.Net.Sockets.TcpClient(ipAddress, port);
-            // StartTCPClient(tcpClient);
+
             string scriptCode = "";
             string message;
+
             if (IsConnected(ipAddress))
             {
                 message = Constant.EXISTED_IP_MESSAGE;
@@ -200,6 +175,8 @@ namespace PE2A_WF_Lecturer
                 {
                     student.TcpClient = tcpClient;
                     student.Status = Constant.STATUSLIST[0];
+
+                    // Exam code
                     scriptCode = student.ScriptCode;
                 }
                 else if (studentDisconnected != null)
@@ -216,15 +193,13 @@ namespace PE2A_WF_Lecturer
                     MessageBox.Show("Student not in class is connecting");
                     return;
                 }
+                ResetDataGridViewDataSourceWithDto(student);
 
-                Console.WriteLine(ipAddress);
-                ResetDataGridViewDataSource();
+                //ResetDataGridViewDataSource();
                 while (!isSent)
                 {
-                    Console.WriteLine("!isSend");
                     try
                     {
-
                         // Cập nhật giao diện ở đây
                         message = "=" + submissionURL + "=" + scriptCode + "=" + PracticalExamCode;
                         //SendMessage(ipAddress, port, message);
@@ -241,26 +216,8 @@ namespace PE2A_WF_Lecturer
                     }
                 }
             }
-
         }
 
-
-        private String[] GetTimeSubmission(TcpClient tcpClient)
-        {
-            var getStream = tcpClient.GetStream();
-            var dataByte = new byte[1024 * 1024];
-            var dataSize = tcpClient.ReceiveBufferSize;
-            // handle loi o day, khi dang lam bai ma student tat app
-            getStream.Read(dataByte, 0, dataSize);
-            var dataConvert = Util.receiveMessage(dataByte);
-            if (dataConvert.Split('=').Length > 0)
-            {
-                return dataConvert.Split('=');
-            }
-            return null;
-
-
-        }
         private void InitDataSource()
         {
             foreach (var item in ListStudent)
@@ -282,16 +239,21 @@ namespace PE2A_WF_Lecturer
 
         private void ResetDataGridViewDataSource()
         {
-            this.InvokeEx(f => this.dgvStudent.Rows.Clear());
-            foreach (StudentDTO dto in ListStudent)
-            {
-                this.InvokeEx(f => AddRowDataGridView(dto));
-            }
+            //this.InvokeEx(f => this.dgvStudent.Rows.Clear());
+            //foreach (StudentDTO dto in ListStudent)
+            //{
+            //    this.InvokeEx(f => AddRowDataGridView(dto));
+            //}
+
+        }
+
+        private void ResetDataGridViewDataSourceWithDto(StudentDTO dto)
+        {
+            this.InvokeEx(f => SearchRecord(dto));
         }
 
         private bool IsConnected(string ipAddress)
         {
-
             foreach (var student in ListStudent)
             {
                 try
@@ -306,7 +268,6 @@ namespace PE2A_WF_Lecturer
                 {
 
                 }
-
             }
             return false;
         }
@@ -319,6 +280,7 @@ namespace PE2A_WF_Lecturer
                 string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
                 Console.WriteLine(receivedMessage);
                 StudentPointDTO studentPoint = JsonConvert.DeserializeObject<StudentPointDTO>(receivedMessage);
+
                 foreach (var student in ListStudent)
                 {
                     if (student.StudentCode.Equals(studentPoint.StudentCode))
@@ -333,10 +295,10 @@ namespace PE2A_WF_Lecturer
                             student.Status = Constant.STATUSLIST[2];
                             student.EvaluateTime = studentPoint.EvaluateTime;
                             ReadFile(student);
-                            ResetDataGridViewDataSource();
+                            ResetDataGridViewDataSourceWithDto(student);
+                            //ResetDataGridViewDataSource();
                             // For test
                             Console.WriteLine("Student code: " + studentPoint.StudentCode);
-
                             Dictionary<string, string> listQuestions = studentPoint.ListQuestions;
                             foreach (var ques in listQuestions)
                             {
@@ -350,8 +312,8 @@ namespace PE2A_WF_Lecturer
                         {
                             // Update status of the student when cannot evaluate the submission
                             student.Status = Constant.STATUSLIST[3];
-                            student.ErrorMsg = studentPoint.ErrorMsg;
-                            ResetDataGridViewDataSource();
+                            ResetDataGridViewDataSourceWithDto(student);
+                            //ResetDataGridViewDataSource();
                         }
                         break;
                     }
@@ -362,9 +324,8 @@ namespace PE2A_WF_Lecturer
 
         {
             string practicalExam = PracticalExamCode;
-            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
-            var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+            var appDomainDir = Util.ExecutablePath();
+            var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
             string listStudentPath = destinationPath + "\\" + practicalExam + "\\" + Constant.STUDENT_LIST_FILE_NAME;
             string newCSV = "";
             string[] readAllText = File.ReadAllLines(listStudentPath);
@@ -405,7 +366,8 @@ namespace PE2A_WF_Lecturer
                             // Update student submissiontime and status
                             student.SubmitTime = submissionTime;
                             student.Status = Constant.STATUSLIST[1];
-                            ResetDataGridViewDataSource();
+                            ResetDataGridViewDataSourceWithDto(student);
+                            //ResetDataGridViewDataSource();
                             break;
                         }
                     }
@@ -450,8 +412,10 @@ namespace PE2A_WF_Lecturer
                     {
                         count++;
                         item.NO = count;
+                        ResetDataGridViewDataSourceWithDto(item);
+
                     }
-                    ResetDataGridViewDataSource();
+                    //ResetDataGridViewDataSource();
                 }
             }
             else if (Constant.PRACTICAL_STATUS[2].Equals(PracticalExamStatus))
@@ -460,14 +424,12 @@ namespace PE2A_WF_Lecturer
                 DialogResult result = MessageBox.Show(Constant.REEVALUATE_STUDENT_MESSAGE + dto.StudentCode, "RE-Evaluate", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-                    var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
-                    var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+                    var appDomainDir = Util.ExecutablePath();
+                    var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
                     string listStudentPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.SUMISSION_FOLDER_NAME;
                     listStudentPath = listStudentPath + "\\" + dto.StudentCode + Constant.ZIP_EXTENSION;
                     Task.Run(async delegate
                     {
-
                         string message = await sendFile(listStudentPath, dto.StudentCode, dto.ScriptCode);
                         Console.WriteLine(message);
                     }
@@ -603,9 +565,8 @@ namespace PE2A_WF_Lecturer
         bool isDoneReadExamDocument = false;
         private void GetAllPracticalDocFile()
         {
-            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
-            var destinationPath = Path.Combine(projectNameDir + Constant.SCRIPT_FILE_PATH);
+            var appDomainDir = Util.ExecutablePath();
+            var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
             string examScriptFolderPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.EXAM_SCIPT_FOLDER_NAME;
             string[] fileEntries = Directory.GetFiles(examScriptFolderPath);
             string fileNameWithExtension;
@@ -627,6 +588,8 @@ namespace PE2A_WF_Lecturer
                         isDoneReadExamDocument = true;
                         MessageBox.Show("Done Reading exam document");
                     }
+
+
                 }
             }
         }
@@ -664,6 +627,24 @@ namespace PE2A_WF_Lecturer
                 else
                 {
                     MessageBox.Show("Cannot export report!", "Error occured");
+                }
+            }
+        }
+
+
+        private void SearchRecord(StudentDTO dto)
+        {
+            for (int i = 0; i < this.dgvStudent.RowCount; i++)
+            {
+                var getStudentId = this.dgvStudent[i, 1];
+                if(getStudentId.Equals(dto.StudentCode))
+                {
+                    this.dgvStudent[i, 4].Value = dto.Status;
+                    this.dgvStudent[i, 5].Value = dto.TotalPoint;
+                    this.dgvStudent[i, 6].Value = dto.SubmitTime;
+                    this.dgvStudent[i, 7].Value = dto.EvaluateTime;
+                    this.dgvStudent[i, 8].Value = dto.Result;
+                    this.dgvStudent[i, 9].Value = dto.ErrorMsg;
                 }
             }
         }

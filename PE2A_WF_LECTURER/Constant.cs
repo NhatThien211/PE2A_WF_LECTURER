@@ -5,12 +5,16 @@ namespace PE2A_WF_Lecturer
 {
     public static class Constant
     {
-        public static int LECTURER_LISTENING_PORT = 9999;
-        public static int STUDENT_LISTENING_PORT = 9998;
-        public static int SOCKET_STUDENT_POINT_LISTENING_PORT = 9997;
-        public static int SOCKET_STUDENT_SUBMISSION_LISTENING_PORT = 9996;
-        public static int MAXIMUM_REQUEST = 100;
-        public static string EXISTED_IP_MESSAGE = "You Have Connected To Server";
+        // Application's PORT
+        public const int LECTURER_LISTENING_PORT = 9999;
+        public const int STUDENT_LISTENING_PORT = 9998;
+        public const int SOCKET_STUDENT_POINT_LISTENING_PORT = 9997;
+        public const int SOCKET_STUDENT_SUBMISSION_LISTENING_PORT = 9996;
+        public const int UPD_LISTENING_PORT = 5656;
+        public const int MAXIMUM_REQUEST = 100;
+
+        // Common messages
+        public static string EXISTED_IP_MESSAGE = "You Have Connected To Server.";
         public static string[] STATUSLIST = { "Connected", "Submitted", "Evaluated", "Cannot Evaluate"};
         public static string CLIENT_SOCKET_CLOSED_MESSAGE = "Clients closed their connection!!!";
         public static string PROTOCOL = "http://";
@@ -29,6 +33,7 @@ namespace PE2A_WF_Lecturer
         public static string HEADER_COLUMN_SCRIPTCODE = "Script";
         public static int MAXIMUM_SEND_TIME = 3;
 
+        // Custom data grid view width
         public static int COLUMN_WIDTH_A_LETTER = 20;
         public static int COLUMN_NO_LETTER = 2;
         public static int COLUMN_POINT_LETTER = 4;
@@ -39,6 +44,7 @@ namespace PE2A_WF_Lecturer
 
         public static string COLUMN_SCRIPTCODE_NAME = "ScriptCodes";
 
+        // 
         public static string ZIP_EXTENSION = ".zip";
         public static string RAR_EXTENSION = ".rar";
         public const string SCRIPT_FILE_PATH = @"\submission\PracticalExams";

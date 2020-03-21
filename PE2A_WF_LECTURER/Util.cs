@@ -8,6 +8,7 @@ using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using System.IO;
 using System.Security.Cryptography;
+using System.Windows.Forms;
 
 namespace PE2A_WF_Lecturer
 {
@@ -82,7 +83,7 @@ namespace PE2A_WF_Lecturer
             client.GetStream() // Get the stream and write the bytes to it  
                   .Write(bytes, 0,
                   bytes.Length); // Send the stream  
-            
+
         }
         public static void UnarchiveFile(string filePath, string destDirectory)
         {
@@ -180,24 +181,34 @@ namespace PE2A_WF_Lecturer
 
         public static string GetProjectDirectory()
         {
-            /*
-            * 
-            * This block is for local test (IDE test)
-            * 
-            */
-
-            var appDomainDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-            var projectNameDir = Path.GetFullPath(Path.Combine(appDomainDir, @"..\.."));
-
-            /*
-             * 
-             * This block is for release app
-             * 
-             */
-
+            var appDomainDir = Util.ExecutablePath();
             //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
 
-            return projectNameDir;
+            return appDomainDir;
         }
+
+
+        /*
+        * 
+        * This block is for release app
+        * 
+        */
+        public static string ExecutablePath()
+        {
+            string appPath = Path.GetDirectoryName(Application.ExecutablePath);
+            return appPath;
+        }
+
+        /*
+        * 
+        * This block is for local test (IDE test)
+        * 
+        */
+        //public static string ExecutablePath()
+        //{
+        //    string startupPath = System.IO.Directory.GetCurrentDirectory();
+        //    string projectDirectory = Directory.GetParent(startupPath).Parent.FullName;
+        //    return projectDirectory;
+        //}
     }
 }
