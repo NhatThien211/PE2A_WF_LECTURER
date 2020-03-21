@@ -50,7 +50,8 @@ namespace PE2A_WF_Lecturer
                 if (!listStudetnCode.Contains(dto.StudentCode))
                 {
                     dto.Status = Constant.STATUSLIST[0];
-                    ResetDataGridViewDataSource();
+                    ResetDataGridViewDataSourceWithDto(dto);
+                    //ResetDataGridViewDataSource();
                 }
             }
         }
@@ -64,7 +65,9 @@ namespace PE2A_WF_Lecturer
                     string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     dto.SubmitTime = time;
                     dto.Status = Constant.STATUSLIST[1];
-                    ResetDataGridViewDataSource();
+                    ResetDataGridViewDataSourceWithDto(dto);
+
+                    //ResetDataGridViewDataSource();
                 }
             }
         }
@@ -104,7 +107,9 @@ namespace PE2A_WF_Lecturer
                             break;
                     }
                     dto.Status = Constant.STATUSLIST[2];
-                    ResetDataGridViewDataSource();
+                    ResetDataGridViewDataSourceWithDto(dto);
+
+                    //ResetDataGridViewDataSource();
                 }
             }
         }
@@ -188,8 +193,9 @@ namespace PE2A_WF_Lecturer
                     MessageBox.Show("Student not in class is connecting");
                     return;
                 }
+                ResetDataGridViewDataSourceWithDto(student);
 
-                ResetDataGridViewDataSource();
+                //ResetDataGridViewDataSource();
                 while (!isSent)
                 {
                     try
@@ -233,11 +239,17 @@ namespace PE2A_WF_Lecturer
 
         private void ResetDataGridViewDataSource()
         {
-            this.InvokeEx(f => this.dgvStudent.Rows.Clear());
-            foreach (StudentDTO dto in ListStudent)
-            {
-                this.InvokeEx(f => AddRowDataGridView(dto));
-            }
+            //this.InvokeEx(f => this.dgvStudent.Rows.Clear());
+            //foreach (StudentDTO dto in ListStudent)
+            //{
+            //    this.InvokeEx(f => AddRowDataGridView(dto));
+            //}
+
+        }
+
+        private void ResetDataGridViewDataSourceWithDto(StudentDTO dto)
+        {
+            this.InvokeEx(f => SearchRecord(dto));
         }
 
         private bool IsConnected(string ipAddress)
@@ -283,10 +295,10 @@ namespace PE2A_WF_Lecturer
                             student.Status = Constant.STATUSLIST[2];
                             student.EvaluateTime = studentPoint.EvaluateTime;
                             ReadFile(student);
-                            ResetDataGridViewDataSource();
+                            ResetDataGridViewDataSourceWithDto(student);
+                            //ResetDataGridViewDataSource();
                             // For test
                             Console.WriteLine("Student code: " + studentPoint.StudentCode);
-
                             Dictionary<string, string> listQuestions = studentPoint.ListQuestions;
                             foreach (var ques in listQuestions)
                             {
@@ -300,7 +312,8 @@ namespace PE2A_WF_Lecturer
                         {
                             // Update status of the student when cannot evaluate the submission
                             student.Status = Constant.STATUSLIST[3];
-                            ResetDataGridViewDataSource();
+                            ResetDataGridViewDataSourceWithDto(student);
+                            //ResetDataGridViewDataSource();
                         }
                         break;
                     }
@@ -353,7 +366,8 @@ namespace PE2A_WF_Lecturer
                             // Update student submissiontime and status
                             student.SubmitTime = submissionTime;
                             student.Status = Constant.STATUSLIST[1];
-                            ResetDataGridViewDataSource();
+                            ResetDataGridViewDataSourceWithDto(student);
+                            //ResetDataGridViewDataSource();
                             break;
                         }
                     }
@@ -398,8 +412,10 @@ namespace PE2A_WF_Lecturer
                     {
                         count++;
                         item.NO = count;
+                        ResetDataGridViewDataSourceWithDto(item);
+
                     }
-                    ResetDataGridViewDataSource();
+                    //ResetDataGridViewDataSource();
                 }
             }
             else if (Constant.PRACTICAL_STATUS[2].Equals(PracticalExamStatus))
@@ -611,6 +627,24 @@ namespace PE2A_WF_Lecturer
                 else
                 {
                     MessageBox.Show("Cannot export report!", "Error occured");
+                }
+            }
+        }
+
+
+        private void SearchRecord(StudentDTO dto)
+        {
+            for (int i = 0; i < this.dgvStudent.RowCount; i++)
+            {
+                var getStudentId = this.dgvStudent[i, 1];
+                if(getStudentId.Equals(dto.StudentCode))
+                {
+                    this.dgvStudent[i, 4].Value = dto.Status;
+                    this.dgvStudent[i, 5].Value = dto.TotalPoint;
+                    this.dgvStudent[i, 6].Value = dto.SubmitTime;
+                    this.dgvStudent[i, 7].Value = dto.EvaluateTime;
+                    this.dgvStudent[i, 8].Value = dto.Result;
+                    this.dgvStudent[i, 9].Value = dto.ErrorMsg;
                 }
             }
         }
