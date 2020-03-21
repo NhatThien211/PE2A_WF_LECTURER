@@ -14,9 +14,15 @@ namespace PE2A_WF_Lecturer
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LecturerEnroll());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new LecturerEnroll());
+            }catch(Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
         }
     }
 }
