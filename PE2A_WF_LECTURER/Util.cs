@@ -193,22 +193,22 @@ namespace PE2A_WF_Lecturer
         * This block is for release app
         * 
         */
-        public static string ExecutablePath()
-        {
-            string appPath = Path.GetDirectoryName(Application.ExecutablePath);
-            return appPath;
-        }
+        //public static string ExecutablePath()
+        //{
+        //    string appPath = Path.GetDirectoryName(Application.ExecutablePath);
+        //    return appPath;
+        //}
 
         /*
         * 
         * This block is for local test (IDE test)
         * 
         */
-        //public static string ExecutablePath()
-        //{
-        //    string startupPath = System.IO.Directory.GetCurrentDirectory();
-        //    string projectDirectory = Directory.GetParent(startupPath).Parent.FullName;
-        //    return projectDirectory;
-        //}
+        public static string ExecutablePath()
+        {
+            string startupPath = System.IO.Directory.GetCurrentDirectory();
+            string projectDirectory = Directory.GetParent(startupPath).Parent.FullName;
+            return projectDirectory;
+        }
     }
 }

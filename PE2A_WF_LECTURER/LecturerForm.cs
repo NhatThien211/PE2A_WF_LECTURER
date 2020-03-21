@@ -634,17 +634,18 @@ namespace PE2A_WF_Lecturer
 
         private void SearchRecord(StudentDTO dto)
         {
-            for (int i = 0; i < this.dgvStudent.RowCount; i++)
+            for (int i = 0; i < this.dgvStudent.RowCount-1; i++)
             {
-                var getStudentId = this.dgvStudent[i, 1];
+                var getStudentId = this.dgvStudent[1,i].Value.ToString();
                 if(getStudentId.Equals(dto.StudentCode))
                 {
-                    this.dgvStudent[i, 4].Value = dto.Status;
-                    this.dgvStudent[i, 5].Value = dto.TotalPoint;
-                    this.dgvStudent[i, 6].Value = dto.SubmitTime;
-                    this.dgvStudent[i, 7].Value = dto.EvaluateTime;
-                    this.dgvStudent[i, 8].Value = dto.Result;
-                    this.dgvStudent[i, 9].Value = dto.ErrorMsg;
+                    this.dgvStudent[4, i].Value = dto.Status;
+                    this.dgvStudent[5, i].Value = dto.TotalPoint;
+                    this.dgvStudent[6, i].Value = dto.SubmitTime;
+                    this.dgvStudent[7, i].Value = dto.EvaluateTime;
+                    this.dgvStudent[8, i].Value = dto.Result;
+                    this.dgvStudent[9, i].Value = dto.ErrorMsg;
+                    break;
                 }
             }
         }
