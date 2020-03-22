@@ -232,9 +232,9 @@ namespace PE2A_WF_Lecturer
                             dto.TotalPoint = values[Constant.TOTAL_POINT_INDEX];
                             dto.ErrorMsg = values[Constant.ERROR_INDEX];
                         }
-                        catch
+                        catch(Exception e)
                         {
-
+                            // do nothing
                         }
                         StudentList.Add(dto);
                     }

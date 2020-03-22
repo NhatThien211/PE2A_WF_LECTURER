@@ -54,6 +54,7 @@
             // 
             // dgvStudent
             // 
+            this.dgvStudent.AllowUserToAddRows = false;
             this.dgvStudent.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvStudent.BackgroundColor = System.Drawing.Color.White;
             this.dgvStudent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -70,12 +71,12 @@
             this.Error,
             this.Close});
             this.dgvStudent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvStudent.Location = new System.Drawing.Point(5, 37);
-            this.dgvStudent.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
+            this.dgvStudent.Location = new System.Drawing.Point(8, 56);
+            this.dgvStudent.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvStudent.Name = "dgvStudent";
             this.dgvStudent.RowHeadersWidth = 62;
             this.dgvStudent.RowTemplate.Height = 28;
-            this.dgvStudent.Size = new System.Drawing.Size(905, 423);
+            this.dgvStudent.Size = new System.Drawing.Size(1358, 655);
             this.dgvStudent.TabIndex = 0;
             this.dgvStudent.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudent_CellContentClick);
             this.dgvStudent.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvStudent_CellDoubleClick);
@@ -98,7 +99,7 @@
             this.StudentName.HeaderText = "Student Name";
             this.StudentName.MinimumWidth = 8;
             this.StudentName.Name = "StudentName";
-            this.StudentName.Width = 127;
+            this.StudentName.Width = 183;
             // 
             // ScriptCodes
             // 
@@ -124,7 +125,7 @@
             this.SubmitTime.HeaderText = "Submit Time";
             this.SubmitTime.MinimumWidth = 8;
             this.SubmitTime.Name = "SubmitTime";
-            this.SubmitTime.Width = 116;
+            this.SubmitTime.Width = 167;
             // 
             // EvaluateTime
             // 
@@ -132,7 +133,7 @@
             this.EvaluateTime.HeaderText = "Evaluate Time";
             this.EvaluateTime.MinimumWidth = 8;
             this.EvaluateTime.Name = "EvaluateTime";
-            this.EvaluateTime.Width = 127;
+            this.EvaluateTime.Width = 183;
             // 
             // Result
             // 
@@ -159,16 +160,17 @@
             this.gbSubmitedFiles.Controls.Add(this.dgvStudent);
             this.gbSubmitedFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSubmitedFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbSubmitedFiles.Location = new System.Drawing.Point(0, 24);
+            this.gbSubmitedFiles.Location = new System.Drawing.Point(0, 33);
             this.gbSubmitedFiles.Margin = new System.Windows.Forms.Padding(0);
             this.gbSubmitedFiles.Name = "gbSubmitedFiles";
-            this.gbSubmitedFiles.Padding = new System.Windows.Forms.Padding(5, 20, 3, 3);
-            this.gbSubmitedFiles.Size = new System.Drawing.Size(913, 463);
+            this.gbSubmitedFiles.Padding = new System.Windows.Forms.Padding(8, 31, 4, 5);
+            this.gbSubmitedFiles.Size = new System.Drawing.Size(1370, 716);
             this.gbSubmitedFiles.TabIndex = 2;
             this.gbSubmitedFiles.TabStop = false;
             // 
             // menuAction
             // 
+            this.menuAction.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuAction.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuAction.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.publishPointToolStripMenuItem,
@@ -176,8 +178,8 @@
             this.startToolStripMenuItem});
             this.menuAction.Location = new System.Drawing.Point(0, 0);
             this.menuAction.Name = "menuAction";
-            this.menuAction.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
-            this.menuAction.Size = new System.Drawing.Size(913, 24);
+            this.menuAction.Padding = new System.Windows.Forms.Padding(6, 2, 0, 2);
+            this.menuAction.Size = new System.Drawing.Size(1370, 33);
             this.menuAction.TabIndex = 3;
             this.menuAction.Text = "menuStrip1";
             // 
@@ -186,7 +188,7 @@
             this.publishPointToolStripMenuItem.Image = global::PE2A_WF_Lecturer.Properties.Resources.icShare;
             this.publishPointToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.publishPointToolStripMenuItem.Name = "publishPointToolStripMenuItem";
-            this.publishPointToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.publishPointToolStripMenuItem.Size = new System.Drawing.Size(144, 29);
             this.publishPointToolStripMenuItem.Text = "Publish Point";
             this.publishPointToolStripMenuItem.Click += new System.EventHandler(this.publishPointMenu_Click);
             // 
@@ -195,46 +197,45 @@
             this.printReportToolStripMenuItem.Image = global::PE2A_WF_Lecturer.Properties.Resources.icPrint;
             this.printReportToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.printReportToolStripMenuItem.Name = "printReportToolStripMenuItem";
-            this.printReportToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.printReportToolStripMenuItem.Size = new System.Drawing.Size(134, 29);
             this.printReportToolStripMenuItem.Text = "Print Report";
             this.printReportToolStripMenuItem.Click += new System.EventHandler(this.printReportToolStripMenuItem_Click);
             // 
             // startToolStripMenuItem
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(43, 22);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(64, 29);
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
             // txtTime
             // 
-            this.txtTime.Location = new System.Drawing.Point(253, 4);
-            this.txtTime.Margin = new System.Windows.Forms.Padding(2);
+            this.txtTime.Location = new System.Drawing.Point(380, 6);
             this.txtTime.Name = "txtTime";
-            this.txtTime.Size = new System.Drawing.Size(142, 20);
+            this.txtTime.Size = new System.Drawing.Size(211, 26);
             this.txtTime.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.SystemColors.Control;
-            this.label1.Location = new System.Drawing.Point(405, 6);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(608, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.Size = new System.Drawing.Size(65, 20);
             this.label1.TabIndex = 5;
             this.label1.Text = "Minutes";
             // 
             // LecturerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(913, 487);
+            this.ClientSize = new System.Drawing.Size(1370, 749);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtTime);
             this.Controls.Add(this.gbSubmitedFiles);
             this.Controls.Add(this.menuAction);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "LecturerForm";
             this.Text = "LECTURER FORM";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

@@ -641,7 +641,7 @@ namespace PE2A_WF_Lecturer
 
         private void UpdateRecord(StudentDTO dto)
         {
-            for (int i = 0; i < this.dgvStudent.RowCount - 1; i++)
+            for (int i = 0; i < this.dgvStudent.RowCount; i++)
             {
                 var getStudentId = this.dgvStudent[1, i].Value.ToString();
                 if (getStudentId.Equals(dto.StudentCode))
@@ -660,15 +660,25 @@ namespace PE2A_WF_Lecturer
         private void RemoveRecord(StudentDTO dto)
         {
             int rowIndex = 1;
-            for (int i = 0; i < this.dgvStudent.RowCount - 1; i++)
+            StudentDTO currentStudent;
+            for (int i = 0; i < this.dgvStudent.RowCount; i++)
             {
                 var getStudentId = this.dgvStudent[1, i].Value.ToString();
                 if (getStudentId.Equals(dto.StudentCode))
                 {
                     dgvStudent.Rows.Remove(dgvStudent.Rows[i]);
                 }
-                this.dgvStudent[0, i].Value = rowIndex;
-                rowIndex++;
+                if(i < dgvStudent.RowCount)
+                {
+                    this.dgvStudent[0, i].Value = rowIndex;
+                    string currentStudentCode = dgvStudent[1, i].Value.ToString();
+                    currentStudent = ListStudent.Where(t => t.StudentCode.Equals(currentStudentCode)).FirstOrDefault();
+                    if(currentStudent != null)
+                    {
+                        currentStudent.NO = rowIndex;
+                    }
+                    rowIndex++;
+                }
             }
         }
         private void AddRecord(StudentDTO dto)
