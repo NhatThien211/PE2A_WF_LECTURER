@@ -80,5 +80,18 @@ namespace PE2A_WF_Lecturer
         public const string ACTION_UPDATE = "UPDATE";
         public const string ACTION_REMOVE = "REMOVE";
         public const string ACTION_ADD = "ADD";
+
+        // re-evaluate folder
+        public const string RE_EVALUATE_FOLDER = @"\Submited Files";
+        public const string WEBAPP_FOLDER = @"\webapp";
+        public const string WORK_FOLDER = @"\work";
+        public const string WORK_WEBPAGE_PATH = @"\work\PRJ321Template\web";
+        public const string STUDENT_FOLDER = @"work\PRJ321Template\src\java\com\practicalexam\student";
+
+        // Practical Exam type 
+        public static string PRACTICAL_EXAM_JAVA = "JAVA";
+        public static string PRACTICAL_EXAM_JAVA_WEB = "JAVAWEB";
+        public static string PRACTICAL_EXAM_C_SHARP = "CSHARP";
+        public static string PRACTICAL_EXAM_C = "C";
     }
 }

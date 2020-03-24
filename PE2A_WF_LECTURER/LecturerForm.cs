@@ -34,7 +34,7 @@ namespace PE2A_WF_Lecturer
         static Socket udpSocket;
         static Byte[] buffer;
         private bool isPublishedPoint = false;
-
+        string submissionURL;
         public LecturerForm()
         {
             InitializeComponent();
@@ -168,7 +168,6 @@ namespace PE2A_WF_Lecturer
             {
                 count++;
                 bool isSent = false;
-                string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
                 StudentDTO student = ListStudent.Where(t => t.StudentCode == studentCode).FirstOrDefault();
                 StudentDTO studentDisconnected = ListStudentBackUp.Where(t => t.StudentCode == studentCode).FirstOrDefault();
                 if (student != null)
@@ -453,6 +452,7 @@ namespace PE2A_WF_Lecturer
         private void LecturerForm_LoadAsync(object sender, EventArgs e)
         {
             InitDataSource();
+            submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
             if (Constant.PRACTICAL_STATUS[0].Equals(PracticalExamStatus))
             {
                 ShowMenuAction(false);
@@ -608,6 +608,8 @@ namespace PE2A_WF_Lecturer
             string studentCode = dgvStudent.Rows[selectedRow].Cells[1].Value.ToString();
             StudentDTO studentDto = ListStudent.Where(student => student.StudentCode == studentCode).FirstOrDefault();
             PointDetailMsgBox msgBox = new PointDetailMsgBox(studentDto);
+            msgBox.SubmitAPIUrl = submissionURL;
+            msgBox.PracticalExamCode = PracticalExamCode;
             msgBox.Show();
         }
 
@@ -668,12 +670,12 @@ namespace PE2A_WF_Lecturer
                 {
                     dgvStudent.Rows.Remove(dgvStudent.Rows[i]);
                 }
-                if(i < dgvStudent.RowCount)
+                if (i < dgvStudent.RowCount)
                 {
                     this.dgvStudent[0, i].Value = rowIndex;
                     string currentStudentCode = dgvStudent[1, i].Value.ToString();
                     currentStudent = ListStudent.Where(t => t.StudentCode.Equals(currentStudentCode)).FirstOrDefault();
-                    if(currentStudent != null)
+                    if (currentStudent != null)
                     {
                         currentStudent.NO = rowIndex;
                     }

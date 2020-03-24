@@ -1,5 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.IO.Compression;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PE2A_WF_Lecturer
@@ -7,6 +13,8 @@ namespace PE2A_WF_Lecturer
     public partial class PointDetailMsgBox : Form
     {
         private StudentDTO studentDTO;
+        public string PracticalExamCode { get; set; }
+        public string SubmitAPIUrl { get; set; }
 
         public PointDetailMsgBox(StudentDTO studentDTO)
         {
@@ -43,5 +51,180 @@ namespace PE2A_WF_Lecturer
                 tvPointDetail.Nodes[10].Text = "Message              : " + studentDTO.ErrorMsg;
             }
         }
+
+        private async void btnReEvaluate_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+                using (var openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.Filter = "Supported file formats|*.zip;*.rar|ZIP files|*.zip|RAR files|*.rar";
+                    openFileDialog.Multiselect = false;
+                    openFileDialog.RestoreDirectory = true;
+                    if (openFileDialog.ShowDialog().Equals(DialogResult.OK))
+                    {
+                        // Get full zip file path
+                        var filePath = openFileDialog.FileName;
+                        var destinationPath = Path.Combine(Util.GetProjectDirectory() + Constant.RE_EVALUATE_FOLDER);
+                        string safeFileName = openFileDialog.SafeFileName;
+                        // Get zip file name without extension
+                        var filename = Path.GetFileNameWithoutExtension(filePath);
+                        if (filename.Equals(studentDTO.StudentCode))
+                        {
+                            string zipFileInRevaluateFol = Path.Combine(destinationPath, safeFileName);
+                            File.Copy(filePath, zipFileInRevaluateFol, true);
+                            string result = "";
+                            string practicalExamType = GetPracticalExamType(PracticalExamCode);
+                            if (practicalExamType == Constant.PRACTICAL_EXAM_JAVA_WEB)
+                            {
+                                result = await sendFileJavaWeb(zipFileInRevaluateFol);
+                            }
+                            else
+                            {
+                                // result = await sendFile(FileName);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("File name must match with student code", "Error occurred");
+                        }
+
+                        //// Get script folder
+                        //var scriptFolder = Path.Combine(destinationPath, filename);
+
+                        //// Compare zip file name with practical exam code from api
+                        //if (apiPracticalExamCode.Equals(filename))
+                        //{
+                        //    if (Directory.Exists(destinationPath))
+                        //    {
+                        //        Util.UnarchiveFile(filePath, destinationPath);
+                        //        // LoadTemplateHistory();
+
+                        //        CopyPracticalInfoToSubmissionFolder(scriptFolder);
+                        //        // MessageBox.Show("Import success!", "Information");
+                        //        var practicalExamCode = openFileDialog.SafeFileName.Split('.')[0];
+                        //        ShowLecturerForm(practicalExamCode, Constant.PRACTICAL_STATUS[1]);
+                        //    }
+                        //    else
+                        //    {
+                        //        MessageBox.Show("Can not import script file!", "Error occurred");
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    MessageBox.Show("Script name does not match the exam code!", "Information");
+                        //}
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                MessageBox.Show("Can not import script file!", "Error occurred");
+            }
+        }
+
+        private async Task<string> sendFileJavaWeb(string fileName)
+        {
+            string startupPath = Util.ExecutablePath();
+            string destinationPath = startupPath + Constant.RE_EVALUATE_FOLDER;
+            string webappPath = destinationPath + Constant.WEBAPP_FOLDER;
+            string workPath = destinationPath + Constant.WORK_FOLDER;
+            string workWebPagePath = destinationPath + Constant.WORK_WEBPAGE_PATH;
+            string webPageZip = destinationPath + @"\" + studentDTO.StudentCode + "_WEB.zip";
+            //    //extract
+            Util.UnarchiveFile(fileName, workPath);
+            //    //copy
+
+            //    //Now Create all of the directories
+            Util.Copy(workWebPagePath, webappPath);
+            //    // Directory.Move(destinationPath, webappPath);
+            //    // File.Copy()
+
+            string srcCodePath = Path.Combine(destinationPath, Constant.STUDENT_FOLDER);
+
+            if (File.Exists(webPageZip))
+            {
+                File.Delete(webPageZip);
+            }
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+            //    //       zipFile(webPagePath, true);
+            ZipFile.CreateFromDirectory(webappPath, webPageZip, CompressionLevel.NoCompression, true);
+            ZipFile.CreateFromDirectory(srcCodePath, fileName, CompressionLevel.NoCompression, true);
+            var uri = new Uri(SubmitAPIUrl);
+            string fileExtension = fileName.Substring(fileName.IndexOf('.'));
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    var stream = File.ReadAllBytes(fileName);
+                    MultipartFormDataContent form = new MultipartFormDataContent();
+                    HttpContent content = new StreamContent(new FileStream(fileName, FileMode.Open));
+                    content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "file",
+                        FileName = studentDTO.StudentCode + fileExtension
+                    };
+                    HttpContent webContent = new StreamContent(new FileStream(webPageZip, FileMode.Open));
+                    webContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "webFile",
+                        FileName = studentDTO.StudentCode + "_WEB" + fileExtension
+                    };
+                    form.Add(content, "file");
+                    form.Add(webContent, "webFile");
+                    form.Add(new StringContent(studentDTO.StudentCode), "studentCode");
+                    form.Add(new StringContent(studentDTO.ScriptCode), "scriptCode");
+                    using (var message = await client.PostAsync(uri, form))
+                    {
+                        var result = await message.Content.ReadAsStringAsync();
+                        //time.Stop();
+                        return result;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return "Error !";
+
+        }
+        private string GetPracticalExamType(string practicalExamCode)
+        {
+            if (practicalExamCode.ToUpper().Contains(Constant.PRACTICAL_EXAM_JAVA_WEB))
+            {
+                return Constant.PRACTICAL_EXAM_JAVA_WEB;
+            }
+            else if (practicalExamCode.ToUpper().Contains(Constant.PRACTICAL_EXAM_JAVA))
+            {
+                return Constant.PRACTICAL_EXAM_JAVA;
+            }
+            else if (practicalExamCode.ToUpper().Contains(Constant.PRACTICAL_EXAM_C_SHARP))
+            {
+                return Constant.PRACTICAL_EXAM_C_SHARP;
+            }
+            else
+            {
+                return Constant.PRACTICAL_EXAM_C;
+            }
+        }
+
+        private void PointDetailMsgBox_Load(object sender, EventArgs e)
+        {
+            string workFol = Util.ExecutablePath() + Constant.RE_EVALUATE_FOLDER + Constant.WORK_FOLDER;
+            string webappFol = Util.ExecutablePath() + Constant.RE_EVALUATE_FOLDER + Constant.WEBAPP_FOLDER;
+            if (Directory.Exists(workFol) || Directory.Exists(webappFol))
+            {
+                Directory.Delete(workFol, true);
+                Directory.Delete(webappFol, true);
+            }
+            Directory.CreateDirectory(workFol);
+            Directory.CreateDirectory(webappFol);
+        }
     }
+
 }
