@@ -345,11 +345,16 @@ namespace PE2A_WF_Lecturer
             {
                 if (item.Contains(dto.StudentCode))
                 {
-                    newCSV += dto.NO + "," + dto.StudentCode + "," + dto.StudentName + "," + dto.ScriptCode + "," + dto.SubmitTime + "," + dto.EvaluateTime + "," + "0" + "," + dto.Result + "(correct)," + dto.TotalPoint + "," + dto.ErrorMsg + "," + "\r\n";
+                    newCSV += dto.NO + "," + dto.StudentCode + "," + dto.StudentName + "," + dto.ScriptCode + "," + dto.SubmitTime + "," + dto.EvaluateTime + "," + "0" + "," + dto.Result + "(correct)," + dto.TotalPoint + "," + dto.ErrorMsg;
+                    foreach (KeyValuePair<string, string> items in dto.ListQuestions)
+                    {
+                        newCSV += "," + items.Key + ":" + items.Value;
+                    }
+                    newCSV += "\r\n";
                 }
                 else
                 {
-                    newCSV += item + ",\r\n";
+                    newCSV += item + "\r\n";
                 }
             }
             File.WriteAllText(listStudentPath, newCSV);
@@ -611,6 +616,13 @@ namespace PE2A_WF_Lecturer
             msgBox.SubmitAPIUrl = submissionURL;
             msgBox.PracticalExamCode = PracticalExamCode;
             msgBox.Show();
+            //Dictionary<string, string> listQuestion = new Dictionary<string, string>();
+            //listQuestion.Add("question1", "success:1/1");
+            //listQuestion.Add("question2", "fail:0/1");
+            //listQuestion.Add("question3", "success:1/1");
+            //listQuestion.Add("question4", "success:1/1");
+            //studentDto.ListQuestions = listQuestion;
+            //ReadFile(studentDto);
         }
 
         private void printReportToolStripMenuItem_Click(object sender, EventArgs e)

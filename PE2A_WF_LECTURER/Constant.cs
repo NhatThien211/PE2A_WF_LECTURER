@@ -61,6 +61,7 @@ namespace PE2A_WF_Lecturer
         public static int CODING_CONVENTION_INDEX = 6;
         public static int RESULT_INDEX= 7;
         public static int TOTAL_POINT_INDEX= 8;
+        public static int QUESTION_DETAIL_INDEX= 10;
         public static int ERROR_INDEX= 9;
 
         public static string[] PRACTICAL_STATUS = {"DONE","NOT_EVALUATE","ERROR" };

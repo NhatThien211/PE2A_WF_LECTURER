@@ -231,8 +231,26 @@ namespace PE2A_WF_Lecturer
                             dto.Result = values[Constant.RESULT_INDEX];
                             dto.TotalPoint = values[Constant.TOTAL_POINT_INDEX];
                             dto.ErrorMsg = values[Constant.ERROR_INDEX];
+                            Dictionary<string, string> listQuestion = new Dictionary<string, string>();
+                            try
+                            {
+                                int index = Constant.QUESTION_DETAIL_INDEX;
+                                while (true)
+                                {
+                                    string nextQuestion = values[index];
+                                    string[] tempQuestion = nextQuestion.Split(':');
+                                    listQuestion.Add(tempQuestion[0], tempQuestion[1] + ":"+ tempQuestion[2]);
+                                    index++;
+                                }
+                            }
+                            catch(Exception e)
+                            {
+                                // end reading quesiton
+                            }
+                            dto.ListQuestions = listQuestion;
+                         
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             // do nothing
                         }
