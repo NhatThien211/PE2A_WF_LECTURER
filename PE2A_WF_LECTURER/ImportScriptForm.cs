@@ -46,31 +46,47 @@ namespace PE2A_WF_Lecturer
 
         private void LoadPractical()
         {
-            if (PracticalList != null)
+            try
             {
-                if (PracticalList.Count > 0)
+                if (PracticalList != null)
                 {
-                    scriptFileCounter = 0;
-                    dgvScriptFiles.Rows.Clear();
-                    for (int i = 0; i < PracticalList.Count; i++)
+                    if (PracticalList.Count > 0)
                     {
-                        scriptFileCounter++;
-                        PracticalDTO dto = PracticalList[i];
-                        dgvScriptFiles.Rows.Add(new string[] { scriptFileCounter.ToString(), dto.Code, dto.SubjectCode, dto.Date, dto.State });
+                        scriptFileCounter = 0;
+                        dgvScriptFiles.Rows.Clear();
+                        for (int i = 0; i < PracticalList.Count; i++)
+                        {
+                            scriptFileCounter++;
+                            PracticalDTO dto = PracticalList[i];
+                            dgvScriptFiles.Rows.Add(new string[] { scriptFileCounter.ToString(), dto.Code, dto.SubjectCode, dto.Date, dto.State });
+                        }
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Practical list is empty!");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Practical list is empty!");
+                Util.LogException("LoadPractical", ex.Message);
             }
         }
 
         private void InitDgvScriptFilesStyle()
         {
-            dgvScriptFiles.Columns[0].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvScriptFiles.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.75F, FontStyle.Bold);
-            dgvScriptFiles.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            try
+            {
+                dgvScriptFiles.Columns[0].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvScriptFiles.ColumnHeadersDefaultCellStyle.Font = new Font("Tahoma", 9.75F, FontStyle.Bold);
+                dgvScriptFiles.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+            catch (Exception ex)
+            {
+                Util.LogException("InitDgvScriptFilesStyle", ex.Message);
+
+            }
+
         }
 
         //private string GetProjectDirectory()
@@ -142,41 +158,60 @@ namespace PE2A_WF_Lecturer
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 MessageBox.Show("Can not import script file!", "Error occurred");
+                Util.LogException("ImportTemplate", ex.Message);
             }
         }
 
         private void ShowLecturerForm(string practicalExamCode, string practicalStatus)
         {
-            GetListStudentFromCSV(practicalExamCode);
-            LecturerForm lecturerForm = new LecturerForm();
-            //AddData();
-            lecturerForm.ListStudent = StudentList;
-            List<StudentDTO> listTemp = new List<StudentDTO>();
-            listTemp.AddRange(StudentList);
-            lecturerForm.ListStudentBackUp = listTemp;
-            lecturerForm.PracticalExamStatus = practicalStatus;
-            lecturerForm.PracticalExamCode = practicalExamCode;
-            lecturerForm.Show();
-            Hide();
+            try
+            {
+                GetListStudentFromCSV(practicalExamCode);
+                LecturerForm lecturerForm = new LecturerForm();
+                //AddData();
+                lecturerForm.ListStudent = StudentList;
+                List<StudentDTO> listTemp = new List<StudentDTO>();
+                listTemp.AddRange(StudentList);
+                lecturerForm.ListStudentBackUp = listTemp;
+                lecturerForm.PracticalExamStatus = practicalStatus;
+                lecturerForm.PracticalExamCode = practicalExamCode;
+                lecturerForm.Show();
+                Hide();
+            }
+            catch (Exception ex)
+            {
+                Util.LogException("ShowLecturerForm", ex.Message);
+
+            }
+
         }
 
         private void CopyPracticalInfoToSubmissionFolder(string scriptFolder)
         {
-            if (Directory.Exists(scriptFolder))
+            try
             {
-                // copy practical-info.json to submission folder
-                string[] fileEntries = Directory.GetFiles(scriptFolder, "*.json");
-                if (fileEntries.Length > 0
-                    && Path.GetFileName(fileEntries[0]).Equals(Constant.PRACTICAL_INFO, StringComparison.OrdinalIgnoreCase))
+                if (Directory.Exists(scriptFolder))
                 {
-                    var sourceFile = fileEntries[0];
-                    var destinationFile = Path.Combine(Util.GetProjectDirectory() + Constant.SUBMISSION_FOLDER_PATH, Constant.PRACTICAL_INFO);
-                    File.Copy(sourceFile, destinationFile, true);
+                    // copy practical-info.json to submission folder
+                    string[] fileEntries = Directory.GetFiles(scriptFolder, "*.json");
+                    if (fileEntries.Length > 0
+                        && Path.GetFileName(fileEntries[0]).Equals(Constant.PRACTICAL_INFO, StringComparison.OrdinalIgnoreCase))
+                    {
+                        var sourceFile = fileEntries[0];
+                        var destinationFile = Path.Combine(Util.GetProjectDirectory() + Constant.SUBMISSION_FOLDER_PATH, Constant.PRACTICAL_INFO);
+                        File.Copy(sourceFile, destinationFile, true);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Util.LogException("CopyPracticalInfoToSubmissionFolder", ex.Message);
+
+            }
+
         }
 
         private void ImportScriptForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -206,58 +241,66 @@ namespace PE2A_WF_Lecturer
 
         private void GetListStudentFromCSV(string practicalExamCode)
         {
-            string practicalExam = practicalExamCode;
-            int count = 0;
-            var appDomainDir = Util.ExecutablePath();
-            var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
-            string listStudentPath = destinationPath + "\\" + practicalExam + "\\" + Constant.STUDENT_LIST_FILE_NAME;
-            using (var reader = new StreamReader(listStudentPath))
+            try
             {
-                while (!reader.EndOfStream)
+                string practicalExam = practicalExamCode;
+                int count = 0;
+                var appDomainDir = Util.ExecutablePath();
+                var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
+                string listStudentPath = destinationPath + "\\" + practicalExam + "\\" + Constant.STUDENT_LIST_FILE_NAME;
+                using (var reader = new StreamReader(listStudentPath))
                 {
-                    var line = reader.ReadLine();
-                    if (count != 0)
+                    while (!reader.EndOfStream)
                     {
-                        StudentDTO dto = new StudentDTO();
-                        try
+                        var line = reader.ReadLine();
+                        if (count != 0)
                         {
-                            var values = line.Split(',');
-                            dto.StudentCode = values[Constant.STUDENT_CODE_INDEX];
-                            dto.StudentName = values[Constant.STUDENT_NAME_INDEX];
-                            dto.ScriptCode = values[Constant.SCRIPT_CODE_INDEX];
-                            dto.SubmitTime = values[Constant.SUBMITTED_TIME_INDEX];
-                            dto.EvaluateTime = values[Constant.EVALUATED_TIME_INDEX];
-                            dto.CodingConvention = values[Constant.CODING_CONVENTION_INDEX];
-                            dto.Result = values[Constant.RESULT_INDEX];
-                            dto.TotalPoint = values[Constant.TOTAL_POINT_INDEX];
-                            dto.ErrorMsg = values[Constant.ERROR_INDEX];
-                            Dictionary<string, string> listQuestion = new Dictionary<string, string>();
+                            StudentDTO dto = new StudentDTO();
                             try
                             {
-                                int index = Constant.QUESTION_DETAIL_INDEX;
-                                while (true)
+                                var values = line.Split(',');
+                                dto.StudentCode = values[Constant.STUDENT_CODE_INDEX];
+                                dto.StudentName = values[Constant.STUDENT_NAME_INDEX];
+                                dto.ScriptCode = values[Constant.SCRIPT_CODE_INDEX];
+                                dto.SubmitTime = values[Constant.SUBMITTED_TIME_INDEX];
+                                dto.EvaluateTime = values[Constant.EVALUATED_TIME_INDEX];
+                                dto.CodingConvention = values[Constant.CODING_CONVENTION_INDEX];
+                                dto.Result = values[Constant.RESULT_INDEX];
+                                dto.TotalPoint = values[Constant.TOTAL_POINT_INDEX];
+                                dto.ErrorMsg = values[Constant.ERROR_INDEX];
+                                Dictionary<string, string> listQuestion = new Dictionary<string, string>();
+                                try
                                 {
-                                    string nextQuestion = values[index];
-                                    string[] tempQuestion = nextQuestion.Split(':');
-                                    listQuestion.Add(tempQuestion[0], tempQuestion[1] + ":"+ tempQuestion[2]);
-                                    index++;
+                                    int index = Constant.QUESTION_DETAIL_INDEX;
+                                    while (true)
+                                    {
+                                        string nextQuestion = values[index];
+                                        string[] tempQuestion = nextQuestion.Split(':');
+                                        listQuestion.Add(tempQuestion[0], tempQuestion[1] + ":" + tempQuestion[2]);
+                                        index++;
+                                    }
                                 }
+                                catch (Exception e)
+                                {
+                                    // end reading quesiton
+                                }
+                                dto.ListQuestions = listQuestion;
+
                             }
-                            catch(Exception e)
+                            catch (Exception ex)
                             {
-                                // end reading quesiton
+                                Util.LogException("GetListStudentFromCSV", ex.Message);
                             }
-                            dto.ListQuestions = listQuestion;
-                         
+                            StudentList.Add(dto);
                         }
-                        catch (Exception e)
-                        {
-                            // do nothing
-                        }
-                        StudentList.Add(dto);
+                        count++;
                     }
-                    count++;
                 }
+            }
+            catch (Exception ex)
+            {
+                Util.LogException("GetListStudentFromCSV", ex.Message);
+
             }
 
             //                /*

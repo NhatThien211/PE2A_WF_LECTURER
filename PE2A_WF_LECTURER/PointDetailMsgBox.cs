@@ -25,31 +25,40 @@ namespace PE2A_WF_Lecturer
 
         private void DisplayResultMessage()
         {
-            if (studentDTO != null)
+            try
             {
-                // Set form title to student name
-                Text = studentDTO.StudentName;
-
-                // Update result to tree view
-                tvPointDetail.Nodes[0].Text = "No                   : " + studentDTO.NO;
-                tvPointDetail.Nodes[1].Text = "Student code         : " + studentDTO.StudentCode;
-                tvPointDetail.Nodes[2].Text = "Student name         : " + studentDTO.StudentName;
-                tvPointDetail.Nodes[3].Text = "Exam code            : " + studentDTO.ScriptCode;
-                tvPointDetail.Nodes[4].Text = "List questions       : ";
-                if (studentDTO.ListQuestions != null)
+                if (studentDTO != null)
                 {
-                    foreach (var item in studentDTO.ListQuestions)
+                    // Set form title to student name
+                    Text = studentDTO.StudentName;
+
+                    // Update result to tree view
+                    tvPointDetail.Nodes[0].Text = "No                   : " + studentDTO.NO;
+                    tvPointDetail.Nodes[1].Text = "Student code         : " + studentDTO.StudentCode;
+                    tvPointDetail.Nodes[2].Text = "Student name         : " + studentDTO.StudentName;
+                    tvPointDetail.Nodes[3].Text = "Exam code            : " + studentDTO.ScriptCode;
+                    tvPointDetail.Nodes[4].Text = "List questions       : ";
+                    if (studentDTO.ListQuestions != null)
                     {
-                        tvPointDetail.Nodes[4].Nodes.Add(item.Key + " : " + item.Value);
+                        foreach (var item in studentDTO.ListQuestions)
+                        {
+                            tvPointDetail.Nodes[4].Nodes.Add(item.Key + " : " + item.Value);
+                        }
                     }
+                    tvPointDetail.Nodes[5].Text = "Result               : " + studentDTO.Result;
+                    tvPointDetail.Nodes[6].Text = "Coding convention    : " + studentDTO.CodingConvention;
+                    tvPointDetail.Nodes[7].Text = "Total point          : " + studentDTO.TotalPoint;
+                    tvPointDetail.Nodes[8].Text = "Submitted time       : " + studentDTO.SubmitTime;
+                    tvPointDetail.Nodes[9].Text = "Evaluated time       : " + studentDTO.EvaluateTime;
+                    tvPointDetail.Nodes[10].Text = "Message              : " + studentDTO.ErrorMsg;
                 }
-                tvPointDetail.Nodes[5].Text = "Result               : " + studentDTO.Result;
-                tvPointDetail.Nodes[6].Text = "Coding convention    : " + studentDTO.CodingConvention;
-                tvPointDetail.Nodes[7].Text = "Total point          : " + studentDTO.TotalPoint;
-                tvPointDetail.Nodes[8].Text = "Submitted time       : " + studentDTO.SubmitTime;
-                tvPointDetail.Nodes[9].Text = "Evaluated time       : " + studentDTO.EvaluateTime;
-                tvPointDetail.Nodes[10].Text = "Message              : " + studentDTO.ErrorMsg;
             }
+            catch(Exception ex)
+            {
+                Util.LogException("DisplayResultMessage", ex.Message);
+
+            }
+           
         }
 
         private async void btnReEvaluate_Click(object sender, System.EventArgs e)
@@ -77,7 +86,7 @@ namespace PE2A_WF_Lecturer
                             string practicalExamType = GetPracticalExamType(PracticalExamCode);
                             if (practicalExamType == Constant.PRACTICAL_EXAM_JAVA_WEB)
                             {
-                                result = await sendFileJavaWeb(zipFileInRevaluateFol);
+                                result = await SendFileJavaWeb(zipFileInRevaluateFol);
                             }
                             else
                             {
@@ -124,8 +133,9 @@ namespace PE2A_WF_Lecturer
             }
         }
 
-        private async Task<string> sendFileJavaWeb(string fileName)
+        private async Task<string> SendFileJavaWeb(string fileName)
         {
+
             string startupPath = Util.ExecutablePath();
             string destinationPath = startupPath + Constant.RE_EVALUATE_FOLDER;
             string webappPath = destinationPath + Constant.WEBAPP_FOLDER;
@@ -189,28 +199,40 @@ namespace PE2A_WF_Lecturer
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                Util.LogException("SendFileJavaWeb", ex.Message);
+
             }
             return "Error !";
 
         }
         private string GetPracticalExamType(string practicalExamCode)
         {
-            if (practicalExamCode.ToUpper().Contains(Constant.PRACTICAL_EXAM_JAVA_WEB))
+            try
             {
-                return Constant.PRACTICAL_EXAM_JAVA_WEB;
+                if (practicalExamCode.ToUpper().Contains(Constant.PRACTICAL_EXAM_JAVA_WEB))
+                {
+                    return Constant.PRACTICAL_EXAM_JAVA_WEB;
+                }
+                else if (practicalExamCode.ToUpper().Contains(Constant.PRACTICAL_EXAM_JAVA))
+                {
+                    return Constant.PRACTICAL_EXAM_JAVA;
+                }
+                else if (practicalExamCode.ToUpper().Contains(Constant.PRACTICAL_EXAM_C_SHARP))
+                {
+                    return Constant.PRACTICAL_EXAM_C_SHARP;
+                }
+                else
+                {
+                    return Constant.PRACTICAL_EXAM_C;
+                }
             }
-            else if (practicalExamCode.ToUpper().Contains(Constant.PRACTICAL_EXAM_JAVA))
+            catch(Exception ex)
             {
-                return Constant.PRACTICAL_EXAM_JAVA;
+                Util.LogException("GetPracticalExamType", ex.Message);
+
             }
-            else if (practicalExamCode.ToUpper().Contains(Constant.PRACTICAL_EXAM_C_SHARP))
-            {
-                return Constant.PRACTICAL_EXAM_C_SHARP;
-            }
-            else
-            {
-                return Constant.PRACTICAL_EXAM_C;
-            }
+            return null;
+           
         }
 
         private void PointDetailMsgBox_Load(object sender, EventArgs e)

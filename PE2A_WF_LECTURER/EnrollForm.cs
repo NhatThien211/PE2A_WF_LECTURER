@@ -159,9 +159,9 @@ namespace PE2A_WF_Lecturer
                     message = await response.Content.ReadAsStringAsync();
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
+                Util.LogException("GetPracticalListFromAPI", ex.Message);
             }
             return message;
         }
@@ -183,9 +183,10 @@ namespace PE2A_WF_Lecturer
                     this.InvokeEx(f => ShowControls(true));
                     this.InvokeEx(f => this.Hide());
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
                     MessageBox.Show(Constant.CANNOT_CONNECT_API_MESSAGE);
+                    Util.LogException("GetPracticalList", ex.Message);
                 }
             }
         }

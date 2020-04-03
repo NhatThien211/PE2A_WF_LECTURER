@@ -116,126 +116,164 @@ namespace PE2A_WF_Lecturer
 
         private void ListeningToBroadcastUDPConnection(int listeningPort)
         {
-            udpSocket = new Socket(AddressFamily.InterNetwork,
-                          SocketType.Dgram,
-                                ProtocolType.Udp);
+            try
+            {
+                udpSocket = new Socket(AddressFamily.InterNetwork,
+                      SocketType.Dgram,
+                            ProtocolType.Udp);
 
-            IPEndPoint senders = new IPEndPoint(IPAddress.Any, listeningPort);
-            EndPoint tempRemoteEP = (EndPoint)senders;
-            udpSocket.Bind(senders);
-            buffer = new byte[1024];
-            udpSocket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None, ref tempRemoteEP,
-                                            new AsyncCallback(DoReceiveFrom), buffer);
+                IPEndPoint senders = new IPEndPoint(IPAddress.Any, listeningPort);
+                EndPoint tempRemoteEP = (EndPoint)senders;
+                udpSocket.Bind(senders);
+                buffer = new byte[1024];
+                udpSocket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None, ref tempRemoteEP,
+                                                new AsyncCallback(DoReceiveFrom), buffer);
+            }
+            catch (Exception ex)
+            {
+                Util.LogException("ListeningToBroadcastUDPConnection", ex.Message);
+            }
+
         }
 
         private void DoReceiveFrom(IAsyncResult iar)
         {
-            EndPoint clientEP = new IPEndPoint(IPAddress.Any, 5656);
-            int size = udpSocket.EndReceiveFrom(iar, ref clientEP);
-            if (size > 0)
+            try
             {
-                byte[] receivedData = new byte[size];
-                receivedData = (byte[])iar.AsyncState;
-                ASCIIEncoding encoding = new ASCIIEncoding();
+                EndPoint clientEP = new IPEndPoint(IPAddress.Any, 5656);
+                int size = udpSocket.EndReceiveFrom(iar, ref clientEP);
+                if (size > 0)
+                {
+                    byte[] receivedData = new byte[size];
+                    receivedData = (byte[])iar.AsyncState;
+                    ASCIIEncoding encoding = new ASCIIEncoding();
 
-                // Receive IP & Port from student
-                string receivedMessage = encoding.GetString(receivedData);
-                receivedMessage = receivedMessage.Substring(0, size);
+                    // Receive IP & Port from student
+                    string receivedMessage = encoding.GetString(receivedData);
+                    receivedMessage = receivedMessage.Substring(0, size);
 
-                string[] data = receivedMessage.Split('-');
-                Thread t = new Thread(() => ReturnWebserviceURL(data[0], int.Parse(data[1]), data[2]));
-                t.Start();
+                    string[] data = receivedMessage.Split('-');
+                    Thread t = new Thread(() => ReturnWebserviceURL(data[0], int.Parse(data[1]), data[2]));
+                    t.Start();
+                }
+                udpSocket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None,
+                    ref clientEP, new AsyncCallback(DoReceiveFrom), buffer);
             }
-            udpSocket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None,
-                ref clientEP, new AsyncCallback(DoReceiveFrom), buffer);
+            catch(Exception ex)
+            {
+                Util.LogException("DoReceiveFrom", ex.Message);
+            }          
         }
 
         // Return submission API - document questions - expired time to student
         private void ReturnWebserviceURL(string ipAddress, int port, string studentCode)
         {
-            // Student's TCP information
-            TcpClient tcpClient = new System.Net.Sockets.TcpClient(ipAddress, port);
-
-            string scriptCode = "";
-            string message;
-
-            if (IsConnected(ipAddress))
+            try
             {
-                message = Constant.EXISTED_IP_MESSAGE;
-                Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(message), tcpClient);
-            }
-            else
-            {
-                count++;
-                bool isSent = false;
-                StudentDTO student = ListStudent.Where(t => t.StudentCode == studentCode).FirstOrDefault();
-                StudentDTO studentDisconnected = ListStudentBackUp.Where(t => t.StudentCode == studentCode).FirstOrDefault();
-                if (student != null)
-                {
-                    student.TcpClient = tcpClient;
-                    student.Status = Constant.STATUSLIST[0];
+                // Student's TCP information
+                TcpClient tcpClient = new System.Net.Sockets.TcpClient(ipAddress, port);
 
-                    // Exam code
-                    scriptCode = student.ScriptCode;
-                    ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
-                }
-                else if (studentDisconnected != null)
+                string scriptCode = "";
+                string message;
+
+                if (IsConnected(ipAddress))
                 {
-                    StudentDTO studentDTO = (StudentDTO)studentDisconnected.Shallowcopy();
-                    studentDTO.TcpClient = tcpClient;
-                    studentDTO.Status = Constant.STATUSLIST[0];
-                    studentDTO.NO = ListStudent.Count + 1;
-                    ListStudent.Add(studentDTO);
-                    scriptCode = studentDTO.ScriptCode;
-                    ResetDataGridViewDataSourceWithDto(studentDTO, Constant.ACTION_ADD);
+                    message = Constant.EXISTED_IP_MESSAGE;
+                    Util.SendMessage(System.Text.Encoding.Unicode.GetBytes(message), tcpClient);
                 }
                 else
                 {
-                    MessageBox.Show("Student not in class is connecting");
-                    return;
-                }
-
-
-                //ResetDataGridViewDataSource();
-                while (!isSent)
-                {
-                    try
+                    count++;
+                    bool isSent = false;
+                    StudentDTO student = ListStudent.Where(t => t.StudentCode == studentCode).FirstOrDefault();
+                    StudentDTO studentDisconnected = ListStudentBackUp.Where(t => t.StudentCode == studentCode).FirstOrDefault();
+                    if (student != null)
                     {
-                        // Cập nhật giao diện ở đây
-                        message = "=" + submissionURL + "=" + scriptCode + "=" + PracticalExamCode;
-                        //SendMessage(ipAddress, port, message);
-                        var messageEncode = Util.Encode(message, "SE1267");
-                        messageEncode = Constant.RETURN_URL_CODE + messageEncode;
-                        Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(messageEncode), tcpClient);
-                        //byte[] bytes = File.ReadAllBytes(@"D:\Capstone_WF_Lecturer\PE2A_WF_LECTURER\submission\PracticalExams\Practical_Java_SE1269_05022020\TestScripts\Java_SE1269_05_02_2020_De1.java");
-                        //Util.sendMessage(bytes, tcpClient);
-                        isSent = true;
+                        student.TcpClient = tcpClient;
+                        student.Status = Constant.STATUSLIST[0];
+
+                        // Exam code
+                        scriptCode = student.ScriptCode;
+                        ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
                     }
-                    catch (Exception e)
+                    else if (studentDisconnected != null)
                     {
-                        // resent message
+                        StudentDTO studentDTO = (StudentDTO)studentDisconnected.Shallowcopy();
+                        studentDTO.TcpClient = tcpClient;
+                        studentDTO.Status = Constant.STATUSLIST[0];
+                        studentDTO.NO = ListStudent.Count + 1;
+                        ListStudent.Add(studentDTO);
+                        scriptCode = studentDTO.ScriptCode;
+                        ResetDataGridViewDataSourceWithDto(studentDTO, Constant.ACTION_ADD);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Student not in class is connecting");
+                        return;
+                    }
+                    //ResetDataGridViewDataSource();
+                    while (!isSent)
+                    {
+                        try
+                        {
+                            // Cập nhật giao diện ở đây
+                            message = "=" + submissionURL + "=" + scriptCode + "=" + PracticalExamCode;
+                            //SendMessage(ipAddress, port, message);
+                            var messageEncode = Util.Encode(message, "SE1267");
+                            messageEncode = Constant.RETURN_URL_CODE + messageEncode;
+                            Util.SendMessage(System.Text.Encoding.Unicode.GetBytes(messageEncode), tcpClient);
+                            //byte[] bytes = File.ReadAllBytes(@"D:\Capstone_WF_Lecturer\PE2A_WF_LECTURER\submission\PracticalExams\Practical_Java_SE1269_05022020\TestScripts\Java_SE1269_05_02_2020_De1.java");
+                            //Util.sendMessage(bytes, tcpClient);
+                            isSent = true;
+                        }
+                        catch (Exception e)
+                        {
+                            // resent message
+                        }
                     }
                 }
             }
+            catch(Exception ex)
+            {
+                Util.LogException("ReturnWebserviceURL", ex.Message);
+            }
+           
         }
 
         private void InitDataSource()
         {
-            dgvStudent.Rows.Clear();
-            foreach (var item in ListStudent)
+            try
             {
-                count++;
-                item.NO = count;
-                item.Close = CloseImage;
-                AddRowDataGridView(item);
+                dgvStudent.Rows.Clear();
+                foreach (var item in ListStudent)
+                {
+                    count++;
+                    item.NO = count;
+                    item.Close = CloseImage;
+                    AddRowDataGridView(item);
+                }
+                FitDataGridViewCollumn();
             }
-            FitDataGridViewCollumn();
+            catch(Exception ex)
+            {
+                Util.LogException("InitDataSource", ex.Message);          
+            }
+            
         }
         string scriptCode;
         private void AddRowDataGridView(StudentDTO dto)
         {
-            scriptCode = dto.ScriptCode.Substring(dto.ScriptCode.IndexOf(Constant.SCRIPT_PREFIX));
-            dgvStudent.Rows.Add(dto.NO.ToString(), dto.StudentCode, dto.StudentName, scriptCode, dto.Status, dto.TotalPoint, dto.SubmitTime, dto.EvaluateTime, dto.Result, dto.ErrorMsg, dto.Close);
+            try
+            {
+                scriptCode = dto.ScriptCode.Substring(dto.ScriptCode.IndexOf(Constant.SCRIPT_PREFIX));
+                dgvStudent.Rows.Add(dto.NO.ToString(), dto.StudentCode, dto.StudentName, scriptCode, dto.Status, dto.TotalPoint, dto.SubmitTime, dto.EvaluateTime, dto.Result, dto.ErrorMsg, dto.Close);
+
+            }
+            catch (Exception ex)
+            {
+                Util.LogException("AddRowDataGridView", ex.Message);
+
+            }
         }
 
         private void ResetDataGridViewDataSource()
@@ -250,22 +288,30 @@ namespace PE2A_WF_Lecturer
 
         private void ResetDataGridViewDataSourceWithDto(StudentDTO dto, string action)
         {
-            switch (action)
+            try
             {
-                case Constant.ACTION_ADD:
-                    this.InvokeEx(f => AddRecord(dto));
-                    break;
-                case Constant.ACTION_REMOVE:
-                    this.InvokeEx(f => RemoveRecord(dto));
-                    break;
-                case Constant.ACTION_UPDATE:
-                    this.InvokeEx(f => UpdateRecord(dto));
-                    break;
+                switch (action)
+                {
+                    case Constant.ACTION_ADD:
+                        this.InvokeEx(f => AddRecord(dto));
+                        break;
+                    case Constant.ACTION_REMOVE:
+                        this.InvokeEx(f => RemoveRecord(dto));
+                        break;
+                    case Constant.ACTION_UPDATE:
+                        this.InvokeEx(f => UpdateRecord(dto));
+                        break;
+                }
             }
+            catch(Exception ex)
+            {
+                Util.LogException("ResetDataGridViewDataSourceWithDto", ex.Message);
+            }       
         }
 
         private bool IsConnected(string ipAddress)
         {
+
             foreach (var student in ListStudent)
             {
                 try
@@ -276,9 +322,9 @@ namespace PE2A_WF_Lecturer
                         return true;
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-
+                    Util.LogException("IsConnected", ex.Message);
                 }
             }
             return false;
@@ -286,129 +332,176 @@ namespace PE2A_WF_Lecturer
 
         private void ReceiveStudentPointFromTCP(int serverPort)
         {
-            while (!isPublishedPoint)
+            try
             {
-                Console.WriteLine("ReceiveStudentPointFromTCP");
-                string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
-                Console.WriteLine(receivedMessage);
-                StudentPointDTO studentPoint = JsonConvert.DeserializeObject<StudentPointDTO>(receivedMessage);
+                while (!isPublishedPoint)
+                {
+                    Console.WriteLine("ReceiveStudentPointFromTCP");
+                    string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
+                    Console.WriteLine(receivedMessage);
+                    StudentPointDTO studentPoint = JsonConvert.DeserializeObject<StudentPointDTO>(receivedMessage);
 
-                foreach (var student in ListStudent)
-                {
-                    if (student.StudentCode.Equals(studentPoint.StudentCode))
-                    {
-                        if (studentPoint.ErrorMsg == null)
-                        {
-                            // Update student result
-                            student.ListQuestions = studentPoint.ListQuestions;
-                            // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
-                            student.Result = studentPoint.Result;
-                            student.TotalPoint = studentPoint.TotalPoint;
-                            student.Status = Constant.STATUSLIST[2];
-                            student.EvaluateTime = studentPoint.EvaluateTime;
-                            ReadFile(student);
-                            ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
-                            //ResetDataGridViewDataSource();
-                            // For test
-                            Console.WriteLine("Student code: " + studentPoint.StudentCode);
-                            Dictionary<string, string> listQuestions = studentPoint.ListQuestions;
-                            foreach (var ques in listQuestions)
-                            {
-                                Console.WriteLine(ques.Key + ": " + ques.Value);
-                            }
-                            Console.WriteLine("Total point: " + studentPoint.TotalPoint);
-                            Console.WriteLine("Result: " + studentPoint.Result);
-                            Console.WriteLine("Evaluate time: " + studentPoint.EvaluateTime);
-                        }
-                        else
-                        {
-                            // Update status of the student when cannot evaluate the submission
-                            student.Status = Constant.STATUSLIST[3];
-                            ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
-                            //ResetDataGridViewDataSource();
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        private void ReadFile(StudentDTO dto)
-
-        {
-            string practicalExam = PracticalExamCode;
-            var appDomainDir = Util.ExecutablePath();
-            var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
-            string listStudentPath = destinationPath + "\\" + practicalExam + "\\" + Constant.STUDENT_LIST_FILE_NAME;
-            string newCSV = "";
-            string[] readAllText = File.ReadAllLines(listStudentPath);
-            foreach (var item in readAllText)
-            {
-                if (item.Contains(dto.StudentCode))
-                {
-                    newCSV += dto.NO + "," + dto.StudentCode + "," + dto.StudentName + "," + dto.ScriptCode + "," + dto.SubmitTime + "," + dto.EvaluateTime + "," + "0" + "," + dto.Result + "(correct)," + dto.TotalPoint + "," + dto.ErrorMsg;
-                    foreach (KeyValuePair<string, string> items in dto.ListQuestions)
-                    {
-                        newCSV += "," + items.Key + ":" + items.Value;
-                    }
-                    newCSV += "\r\n";
-                }
-                else
-                {
-                    newCSV += item + "\r\n";
-                }
-            }
-            File.WriteAllText(listStudentPath, newCSV);
-        }
-        private void UpdateStudentPointTable()
-        {
-            Task.Run(() => ReceiveStudentPointFromTCP(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT));
-        }
-
-        private void ReceiveStudentSubmissionFromTCP(int serverPort)
-        {
-            while (true)
-            {
-                Console.WriteLine("ReceiveStudentSubmissionFromTCP");
-                string receivedMessage = Util.GetMessageFromTCPConnections(serverPort, Constant.MAXIMUM_REQUEST);
-                Console.WriteLine(receivedMessage);
-                if (receivedMessage != null && !receivedMessage.Equals("") && receivedMessage.Contains('T'))
-                {
-                    string[] messages = receivedMessage.Split('T');
-                    string studentCode = messages[0];
-                    string submissionTime = messages[1];
                     foreach (var student in ListStudent)
                     {
-                        if (student.StudentCode.Equals(studentCode))
+                        if (student.StudentCode.Equals(studentPoint.StudentCode))
                         {
-                            // Update student submissiontime and status
-                            student.SubmitTime = submissionTime;
-                            student.Status = Constant.STATUSLIST[1];
-                            ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
-                            //ResetDataGridViewDataSource();
+                            if (studentPoint.ErrorMsg == null)
+                            {
+                                // Update student result
+                                student.ListQuestions = studentPoint.ListQuestions;
+                                // change tested time to submisstime   student.TimeSubmitted = studentPoint.Time;
+                                student.Result = studentPoint.Result;
+                                student.TotalPoint = studentPoint.TotalPoint;
+                                student.Status = Constant.STATUSLIST[2];
+                                student.EvaluateTime = studentPoint.EvaluateTime;
+                                ReadFile(student);
+                                ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
+                                //ResetDataGridViewDataSource();
+                                // For test
+                                Console.WriteLine("Student code: " + studentPoint.StudentCode);
+                                Dictionary<string, string> listQuestions = studentPoint.ListQuestions;
+                                foreach (var ques in listQuestions)
+                                {
+                                    Console.WriteLine(ques.Key + ": " + ques.Value);
+                                }
+                                Console.WriteLine("Total point: " + studentPoint.TotalPoint);
+                                Console.WriteLine("Result: " + studentPoint.Result);
+                                Console.WriteLine("Evaluate time: " + studentPoint.EvaluateTime);
+                            }
+                            else
+                            {
+                                // Update status of the student when cannot evaluate the submission
+                                student.Status = Constant.STATUSLIST[3];
+                                ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
+                                //ResetDataGridViewDataSource();
+                            }
                             break;
                         }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                Util.LogException("ReceiveStudentPointFromTCP", ex.Message);
+            }
+           
+        }
+        private void ReadFile(StudentDTO dto)
+        {
+            try
+            {
+                string practicalExam = PracticalExamCode;
+                var appDomainDir = Util.ExecutablePath();
+                var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
+                string listStudentPath = destinationPath + "\\" + practicalExam + "\\" + Constant.STUDENT_LIST_FILE_NAME;
+                string newCSV = "";
+                string[] readAllText = File.ReadAllLines(listStudentPath);
+                foreach (var item in readAllText)
+                {
+                    if (item.Contains(dto.StudentCode))
+                    {
+                        newCSV += dto.NO + "," + dto.StudentCode + "," + dto.StudentName + "," + dto.ScriptCode + "," + dto.SubmitTime + "," + dto.EvaluateTime + "," + "0" + "," + dto.Result + "(correct)," + dto.TotalPoint + "," + dto.ErrorMsg;
+                        foreach (KeyValuePair<string, string> items in dto.ListQuestions)
+                        {
+                            newCSV += "," + items.Key + ":" + items.Value;
+                        }
+                        newCSV += "\r\n";
+                    }
+                    else
+                    {
+                        newCSV += item + "\r\n";
+                    }
+                }
+                File.WriteAllText(listStudentPath, newCSV);
+            }
+            catch(Exception ex)
+            {
+                Util.LogException("ReadFile", ex.Message);
+
+            }
+
+            
+        }
+        private void UpdateStudentPointTable()
+        {
+            try
+            {
+                Task.Run(() => ReceiveStudentPointFromTCP(Constant.SOCKET_STUDENT_POINT_LISTENING_PORT));
+            }
+            catch (Exception ex)
+            {
+                Util.LogException("UpdateStudentPointTable", ex.Message);
 
             }
         }
 
+        private void ReceiveStudentSubmissionFromTCP(int serverPort)
+        {
+            try
+            {
+                while (true)
+                {
+                    Console.WriteLine("ReceiveStudentSubmissionFromTCP");
+                    string receivedMessage = Util.GetMessageFromTCPConnections(serverPort, Constant.MAXIMUM_REQUEST);
+                    Console.WriteLine(receivedMessage);
+                    if (receivedMessage != null && !receivedMessage.Equals("") && receivedMessage.Contains('T'))
+                    {
+                        string[] messages = receivedMessage.Split('T');
+                        string studentCode = messages[0];
+                        string submissionTime = messages[1];
+                        foreach (var student in ListStudent)
+                        {
+                            if (student.StudentCode.Equals(studentCode))
+                            {
+                                // Update student submissiontime and status
+                                student.SubmitTime = submissionTime;
+                                student.Status = Constant.STATUSLIST[1];
+                                ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
+                                //ResetDataGridViewDataSource();
+                                break;
+                            }
+                        }
+                    }
 
+                }
+            }
+            catch(Exception ex)
+            {
+                Util.LogException("ReceiveStudentSubmissionFromTCP", ex.Message);
+
+            }
+        }
 
         private void UpdateStudentSubmissionTable()
         {
-            Task.Run(() => ReceiveStudentSubmissionFromTCP(Constant.SOCKET_STUDENT_SUBMISSION_LISTENING_PORT));
+            try
+            {
+                Task.Run(() => ReceiveStudentSubmissionFromTCP(Constant.SOCKET_STUDENT_SUBMISSION_LISTENING_PORT));
+            }
+            catch (Exception ex)
+            {
+                Util.LogException("UpdateStudentSubmissionTable", ex.Message);
+            }
         }
 
         private void FitDataGridViewCollumn()
         {
-            int baseWidth = Constant.COLUMN_WIDTH_A_LETTER;
-            dgvStudent.Columns[nameof(StudentDTO.NO)].Width = Constant.COLUMN_NO_LETTER * baseWidth;
-            dgvStudent.Columns[nameof(StudentDTO.TotalPoint)].Width = Constant.COLUMN_POINT_LETTER * baseWidth;
-            dgvStudent.Columns[nameof(StudentDTO.Result)].Width = Constant.COLUMN_RESULT_LETTER * baseWidth;
-            dgvStudent.Columns[nameof(StudentDTO.StudentCode)].Width = Constant.COLUMN_STUDENTCODE_LETTER * baseWidth;
-            dgvStudent.Columns[Constant.COLUMN_SCRIPTCODE_NAME].Width = Constant.COLUMN_SCRIPTCODE_LETTER * baseWidth;
-            dgvStudent.Columns[nameof(StudentDTO.Close)].Width = Constant.COLUMN_CLOSE_LETTER * baseWidth;
+            try
+            {
+                int baseWidth = Constant.COLUMN_WIDTH_A_LETTER;
+                dgvStudent.Columns[nameof(StudentDTO.NO)].Width = Constant.COLUMN_NO_LETTER * baseWidth;
+                dgvStudent.Columns[nameof(StudentDTO.TotalPoint)].Width = Constant.COLUMN_POINT_LETTER * baseWidth;
+                dgvStudent.Columns[nameof(StudentDTO.Result)].Width = Constant.COLUMN_RESULT_LETTER * baseWidth;
+                dgvStudent.Columns[nameof(StudentDTO.StudentCode)].Width = Constant.COLUMN_STUDENTCODE_LETTER * baseWidth;
+                dgvStudent.Columns[Constant.COLUMN_SCRIPTCODE_NAME].Width = Constant.COLUMN_SCRIPTCODE_LETTER * baseWidth;
+                dgvStudent.Columns[nameof(StudentDTO.Close)].Width = Constant.COLUMN_CLOSE_LETTER * baseWidth;
+            }
+            catch(Exception ex)
+            {
+                Util.LogException("FitDataGridViewCollumn", ex.Message);
+
+            }
+
         }
 
         private void dgvStudent_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -441,7 +534,7 @@ namespace PE2A_WF_Lecturer
                     listStudentPath = listStudentPath + "\\" + dto.StudentCode + Constant.ZIP_EXTENSION;
                     Task.Run(async delegate
                     {
-                        string message = await sendFile(listStudentPath, dto.StudentCode, dto.ScriptCode);
+                        string message = await SendFile(listStudentPath, dto.StudentCode, dto.ScriptCode);
                         Console.WriteLine(message);
                     }
                     );
@@ -482,7 +575,7 @@ namespace PE2A_WF_Lecturer
 
         }
 
-        private async Task<string> sendFile(string fileName, string studentID, string scriptCode)
+        private async Task<string> SendFile(string fileName, string studentID, string scriptCode)
         {
             //var client = new WebClient();
             string submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
@@ -516,6 +609,7 @@ namespace PE2A_WF_Lecturer
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                Util.LogException("SendFile", ex.Message);
             }
             return "Error !";
 
@@ -534,7 +628,7 @@ namespace PE2A_WF_Lecturer
                 try
                 {
                     string point = Constant.RETURN_POINT + item.TotalPoint;
-                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(point), item.TcpClient);
+                    Util.SendMessage(System.Text.Encoding.Unicode.GetBytes(point), item.TcpClient);
                 }
                 catch (Exception ex)
                 {
@@ -557,11 +651,11 @@ namespace PE2A_WF_Lecturer
             {
                 try
                 {
-                    Util.sendMessage(System.Text.Encoding.Unicode.GetBytes(Constant.RETURN_EXAM_SCIPT + time), item.TcpClient);
+                    Util.SendMessage(System.Text.Encoding.Unicode.GetBytes(Constant.RETURN_EXAM_SCIPT + time), item.TcpClient);
                     var temp = ExamScriptList.Where(x => item.ScriptCode.Contains(x.Key)).FirstOrDefault();
                     if (temp.Key != null)
                     {
-                        Util.sendMessage(ExamScriptList[temp.Key], item.TcpClient);
+                        Util.SendMessage(ExamScriptList[temp.Key], item.TcpClient);
                     }
                 }
                 catch (Exception ex)
@@ -577,33 +671,39 @@ namespace PE2A_WF_Lecturer
         bool isDoneReadExamDocument = false;
         private void GetAllPracticalDocFile()
         {
-            var appDomainDir = Util.ExecutablePath();
-            var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
-            string examScriptFolderPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.EXAM_SCIPT_FOLDER_NAME;
-            string[] fileEntries = Directory.GetFiles(examScriptFolderPath);
-            string fileNameWithExtension;
-            string fileName;
-            int readedFile = 0;
-            foreach (string file in fileEntries)
+            try
             {
-
-                fileNameWithExtension = Path.GetFileName(file);
-                if (fileNameWithExtension.Contains(Constant.WORD_FILE_EXTENSION))
+                var appDomainDir = Util.ExecutablePath();
+                var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
+                string examScriptFolderPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.EXAM_SCIPT_FOLDER_NAME;
+                string[] fileEntries = Directory.GetFiles(examScriptFolderPath);
+                string fileNameWithExtension;
+                string fileName;
+                int readedFile = 0;
+                foreach (string file in fileEntries)
                 {
-                    fileName = fileNameWithExtension.Replace(Constant.WORD_FILE_EXTENSION, "");
-                    byte[] bytes = File.ReadAllBytes(file);
-                    //  loadPracticalDoc(fileName, file);
-                    ExamScriptList.Add(fileName, bytes);
-                    readedFile++;
-                    if (readedFile == fileEntries.Length)
+                    fileNameWithExtension = Path.GetFileName(file);
+                    if (fileNameWithExtension.Contains(Constant.WORD_FILE_EXTENSION))
                     {
-                        isDoneReadExamDocument = true;
-                        MessageBox.Show("Done Reading exam document");
+                        fileName = fileNameWithExtension.Replace(Constant.WORD_FILE_EXTENSION, "");
+                        byte[] bytes = File.ReadAllBytes(file);
+                        //  loadPracticalDoc(fileName, file);
+                        ExamScriptList.Add(fileName, bytes);
+                        readedFile++;
+                        if (readedFile == fileEntries.Length)
+                        {
+                            isDoneReadExamDocument = true;
+                            MessageBox.Show("Done Reading exam document");
+                        }
+
+
                     }
-
-
                 }
             }
+            catch(Exception ex)
+            {
+                Util.LogException("GetAllPracticalDocFile", ex.Message);
+            }         
         }
 
         private void dgvStudent_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -655,52 +755,75 @@ namespace PE2A_WF_Lecturer
 
         private void UpdateRecord(StudentDTO dto)
         {
-            for (int i = 0; i < this.dgvStudent.RowCount; i++)
+            try
             {
-                var getStudentId = this.dgvStudent[1, i].Value.ToString();
-                if (getStudentId.Equals(dto.StudentCode))
+                for (int i = 0; i < this.dgvStudent.RowCount; i++)
                 {
-                    this.dgvStudent[4, i].Value = dto.Status;
-                    this.dgvStudent[5, i].Value = dto.TotalPoint;
-                    this.dgvStudent[6, i].Value = dto.SubmitTime;
-                    this.dgvStudent[7, i].Value = dto.EvaluateTime;
-                    this.dgvStudent[8, i].Value = dto.Result;
-                    this.dgvStudent[9, i].Value = dto.ErrorMsg;
-                    break;
+                    var getStudentId = this.dgvStudent[1, i].Value.ToString();
+                    if (getStudentId.Equals(dto.StudentCode))
+                    {
+                        this.dgvStudent[4, i].Value = dto.Status;
+                        this.dgvStudent[5, i].Value = dto.TotalPoint;
+                        this.dgvStudent[6, i].Value = dto.SubmitTime;
+                        this.dgvStudent[7, i].Value = dto.EvaluateTime;
+                        this.dgvStudent[8, i].Value = dto.Result;
+                        this.dgvStudent[9, i].Value = dto.ErrorMsg;
+                        break;
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                Util.LogException("UpdateRecord", ex.Message);
+            }        
         }
 
         private void RemoveRecord(StudentDTO dto)
         {
-            int rowIndex = 1;
-            StudentDTO currentStudent;
-            for (int i = 0; i < this.dgvStudent.RowCount; i++)
+            try
             {
-                var getStudentId = this.dgvStudent[1, i].Value.ToString();
-                if (getStudentId.Equals(dto.StudentCode))
+                int rowIndex = 1;
+                StudentDTO currentStudent;
+                for (int i = 0; i < this.dgvStudent.RowCount; i++)
                 {
-                    dgvStudent.Rows.Remove(dgvStudent.Rows[i]);
-                }
-                if (i < dgvStudent.RowCount)
-                {
-                    this.dgvStudent[0, i].Value = rowIndex;
-                    string currentStudentCode = dgvStudent[1, i].Value.ToString();
-                    currentStudent = ListStudent.Where(t => t.StudentCode.Equals(currentStudentCode)).FirstOrDefault();
-                    if (currentStudent != null)
+                    var getStudentId = this.dgvStudent[1, i].Value.ToString();
+                    if (getStudentId.Equals(dto.StudentCode))
                     {
-                        currentStudent.NO = rowIndex;
+                        dgvStudent.Rows.Remove(dgvStudent.Rows[i]);
                     }
-                    rowIndex++;
+                    if (i < dgvStudent.RowCount)
+                    {
+                        this.dgvStudent[0, i].Value = rowIndex;
+                        string currentStudentCode = dgvStudent[1, i].Value.ToString();
+                        currentStudent = ListStudent.Where(t => t.StudentCode.Equals(currentStudentCode)).FirstOrDefault();
+                        if (currentStudent != null)
+                        {
+                            currentStudent.NO = rowIndex;
+                        }
+                        rowIndex++;
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                Util.LogException("RemoveRecord", ex.Message);
+
+            }         
         }
         private void AddRecord(StudentDTO dto)
         {
-            int index = dgvStudent.Rows.Count;
-            dto.NO = index;
-            dto.Close = CloseImage;
-            AddRowDataGridView(dto);
+            try
+            {
+                int index = dgvStudent.Rows.Count;
+                dto.NO = index;
+                dto.Close = CloseImage;
+                AddRowDataGridView(dto);
+            }
+            catch(Exception ex)
+            {
+                Util.LogException("RemoveRecord", ex.Message);
+            }
+        
         }
     }
 }

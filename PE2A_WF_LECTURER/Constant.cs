@@ -94,5 +94,9 @@ namespace PE2A_WF_Lecturer
         public static string PRACTICAL_EXAM_JAVA_WEB = "JAVAWEB";
         public static string PRACTICAL_EXAM_C_SHARP = "CSHARP";
         public static string PRACTICAL_EXAM_C = "C";
+
+        //Log file
+        public static string LOG_FILE = "Log_file.txt";
+
     }
 }
