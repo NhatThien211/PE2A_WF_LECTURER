@@ -372,6 +372,7 @@ namespace PE2A_WF_Lecturer
                             {
                                 // Update status of the student when cannot evaluate the submission
                                 student.Status = Constant.STATUSLIST[3];
+                                student.ErrorMsg = studentPoint.ErrorMsg;
                                 ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
                                 //ResetDataGridViewDataSource();
                             }
