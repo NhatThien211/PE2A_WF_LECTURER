@@ -47,6 +47,7 @@
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtTime = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.startToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudent)).BeginInit();
             this.gbSubmitedFiles.SuspendLayout();
             this.menuAction.SuspendLayout();
@@ -175,10 +176,10 @@
             this.menuAction.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.publishPointToolStripMenuItem,
             this.printReportToolStripMenuItem,
-            this.startToolStripMenuItem});
+            this.startToolStripMenuItem,
+            this.startToolStripMenuItem1});
             this.menuAction.Location = new System.Drawing.Point(0, 0);
             this.menuAction.Name = "menuAction";
-            this.menuAction.Padding = new System.Windows.Forms.Padding(6, 2, 0, 2);
             this.menuAction.Size = new System.Drawing.Size(1370, 33);
             this.menuAction.TabIndex = 3;
             this.menuAction.Text = "menuStrip1";
@@ -204,13 +205,13 @@
             // startToolStripMenuItem
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(64, 29);
-            this.startToolStripMenuItem.Text = "Start";
-            this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(201, 29);
+            this.startToolStripMenuItem.Text = "Check Duplicate Code";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click_1);
             // 
             // txtTime
             // 
-            this.txtTime.Location = new System.Drawing.Point(380, 6);
+            this.txtTime.Location = new System.Drawing.Point(548, 6);
             this.txtTime.Name = "txtTime";
             this.txtTime.Size = new System.Drawing.Size(211, 26);
             this.txtTime.TabIndex = 4;
@@ -219,11 +220,18 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.SystemColors.Control;
-            this.label1.Location = new System.Drawing.Point(608, 9);
+            this.label1.Location = new System.Drawing.Point(765, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 20);
             this.label1.TabIndex = 5;
             this.label1.Text = "Minutes";
+            // 
+            // startToolStripMenuItem1
+            // 
+            this.startToolStripMenuItem1.Name = "startToolStripMenuItem1";
+            this.startToolStripMenuItem1.Size = new System.Drawing.Size(64, 29);
+            this.startToolStripMenuItem1.Text = "Start";
+            this.startToolStripMenuItem1.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
             // LecturerForm
             // 
@@ -271,5 +279,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Result;
         private System.Windows.Forms.DataGridViewTextBoxColumn Error;
         private System.Windows.Forms.DataGridViewImageColumn Close;
+        private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem1;
     }
 }

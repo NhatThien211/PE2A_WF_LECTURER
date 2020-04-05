@@ -826,5 +826,52 @@ namespace PE2A_WF_Lecturer
             }
         
         }
+
+        private void startToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            CheckDuplicatedCode();
+        }
+
+        private async void CheckDuplicatedCode()
+        {
+            string apiUrl = Constant.ONLINE_API_CHECK_DUPLICATED_CODE_URL;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                try
+                {
+                    string result = await CheckDuplicatedCode(client, apiUrl);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(Constant.CANNOT_CONNECT_API_MESSAGE);
+                    Util.LogException("CheckDuplicatedCode", ex.Message);
+                }
+            }
+        }
+
+        private async Task<string> CheckDuplicatedCode(HttpClient client, string uri)
+        {
+            string message = "";
+            try
+            {
+                uri = "http://" + uri;
+                var values = new Dictionary<string, string>{
+                { "examCode", PracticalExamCode }
+                };
+                HttpContent content = new FormUrlEncodedContent(values);
+                HttpResponseMessage response = await client.PostAsync(new Uri(uri), content);
+                if (response.IsSuccessStatusCode)
+                {
+                    message = await response.Content.ReadAsStringAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Util.LogException("CheckDuplicatedCode", ex.Message);
+            }
+            return message;
+        }
     }
 }
