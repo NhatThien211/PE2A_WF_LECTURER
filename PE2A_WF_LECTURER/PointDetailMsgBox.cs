@@ -90,8 +90,9 @@ namespace PE2A_WF_Lecturer
                             }
                             else
                             {
-                                // result = await sendFile(FileName);
+                                 result = await SendFile(zipFileInRevaluateFol);
                             }
+                            MessageBox.Show(result);
                         }
                         else
                         {
@@ -132,6 +133,54 @@ namespace PE2A_WF_Lecturer
                 MessageBox.Show("Can not import script file!", "Error occurred");
             }
         }
+        private async Task<String> SendFile(String fileName)
+        {
+            string startupPath = Util.ExecutablePath();
+            string destinationPath = startupPath + Constant.RE_EVALUATE_FOLDER;
+            string workPath = destinationPath + Constant.WORK_FOLDER;
+            //    //extract
+            Util.UnarchiveFile(fileName, workPath);
+
+            string srcCodePath = Path.Combine(destinationPath, Constant.STUDENT_FOLDER_JAVA);
+
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+            ZipFile.CreateFromDirectory(srcCodePath, fileName, CompressionLevel.NoCompression, true);
+            var uri = new Uri(SubmitAPIUrl);
+            string fileExtension = fileName.Substring(fileName.IndexOf('.'));
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    var stream = File.ReadAllBytes(fileName);
+                    MultipartFormDataContent form = new MultipartFormDataContent();
+                    HttpContent content = new StreamContent(new FileStream(fileName, FileMode.Open));
+                    content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "file",
+                        FileName = studentDTO.StudentCode + fileExtension
+                    };
+                    form.Add(content, "file");
+                    form.Add(new StringContent(studentDTO.StudentCode), "studentCode");
+                    form.Add(new StringContent(studentDTO.ScriptCode), "scriptCode");
+                    using (var message = await client.PostAsync(uri, form))
+                    {
+                        var result = await message.Content.ReadAsStringAsync();
+                        //time.Stop();
+                        return result;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Util.LogException("SendFileJavaWeb", ex.Message);
+
+            }
+            return "Error !";
+        }
 
         private async Task<string> SendFileJavaWeb(string fileName)
         {
@@ -151,7 +200,7 @@ namespace PE2A_WF_Lecturer
             //    // Directory.Move(destinationPath, webappPath);
             //    // File.Copy()
 
-            string srcCodePath = Path.Combine(destinationPath, Constant.STUDENT_FOLDER);
+            string srcCodePath = Path.Combine(destinationPath, Constant.STUDENT_FOLDER_JAVAWEB);
 
             if (File.Exists(webPageZip))
             {

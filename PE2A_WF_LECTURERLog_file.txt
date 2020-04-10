@@ -1,0 +1,454 @@
+2020-04-10 17:03:27GetListStudentFromCSV error : 
+Could not find file 'D:\Capstone_WF_Lecturer\PE2A_WF_LECTURER\submission\PracticalExams\Practical_Java_SE1269_20200507\Student_List.csv'.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:04:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:06:25SendFile error : 
+An error occurred while sending the request.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:15:19GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:20:13GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:21:04GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:01GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:02GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:02GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:02GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:02GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:02GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:02GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:25:02GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:15GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:16GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:16GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:16GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:27:16GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:31:21GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:32:54GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:29GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:30GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:30GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:30GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:30GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:30GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:30GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:30GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:30GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:30GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-10 17:34:30GetListStudentFromCSV error : 
+Index was outside the bounds of the array.

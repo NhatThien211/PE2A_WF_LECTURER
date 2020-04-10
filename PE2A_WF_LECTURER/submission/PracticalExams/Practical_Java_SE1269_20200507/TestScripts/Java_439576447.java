@@ -1,38 +1,73 @@
-package com.practicalexam;
+package server;
 
-import com.practicalexam.student.TemplateQuestion;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+
+@SpringBootTest(classes = {SpringbootWithWebxmlApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ActiveProfiles("test")
 @ExtendWith(TestResultLoggerExtension.class)
-class JavaApplicationTests {
+class TestwebApplicationTests {
 
-    public static String questionPointStr = "checkQuestion1:2-checkQuestion2:4-checkQuestion3:2-checkQuestion4:2";
+    public static WebDriver driver;
+    private StringBuffer verificationErrors = new StringBuffer();
+    public static ChromeOptions options;
 
-    private TemplateQuestion templateQuestion = new TemplateQuestion();
+    public TestwebApplicationTests() {
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/static/chromedriver2.exe");
+        if (options == null) {
+            options = new ChromeOptions();
+            if (driver == null) {
+                driver = new ChromeDriver(options);
+                driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            }
+        }
+//        options.addArguments("--headless");
+    }
+
 
     @Test
-    public void checkQuestion1() {
-        assertEquals(Integer.valueOf(5), templateQuestion.question1(3, 2));
+    public void testLogin() {
+        driver.get("http://localhost:8080/MainController");
+//        driver.findElement(By.id("txtUsername")).clear();
+//        driver.findElement(By.id("txtPassword")).clear();
+//        driver.findElement(By.id("txtUsername")).sendKeys("thucnh");
+//        driver.findElement(By.id("txtPassword")).sendKeys("thucnh");
+//        driver.findElement(By.id("btnSubmit")).click();
+//        WebElement elementName = driver.findElement(By.id("txtResult"));
+//        String s = elementName.getText();
+        assertEquals("thucnhthucnh", "thucnhthucnh");
     }
 
     @Test
-    public void checkQuestion2() {
-        assertEquals(Integer.valueOf(5), templateQuestion.question2(3, 2));
+    public void add() {
+        assertEquals(1, 1);
     }
 
-    @Test
-    public void checkQuestion3() {
-        assertEquals("5" + "Test3", templateQuestion.question3(3, 2));
+    private boolean checkElement(WebDriver driver) {
+        if (driver.findElement(By.id("viewport")) != null) {
+            return true;
+        }
+        return false;
     }
 
-    @Test
-    public void checkQuestion4() {
-        assertEquals("5" + "Test4", templateQuestion.question4(3, 2));
+    private void close() {
+        driver.quit();
+        String verificationErrorString = verificationErrors.toString();
+        if (!"".equals(verificationErrorString)) {
+            fail(verificationErrorString);
+
+        }
     }
 
 
