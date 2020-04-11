@@ -296,6 +296,11 @@ namespace PE2A_WF_Lecturer
             Directory.CreateDirectory(workFol);
             Directory.CreateDirectory(webappFol);
         }
+
+        private void btnSimilarity_Click(object sender, EventArgs e)
+        {
+            Util.OpenBrowser("https://www.youtube.com/watch?v=aF1Sr81cSdY");
+        }
     }
 
 }

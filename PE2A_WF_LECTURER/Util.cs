@@ -366,12 +366,7 @@ namespace PE2A_WF_Lecturer
         }
         public static void OpenBrowser(String url)
         {
-            String chromePath = ExecutablePath() + @"\Chrome";
-            Process process = new Process();
-            process.StartInfo.UseShellExecute = true;
-            process.StartInfo.FileName = chromePath;
-            process.StartInfo.Arguments = url;
-            process.Start();
+            System.Diagnostics.Process.Start(url);
         }
     }
 }

@@ -452,3 +452,159 @@ Index was outside the bounds of the array.
 Index was outside the bounds of the array.
 2020-04-10 17:34:30GetListStudentFromCSV error : 
 Index was outside the bounds of the array.
+2020-04-11 23:26:50UnarchiveFile error : 
+The process cannot access the file 'D:\Capstone_WF_Lecturer\PE2A_WF_LECTURER\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\main\resources\static\chromedriver2.exe' because it is being used by another process.
+2020-04-11 23:26:50GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:50GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:50GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:50GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:50GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:50GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:50GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:26:51GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12UnarchiveFile error : 
+The process cannot access the file 'D:\Capstone_WF_Lecturer\PE2A_WF_LECTURER\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\main\resources\static\chromedriver2.exe' because it is being used by another process.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:29:12GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57UnarchiveFile error : 
+The process cannot access the file 'D:\Capstone_WF_Lecturer\PE2A_WF_LECTURER\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\main\resources\static\chromedriver2.exe' because it is being used by another process.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-11 23:30:57GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
