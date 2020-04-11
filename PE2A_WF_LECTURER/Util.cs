@@ -9,6 +9,7 @@ using SharpCompress.Archives.Zip;
 using System.IO;
 using System.Security.Cryptography;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace PE2A_WF_Lecturer
 {
@@ -362,6 +363,15 @@ namespace PE2A_WF_Lecturer
                 Console.WriteLine("LogException error :" + ex.Message);
             }
 
+        }
+        public static void OpenBrowser(String url)
+        {
+            String chromePath = ExecutablePath() + @"\Chrome";
+            Process process = new Process();
+            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.FileName = chromePath;
+            process.StartInfo.Arguments = url;
+            process.Start();
         }
     }
 }
