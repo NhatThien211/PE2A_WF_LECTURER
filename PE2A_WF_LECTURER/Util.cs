@@ -366,7 +366,47 @@ namespace PE2A_WF_Lecturer
         }
         public static void OpenBrowser(String url)
         {
-            System.Diagnostics.Process.Start(url);
+            try
+            {
+                System.Diagnostics.Process.Start(url);
+
+            }
+            catch (Exception ex)
+            {
+                LogException("OpenBrowser", ex.Message);
+            }
+        }
+
+        public static void RefreseServerSubmission(String url)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(url);
+            }
+            catch (Exception ex)
+            {
+                LogException("RefreseServerSubmission", ex.Message);
+            }
+        }
+        public static void RunCmd(String cmdPath,String mavenCmd)
+        {
+            try
+            {
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                startInfo.FileName = "cmd.exe";
+                startInfo.Arguments = mavenCmd;
+                startInfo.WorkingDirectory = cmdPath;
+                process.StartInfo = startInfo;
+                process.Start();
+            }
+            catch(Exception ex)
+            {
+                LogException("RunCmd", ex.Message);
+
+            }
+          
         }
     }
 }
