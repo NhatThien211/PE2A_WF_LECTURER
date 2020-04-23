@@ -40,9 +40,9 @@
             System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Evaluated time:");
             System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Message:");
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSimilarity = new System.Windows.Forms.Button();
             this.btnReEvaluate = new System.Windows.Forms.Button();
             this.tvPointDetail = new System.Windows.Forms.TreeView();
-            this.btnSimilarity = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,6 +59,17 @@
             this.panel1.Padding = new System.Windows.Forms.Padding(15, 31, 15, 15);
             this.panel1.Size = new System.Drawing.Size(876, 771);
             this.panel1.TabIndex = 0;
+            // 
+            // btnSimilarity
+            // 
+            this.btnSimilarity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSimilarity.Location = new System.Drawing.Point(517, 668);
+            this.btnSimilarity.Name = "btnSimilarity";
+            this.btnSimilarity.Size = new System.Drawing.Size(219, 69);
+            this.btnSimilarity.TabIndex = 2;
+            this.btnSimilarity.Text = "Similarity";
+            this.btnSimilarity.UseVisualStyleBackColor = true;
+            this.btnSimilarity.Click += new System.EventHandler(this.btnSimilarity_Click);
             // 
             // btnReEvaluate
             // 
@@ -118,24 +129,13 @@
             this.tvPointDetail.Size = new System.Drawing.Size(846, 610);
             this.tvPointDetail.TabIndex = 0;
             // 
-            // btnSimilarity
-            // 
-            this.btnSimilarity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSimilarity.Location = new System.Drawing.Point(517, 668);
-            this.btnSimilarity.Name = "btnSimilarity";
-            this.btnSimilarity.Size = new System.Drawing.Size(219, 69);
-            this.btnSimilarity.TabIndex = 2;
-            this.btnSimilarity.Text = "Similarity";
-            this.btnSimilarity.UseVisualStyleBackColor = true;
-            this.btnSimilarity.Click += new System.EventHandler(this.btnSimilarity_Click);
-            // 
             // PointDetailMsgBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(876, 771);
             this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
