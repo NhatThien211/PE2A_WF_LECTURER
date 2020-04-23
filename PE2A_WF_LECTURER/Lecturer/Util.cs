@@ -285,7 +285,7 @@ namespace PE2A_WF_Lecturer
         //public static string ExecutablePath()
         //{
         //    string appPath = Path.GetDirectoryName(Application.ExecutablePath);
-        //    return appPath;
+        //    return appPath + @"\Lecturer";
         //}
 
         /*
@@ -299,7 +299,7 @@ namespace PE2A_WF_Lecturer
             {
                 string startupPath = System.IO.Directory.GetCurrentDirectory();
                 string projectDirectory = Directory.GetParent(startupPath).Parent.FullName;
-                return projectDirectory;
+                return projectDirectory + @"\Lecturer";
             }
             catch(Exception ex)
             {
@@ -355,7 +355,7 @@ namespace PE2A_WF_Lecturer
                 String currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 String logging = currentTime + methodName + " error : " + "\r\n";
                 logging += errorMessage + "\r\n";
-                String filePath = ExecutablePath() + Constant.LOG_FILE;
+                String filePath = ExecutablePath() + @"\" + Constant.LOG_FILE;
                 File.AppendAllText(filePath, logging);
             }
             catch (Exception ex)
