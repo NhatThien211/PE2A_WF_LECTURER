@@ -392,7 +392,7 @@ namespace PE2A_WF_Lecturer
             try
             {
                 string practicalExam = PracticalExamCode;
-                var appDomainDir = Util.ExecutablePath();
+                var appDomainDir = Util.GetProjectDirectory();
                 var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
                 string listStudentPath = destinationPath + "\\" + practicalExam + "\\" + Constant.STUDENT_LIST_FILE_NAME;
                 string newCSV = "";
@@ -529,7 +529,7 @@ namespace PE2A_WF_Lecturer
                 DialogResult result = MessageBox.Show(Constant.REEVALUATE_STUDENT_MESSAGE + dto.StudentCode, "RE-Evaluate", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    var appDomainDir = Util.ExecutablePath();
+                    var appDomainDir = Util.GetProjectDirectory();
                     var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
                     string listStudentPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.SUMISSION_FOLDER_NAME;
                     listStudentPath = listStudentPath + "\\" + dto.StudentCode + Constant.ZIP_EXTENSION;
@@ -674,7 +674,7 @@ namespace PE2A_WF_Lecturer
         {
             try
             {
-                var appDomainDir = Util.ExecutablePath();
+                var appDomainDir = Util.GetProjectDirectory();
                 var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
                 string examScriptFolderPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.EXAM_SCIPT_FOLDER_NAME;
                 string[] fileEntries = Directory.GetFiles(examScriptFolderPath);

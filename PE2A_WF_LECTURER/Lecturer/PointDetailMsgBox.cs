@@ -88,9 +88,17 @@ namespace PE2A_WF_Lecturer
                             {
                                 result = await SendFileJavaWeb(zipFileInRevaluateFol);
                             }
-                            else
+                           else if (practicalExamType.Equals(Constant.PRACTICAL_EXAM_JAVA))
                             {
-                                 result = await SendFile(zipFileInRevaluateFol);
+                                 result = await SendFile(zipFileInRevaluateFol, Constant.STUDENT_FOLDER_JAVA);
+                            }
+                              else if (practicalExamType.Equals(Constant.PRACTICAL_EXAM_C_SHARP))
+                            {
+                                result = await SendFile(zipFileInRevaluateFol,Constant.STUDENT_FOLDER_CSharp);
+                            }
+                            else if (practicalExamType.Equals(Constant.PRACTICAL_EXAM_C))
+                            {
+                                result = await SendFile(zipFileInRevaluateFol,Constant.STUDENT_FOLDER_C);
                             }
                             MessageBox.Show(result);
                         }
@@ -133,15 +141,15 @@ namespace PE2A_WF_Lecturer
                 MessageBox.Show("Can not import script file!", "Error occurred");
             }
         }
-        private async Task<String> SendFile(String fileName)
+        private async Task<string> SendFile(String fileName, string srcFolder)
         {
-            string startupPath = Util.ExecutablePath();
+            string startupPath = Util.GetProjectDirectory();
             string destinationPath = startupPath + Constant.RE_EVALUATE_FOLDER;
             string workPath = destinationPath + Constant.WORK_FOLDER;
             //    //extract
             Util.UnarchiveFile(fileName, workPath);
 
-            string srcCodePath = Path.Combine(destinationPath, Constant.STUDENT_FOLDER_JAVA);
+            string srcCodePath = Path.Combine(destinationPath, srcFolder);
 
             if (File.Exists(fileName))
             {
@@ -185,7 +193,7 @@ namespace PE2A_WF_Lecturer
         private async Task<string> SendFileJavaWeb(string fileName)
         {
 
-            string startupPath = Util.ExecutablePath();
+            string startupPath = Util.GetProjectDirectory();
             string destinationPath = startupPath + Constant.RE_EVALUATE_FOLDER;
             string webappPath = destinationPath + Constant.WEBAPP_FOLDER;
             string workPath = destinationPath + Constant.WORK_FOLDER;
@@ -286,8 +294,8 @@ namespace PE2A_WF_Lecturer
 
         private void PointDetailMsgBox_Load(object sender, EventArgs e)
         {
-            string workFol = Util.ExecutablePath() + Constant.RE_EVALUATE_FOLDER + Constant.WORK_FOLDER;
-            string webappFol = Util.ExecutablePath() + Constant.RE_EVALUATE_FOLDER + Constant.WEBAPP_FOLDER;
+            string workFol = Util.GetProjectDirectory() + Constant.RE_EVALUATE_FOLDER + Constant.WORK_FOLDER;
+            string webappFol = Util.GetProjectDirectory() + Constant.RE_EVALUATE_FOLDER + Constant.WEBAPP_FOLDER;
             if (Directory.Exists(workFol) || Directory.Exists(webappFol))
             {
                 Directory.Delete(workFol, true);

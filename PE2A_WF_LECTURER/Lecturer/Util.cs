@@ -263,7 +263,7 @@ namespace PE2A_WF_Lecturer
         {
             try
             {
-                var appDomainDir = Util.ExecutablePath();
+                var appDomainDir = Util.ExecutablePath().Replace(@"\Lecturer","");
                 //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
                 return appDomainDir;
             }

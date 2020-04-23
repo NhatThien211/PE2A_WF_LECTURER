@@ -90,6 +90,8 @@ namespace PE2A_WF_Lecturer
         public const string WORK_WEBPAGE_PATH = @"\work\PRJ321Template\web";
         public const string STUDENT_FOLDER_JAVAWEB = @"work\PRJ321Template\src\java\com\practicalexam\student";
         public const string STUDENT_FOLDER_JAVA = @"work\PRO192PETemplate\src\com\practicalexam\student";
+        public const string STUDENT_FOLDER_CSharp = @"work\PRP192PracticalExam\PRP192PracticalExam\Practical\student";
+        public const string STUDENT_FOLDER_C = @"work\CTemplate\student";
 
         // Practical Exam type 
         public static string PRACTICAL_EXAM_JAVA = "JAVA";

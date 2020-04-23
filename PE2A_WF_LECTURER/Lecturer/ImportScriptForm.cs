@@ -245,7 +245,7 @@ namespace PE2A_WF_Lecturer
             {
                 string practicalExam = practicalExamCode;
                 int count = 0;
-                var appDomainDir = Util.ExecutablePath();
+                var appDomainDir = Util.GetProjectDirectory();
                 var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
                 string listStudentPath = destinationPath + "\\" + practicalExam + "\\" + Constant.STUDENT_LIST_FILE_NAME;
                 using (var reader = new StreamReader(listStudentPath))
