@@ -57,48 +57,48 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constant.cs" />
-    <Compile Include="EnrollForm.cs">
+    <Compile Include="Lecturer\Constant.cs" />
+    <Compile Include="Lecturer\EnrollForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EnrollForm.Designer.cs">
+    <Compile Include="Lecturer\EnrollForm.Designer.cs">
       <DependentUpon>EnrollForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImportScriptForm.cs">
+    <Compile Include="Lecturer\ImportScriptForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ImportScriptForm.Designer.cs">
+    <Compile Include="Lecturer\ImportScriptForm.Designer.cs">
       <DependentUpon>ImportScriptForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ISynchronizeInvokeExtensions.cs" />
-    <Compile Include="LecturerForm.cs">
+    <Compile Include="Lecturer\ISynchronizeInvokeExtensions.cs" />
+    <Compile Include="Lecturer\LecturerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LecturerForm.Designer.cs">
+    <Compile Include="Lecturer\LecturerForm.Designer.cs">
       <DependentUpon>LecturerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PointDetailMsgBox.cs">
+    <Compile Include="Lecturer\PointDetailMsgBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PointDetailMsgBox.Designer.cs">
+    <Compile Include="Lecturer\PointDetailMsgBox.Designer.cs">
       <DependentUpon>PointDetailMsgBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="PracticalDTO.cs" />
+    <Compile Include="Lecturer\PracticalDTO.cs" />
+    <Compile Include="Lecturer\StudentDTO.cs" />
+    <Compile Include="Lecturer\StudentPointDTO.cs" />
+    <Compile Include="Lecturer\Util.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StudentDTO.cs" />
-    <Compile Include="StudentPointDTO.cs" />
-    <Compile Include="Util.cs" />
-    <EmbeddedResource Include="EnrollForm.resx">
+    <EmbeddedResource Include="Lecturer\EnrollForm.resx">
       <DependentUpon>EnrollForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ImportScriptForm.resx">
+    <EmbeddedResource Include="Lecturer\ImportScriptForm.resx">
       <DependentUpon>ImportScriptForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LecturerForm.resx">
+    <EmbeddedResource Include="Lecturer\LecturerForm.resx">
       <DependentUpon>LecturerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PointDetailMsgBox.resx">
+    <EmbeddedResource Include="Lecturer\PointDetailMsgBox.resx">
       <DependentUpon>PointDetailMsgBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -111,6 +111,104 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Lecturer\submission\.mvn\wrapper\maven-wrapper.properties" />
+    <None Include="Lecturer\submission\mvnw" />
+    <None Include="Lecturer\submission\mvnw.cmd" />
+    <None Include="Lecturer\submission\practical-info.json" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\ExamDocuments\Java_439576447.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\ExamDocuments\Java_439576449.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\ExamDocuments\Java_439576450.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\practical-info.json" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\LICENSE" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\mvnw" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\mvnw.cmd" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\README.md" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\src\main\resources\application.properties" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Student_List.csv" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Student_Results.csv" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE62804.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE62804_WEB.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE62847.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE62847_WEB.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE62882.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE62882_WEB.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE63146.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE63146_WEB.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE63152.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE63152_WEB.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE63155.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Submissions\SE63155_WEB.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\ExamDocuments\Java_439576447.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\ExamDocuments\Java_439576449.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\ExamDocuments\Java_439576450.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\practical-info.json" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Server\LICENSE" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Server\mvnw" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Server\mvnw.cmd" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Server\README.md" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Server\src\main\resources\application.properties" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Student_List.csv" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Student_Results.csv" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Submissions\SE63146.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Submissions\SE63155.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Submissions\SE63155_WEB.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\ExamDocuments\Java_439576447_DE01.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\ExamDocuments\Java_439576449_DE02.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\ExamDocuments\Java_439576450_DE03.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\ExamScripts\Java_439576447_DE01.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\ExamScripts\Java_439576449_DE02.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\ExamScripts\Java_439576450_DE03.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\practical-info.json" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\.mvn\wrapper\maven-wrapper.properties" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\mvnw" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\mvnw.cmd" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\src\main\resources\application.properties" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Student_List.csv" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Student_Results.csv" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Submissions\SE63146.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Submissions\SE63155.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\ExamDocuments\Java_439576447.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\ExamDocuments\Java_439576449.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\ExamDocuments\Java_439576450.docx" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\practical-info.json" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\.mvn\wrapper\maven-wrapper.properties" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\LICENSE" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\mvnw" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\mvnw.cmd" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\README.md" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\main\resources\application.properties" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Student_List.csv" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Student_Results.csv" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE61616.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE61902.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE62289.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE62792.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE62804.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE62823.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE62841.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE62867.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE62878.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE62915.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63030.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63073.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63146.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63151.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63152.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63155.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63155_WEB.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63192.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63200.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63220.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63236.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63254.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63284.zip" />
+    <None Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Submissions\SE63369.zip" />
+    <None Include="Lecturer\submission\src\main\resources\application.properties" />
+    <None Include="Lecturer\Submited Files\SE130297.zip" />
+    <None Include="Lecturer\Submited Files\SE62847.zip" />
+    <None Include="Lecturer\Submited Files\SE62847_WEB.zip" />
+    <None Include="Lecturer\Submited Files\SE63146.rar" />
+    <None Include="Lecturer\Submited Files\SE63155.zip" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -136,6 +234,89 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icShare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lecturer\submission\.gitignore" />
+    <Content Include="Lecturer\submission\.mvn\wrapper\maven-wrapper.jar" />
+    <Content Include="Lecturer\submission\.mvn\wrapper\MavenWrapperDownloader.java" />
+    <Content Include="Lecturer\submission\pom.xml" />
+    <Content Include="Lecturer\submission\PracticalExams\com\fpt\practical\java\JavaApplication.java" />
+    <Content Include="Lecturer\submission\PracticalExams\com\fpt\practical\java\student\StudentWork.java" />
+    <Content Include="Lecturer\submission\PracticalExams\com\fpt\practical\java\template\TemplateQuestion.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Result.txt" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\pom.xml" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\src\main\java\server\databasetestutil\DatabaseTestObj.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\src\main\java\server\databasetestutil\DatabaseTestUtils.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\src\main\java\server\DemoListener.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\src\main\java\server\SpringbootWithWebxmlApplication.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\src\main\java\server\WebXmlBridge.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\src\main\resources\static\chromedriver2.exe" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\Server\src\test\java\server\TestResultLoggerExtension.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\TestScripts\Java_439576447.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\TestScripts\Java_439576449.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200321\TestScripts\Java_439576450.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Result.txt" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Server\pom.xml" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Server\src\main\java\server\DemoListener.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Server\src\main\java\server\SpringbootWithWebxmlApplication.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Server\src\main\java\server\WebXmlBridge.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Server\src\main\resources\static\chromedriver2.exe" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\Server\src\test\java\server\TestResultLoggerExtension.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\TestScripts\Java_439576447.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\TestScripts\Java_439576449.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_JavaWeb_SE1269_20200507\TestScripts\Java_439576450.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Result.txt" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\.gitignore" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\.mvn\wrapper\maven-wrapper.jar" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\.mvn\wrapper\MavenWrapperDownloader.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\pom.xml" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\Result.txt" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\src\main\java\com\practicalexam\JavaApplication.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\src\main\java\com\practicalexam\student\StudentWork.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\src\main\java\com\practicalexam\student\TemplateQuestion.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\src\test\java\com\fpt\practical\java\PathConstant.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\src\test\java\com\fpt\practical\java\TestResultLoggerExtension.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\Server\src\test\java\com\practicalexam\TestResultLoggerExtension.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\TestScripts\Java_SE1269_05_02_2020_De1.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\TestScripts\Java_SE1269_05_02_2020_De2.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_05022020\TestScripts\Java_SE1269_05_02_2020_De3.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Result.txt" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\.gitignore" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\.mvn\wrapper\maven-wrapper.jar" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\.mvn\wrapper\MavenWrapperDownloader.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\pom.xml" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\Result.txt" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\main\java\com\practicalexam\JavaApplication.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\main\java\com\practicalexam\student\StudentWork.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\main\java\com\practicalexam\student\TemplateQuestion.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\main\java\server\DemoListener.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\main\java\server\SpringbootWithWebxmlApplication.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\main\java\server\WebXmlBridge.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\main\resources\static\chromedriver2.exe" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\test\java\com\practicalexam\EXAM_SE62289_Java_439576447.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\test\java\com\practicalexam\TestResultLoggerExtension.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\Server\src\test\java\server\TestResultLoggerExtension.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\TestScripts\Java_439576447.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\TestScripts\Java_439576449.java" />
+    <Content Include="Lecturer\submission\PracticalExams\Practical_Java_SE1269_20200507\TestScripts\Java_439576450.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\config\SwaggerConfig.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\constants\CommonConstant.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\controller\SubmissionController.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\dto\request\PathDetails.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\dto\request\PracticalInfo.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\dto\request\StudentSubmitDetail.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\dto\request\UploadFileDto.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\exception\CustomException.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\service\serviceImpl\EvaluationManager.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\service\serviceImpl\SubmissionServiceImpl.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\service\SubmissionService.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\SubmissionApplication.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\utils\CmdExcution.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\utils\PathUtils.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\utils\SubmissionUtils.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\utils\TimeUtils.java" />
+    <Content Include="Lecturer\submission\src\main\java\com\fpt\submission\utils\ZipFile.java" />
+    <Content Include="Lecturer\submission\src\test\java\com\fpt\submission\SubmissionApplicationTests.java" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
