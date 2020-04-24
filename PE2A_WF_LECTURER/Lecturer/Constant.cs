@@ -87,10 +87,10 @@ namespace PE2A_WF_Lecturer
         public const string RE_EVALUATE_FOLDER = @"\Submited Files";
         public const string WEBAPP_FOLDER = @"\webapp";
         public const string WORK_FOLDER = @"\work";
-        public const string WORK_WEBPAGE_PATH = @"\work\PRJ321Template\web";
-        public const string STUDENT_FOLDER_JAVAWEB = @"work\PRJ321Template\src\java\com\practicalexam\student";
-        public const string STUDENT_FOLDER_JAVA = @"work\PRO192PETemplate\src\com\practicalexam\student";
-        public const string STUDENT_FOLDER_CSharp = @"work\PRP192PracticalExam\PRP192PracticalExam\Practical\student";
+        public const string WORK_WEBPAGE_PATH = @"\work\JavaWebTemplate\web";
+        public const string STUDENT_FOLDER_JAVAWEB = @"work\JavaWebTemplate\src\java\com\practicalexam\student";
+        public const string STUDENT_FOLDER_JAVA = @"work\JavaTemplate\src\com\practicalexam\student";
+        public const string STUDENT_FOLDER_CSharp = @"work\CSharpTemplate\CSharpTemplate\Practical\student";
         public const string STUDENT_FOLDER_C = @"work\CTemplate\student";
 
         // Practical Exam type 
