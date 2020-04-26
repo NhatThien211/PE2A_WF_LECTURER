@@ -44,10 +44,10 @@
             this.menuAction = new System.Windows.Forms.MenuStrip();
             this.publishPointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtTime = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.startToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtTime = new System.Windows.Forms.TextBox();
+            this.lbTime = new System.Windows.Forms.Label();
+            this.cbDuplicatedCode = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStudent)).BeginInit();
             this.gbSubmitedFiles.SuspendLayout();
             this.menuAction.SuspendLayout();
@@ -176,7 +176,6 @@
             this.menuAction.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.publishPointToolStripMenuItem,
             this.printReportToolStripMenuItem,
-            this.startToolStripMenuItem,
             this.startToolStripMenuItem1});
             this.menuAction.Location = new System.Drawing.Point(0, 0);
             this.menuAction.Name = "menuAction";
@@ -202,30 +201,6 @@
             this.printReportToolStripMenuItem.Text = "Print Report";
             this.printReportToolStripMenuItem.Click += new System.EventHandler(this.printReportToolStripMenuItem_Click);
             // 
-            // startToolStripMenuItem
-            // 
-            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(201, 29);
-            this.startToolStripMenuItem.Text = "Check Duplicate Code";
-            this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click_1);
-            // 
-            // txtTime
-            // 
-            this.txtTime.Location = new System.Drawing.Point(548, 6);
-            this.txtTime.Name = "txtTime";
-            this.txtTime.Size = new System.Drawing.Size(211, 26);
-            this.txtTime.TabIndex = 4;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.Control;
-            this.label1.Location = new System.Drawing.Point(765, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 20);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Minutes";
-            // 
             // startToolStripMenuItem1
             // 
             this.startToolStripMenuItem1.Name = "startToolStripMenuItem1";
@@ -233,13 +208,43 @@
             this.startToolStripMenuItem1.Text = "Start";
             this.startToolStripMenuItem1.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
+            // txtTime
+            // 
+            this.txtTime.Location = new System.Drawing.Point(365, 5);
+            this.txtTime.Name = "txtTime";
+            this.txtTime.Size = new System.Drawing.Size(211, 26);
+            this.txtTime.TabIndex = 4;
+            // 
+            // lbTime
+            // 
+            this.lbTime.AutoSize = true;
+            this.lbTime.BackColor = System.Drawing.SystemColors.Control;
+            this.lbTime.Location = new System.Drawing.Point(582, 11);
+            this.lbTime.Name = "lbTime";
+            this.lbTime.Size = new System.Drawing.Size(65, 20);
+            this.lbTime.TabIndex = 5;
+            this.lbTime.Text = "Minutes";
+            // 
+            // cbDuplicatedCode
+            // 
+            this.cbDuplicatedCode.AutoSize = true;
+            this.cbDuplicatedCode.Checked = true;
+            this.cbDuplicatedCode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbDuplicatedCode.Location = new System.Drawing.Point(691, 7);
+            this.cbDuplicatedCode.Name = "cbDuplicatedCode";
+            this.cbDuplicatedCode.Size = new System.Drawing.Size(202, 24);
+            this.cbDuplicatedCode.TabIndex = 7;
+            this.cbDuplicatedCode.Text = "Check Duplicated Code";
+            this.cbDuplicatedCode.UseVisualStyleBackColor = true;
+            // 
             // LecturerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1370, 749);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cbDuplicatedCode);
+            this.Controls.Add(this.lbTime);
             this.Controls.Add(this.txtTime);
             this.Controls.Add(this.gbSubmitedFiles);
             this.Controls.Add(this.menuAction);
@@ -265,9 +270,8 @@
         private System.Windows.Forms.MenuStrip menuAction;
         private System.Windows.Forms.ToolStripMenuItem publishPointToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printReportToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
         private System.Windows.Forms.TextBox txtTime;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn No;
         private System.Windows.Forms.DataGridViewTextBoxColumn StudentCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn StudentName;
@@ -280,5 +284,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Error;
         private System.Windows.Forms.DataGridViewImageColumn Close;
         private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem1;
+        private System.Windows.Forms.CheckBox cbDuplicatedCode;
     }
 }
