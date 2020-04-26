@@ -15,6 +15,7 @@ namespace PE2A_WF_Lecturer
 
         // Common messages
         public static string EXISTED_IP_MESSAGE = "You Have Connected To Server";
+        public static string EXIST_CONFIRM = "Do you want to Exit?";
         public static string[] STATUSLIST = { "Connected", "Submitted", "Evaluated", "Cannot Evaluate"};
         public static string CLIENT_SOCKET_CLOSED_MESSAGE = "Clients closed their connection!!!";
         public static string PROTOCOL = "http://";
@@ -101,6 +102,14 @@ namespace PE2A_WF_Lecturer
 
         //Log file
         public static string LOG_FILE = "Log_file.txt";
+
+        // Run CMD
+        public const string SUBMISSION_SERVE_FOLDER = "Server";
+        public const string CMD_COMMAND_RUN_SUBMISSION_SERVER = "/k mvn spring-boot:run";
+
+        // Open Check Duplicated Code
+        public const string DUPLICATED_LOCALHOST_DOMAIN = "http://localhost:1998/practicalexam/";
+        public const string DUPLICATED_ONLINE_DOMAIN = "ADD LATER";
 
     }
 }

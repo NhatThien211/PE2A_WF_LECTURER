@@ -17,7 +17,7 @@ namespace PE2A_WF_Lecturer
     {
         private static Socket listeningSocket;
         private static Socket listeningSockets;
-
+        private static System.Diagnostics.Process process;
         public static void SendBroadCast(string message, int receiverListeningPort)
         {
             try
@@ -30,12 +30,12 @@ namespace PE2A_WF_Lecturer
                 clientSock.SendTo(bytes, ipEnd);
                 clientSock.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("SendBroadCast", ex.Message);
 
             }
-        
+
         }
 
         public static string GetMessageFromTCPConnection(int listeningPort, int maximumRequest)
@@ -54,12 +54,12 @@ namespace PE2A_WF_Lecturer
                 listeningSocket.Close();
                 return receivedMessage.Substring(0, size);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("GetMessageFromTCPConnection", ex.Message);
 
             }
-            return null;         
+            return null;
         }
 
         public static string GetMessageFromTCPConnections(int listeningPort, int maximumRequest)
@@ -78,12 +78,12 @@ namespace PE2A_WF_Lecturer
                 listeningSockets.Close();
                 return receivedMessage.Substring(0, size);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("GetMessageFromTCPConnections", ex.Message);
 
             }
-            return null;            
+            return null;
         }
 
         public static IPAddress GetLocalIPAddress()
@@ -94,11 +94,11 @@ namespace PE2A_WF_Lecturer
                 string ip = Dns.GetHostByName(hostName).AddressList[0].ToString();
                 return IPAddress.Parse(ip);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("GetLocalIPAddress", ex.Message);
             }
-            return null;          
+            return null;
         }
         public static string ReceiveMessage(byte[] bytes)
         {
@@ -116,13 +116,13 @@ namespace PE2A_WF_Lecturer
                 }
                 return messageToPrint;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("receiveMessage", ex.Message);
 
             }
             return null;
-            
+
         }
         public static void SendMessage(byte[] bytes, TcpClient client)
         {
@@ -133,7 +133,7 @@ namespace PE2A_WF_Lecturer
                       .Write(bytes, 0,
                       bytes.Length); // Send the stream  
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("sendMessage", ex.Message);
 
@@ -179,10 +179,10 @@ namespace PE2A_WF_Lecturer
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("UnarchiveFile", ex.Message);
-            }      
+            }
         }
 
         private static byte[] Encrypt(byte[] bytesToBeEncrypted, byte[] keyBytes)
@@ -220,7 +220,7 @@ namespace PE2A_WF_Lecturer
 
                 return encryptedBytes;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("Encrypt", ex.Message);
             }
@@ -251,7 +251,7 @@ namespace PE2A_WF_Lecturer
 
                 return Convert.ToBase64String(bytesEncrypted);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("Encode", ex.Message);
 
@@ -263,17 +263,17 @@ namespace PE2A_WF_Lecturer
         {
             try
             {
-                var appDomainDir = Util.ExecutablePath().Replace(@"\Lecturer","");
+                var appDomainDir = Util.ExecutablePath().Replace(@"\Lecturer", "");
                 //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
                 return appDomainDir;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("GetProjectDirectory", ex.Message);
 
             }
             return null;
-         
+
         }
 
 
@@ -301,7 +301,7 @@ namespace PE2A_WF_Lecturer
                 string projectDirectory = Directory.GetParent(startupPath).Parent.FullName;
                 return projectDirectory + @"\Lecturer";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("ExecutablePath", ex.Message);
             }
@@ -315,11 +315,11 @@ namespace PE2A_WF_Lecturer
                 DirectoryInfo diTarget = new DirectoryInfo(targetDirectory);
                 CopyAll(diSource, diTarget);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("Copy", ex.Message);
             }
-         
+
         }
         public static void CopyAll(DirectoryInfo source, DirectoryInfo target)
         {
@@ -342,11 +342,11 @@ namespace PE2A_WF_Lecturer
                     CopyAll(diSourceSubDir, nextTargetSubDir);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("CopyAll", ex.Message);
             }
-           
+
         }
         public static void LogException(String methodName, String errorMessage)
         {
@@ -388,25 +388,38 @@ namespace PE2A_WF_Lecturer
                 LogException("RefreseServerSubmission", ex.Message);
             }
         }
-        public static void RunCmd(String cmdPath,String mavenCmd)
+        public static void RunCmd(String cmdPath, String mavenCmd)
         {
             try
             {
-                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
                 startInfo.FileName = "cmd.exe";
                 startInfo.Arguments = mavenCmd;
                 startInfo.WorkingDirectory = cmdPath;
                 process.StartInfo = startInfo;
                 process.Start();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogException("RunCmd", ex.Message);
 
             }
-          
+
+        }
+
+        public static void CloseCMD()
+        {
+            try
+            {
+                process.CloseMainWindow();
+                process.Close();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
         }
     }
 }

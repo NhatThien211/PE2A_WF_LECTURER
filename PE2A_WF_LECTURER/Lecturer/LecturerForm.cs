@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PE2A_WF_Lecturer.Lecturer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -545,7 +546,12 @@ namespace PE2A_WF_Lecturer
 
         private void LecturerForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            DialogResult rs = MessageBox.Show(Constant.EXIST_CONFIRM, "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(rs == DialogResult.Yes)
+            {
+                Util.CloseCMD();
+                System.Windows.Forms.Application.ExitThread();
+            }
         }
 
         private void LecturerForm_LoadAsync(object sender, EventArgs e)
@@ -628,7 +634,12 @@ namespace PE2A_WF_Lecturer
             {
                 try
                 {
-                    string point = Constant.RETURN_POINT + item.TotalPoint;
+                  
+                    PublishPointDTO dto = new PublishPointDTO();
+                    dto.ListQuestions = item.ListQuestions;
+                    dto.TotalPoint = item.TotalPoint;
+                    string json = JsonConvert.SerializeObject(dto);
+                    string point = Constant.RETURN_POINT + json;
                     Util.SendMessage(System.Text.Encoding.Unicode.GetBytes(point), item.TcpClient);
                 }
                 catch (Exception ex)

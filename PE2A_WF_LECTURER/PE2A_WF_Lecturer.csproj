@@ -84,6 +84,7 @@
       <DependentUpon>PointDetailMsgBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Lecturer\PracticalDTO.cs" />
+    <Compile Include="Lecturer\PublishPointDTO.cs" />
     <Compile Include="Lecturer\StudentDTO.cs" />
     <Compile Include="Lecturer\StudentPointDTO.cs" />
     <Compile Include="Lecturer\Util.cs" />

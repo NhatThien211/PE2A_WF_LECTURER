@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PE2A_WF_Lecturer
@@ -144,7 +145,9 @@ namespace PE2A_WF_Lecturer
                                 CopyPracticalInfoToSubmissionFolder(scriptFolder);
                                 // MessageBox.Show("Import success!", "Information");
                                 var practicalExamCode = openFileDialog.SafeFileName.Split('.')[0];
-                                ShowLecturerForm(practicalExamCode, Constant.PRACTICAL_STATUS[1]);
+                                // Point the Submission Server Path
+                                string submissionServerPath = Path.Combine(scriptFolder, Constant.SUBMISSION_SERVE_FOLDER);
+                                ShowLecturerForm(practicalExamCode, Constant.PRACTICAL_STATUS[1],submissionServerPath);
                             }
                             else
                             {
@@ -165,10 +168,11 @@ namespace PE2A_WF_Lecturer
             }
         }
 
-        private void ShowLecturerForm(string practicalExamCode, string practicalStatus)
+        private void ShowLecturerForm(string practicalExamCode, string practicalStatus, string submissionServerPath)
         {
             try
             {
+                Util.RunCmd(submissionServerPath, Constant.CMD_COMMAND_RUN_SUBMISSION_SERVER);
                 GetListStudentFromCSV(practicalExamCode);
                 LecturerForm lecturerForm = new LecturerForm();
                 //AddData();
@@ -188,6 +192,7 @@ namespace PE2A_WF_Lecturer
             }
 
         }
+        
 
         private void CopyPracticalInfoToSubmissionFolder(string scriptFolder)
         {
@@ -235,7 +240,10 @@ namespace PE2A_WF_Lecturer
             }
             else
             {
-                ShowLecturerForm(dto.Code, dto.State);
+                var destinationPath = Path.Combine(Util.GetProjectDirectory() + Constant.SCRIPT_FILE_PATH);
+                var scriptFolder = Path.Combine(destinationPath, dto.Code);
+                string submissionServerPath = Path.Combine(scriptFolder, Constant.SUBMISSION_SERVE_FOLDER);
+                ShowLecturerForm(dto.Code, dto.State,submissionServerPath);
             }
         }
 

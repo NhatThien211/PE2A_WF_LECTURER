@@ -307,7 +307,8 @@ namespace PE2A_WF_Lecturer
 
         private void btnSimilarity_Click(object sender, EventArgs e)
         {
-            Util.OpenBrowser("https://www.youtube.com/watch?v=aF1Sr81cSdY");
+            string url = Constant.DUPLICATED_LOCALHOST_DOMAIN + PracticalExamCode + @"/" + studentDTO.StudentCode;
+            Util.OpenBrowser(url);
         }
     }
 
