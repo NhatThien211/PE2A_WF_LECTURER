@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using PE2A_WF_Lecturer.Lecturer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -634,12 +633,8 @@ namespace PE2A_WF_Lecturer
             {
                 try
                 {
-                  
-                    PublishPointDTO dto = new PublishPointDTO();
-                    dto.ListQuestions = item.ListQuestions;
-                    dto.TotalPoint = item.TotalPoint;
-                    string json = JsonConvert.SerializeObject(dto);
-                    string point = Constant.RETURN_POINT + json;
+
+                    string point = Constant.RETURN_POINT + item.TotalPoint;
                     Util.SendMessage(System.Text.Encoding.Unicode.GetBytes(point), item.TcpClient);
                 }
                 catch (Exception ex)
