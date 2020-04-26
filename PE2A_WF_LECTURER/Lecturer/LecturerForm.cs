@@ -45,73 +45,47 @@ namespace PE2A_WF_Lecturer
 
         private void dummyDataConnect()
         {
-            //foreach (StudentDTO dto in ListStudent)
-            //{
-            //    if (!listStudetnCode.Contains(dto.StudentCode))
-            //    {
-            //        dto.Status = Constant.STATUSLIST[0];
-            //        ResetDataGridViewDataSourceWithDto(dto);
-            //        //ResetDataGridViewDataSource();
-            //    }
-            //}
+            foreach (StudentDTO dto in ListStudent)
+            {
+                if (!listStudetnCode.Contains(dto.StudentCode))
+                {
+                    dto.Status = Constant.STATUSLIST[0];
+                    ResetDataGridViewDataSourceWithDto(dto, Constant.ACTION_UPDATE);
+                }
+            }
         }
 
         private void dummyDataSubmission()
         {
-            //foreach (StudentDTO dto in ListStudent)
-            //{
-            //    if (!listStudetnCode.Contains(dto.StudentCode))
-            //    {
-            //        string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            //        dto.SubmitTime = time;
-            //        dto.Status = Constant.STATUSLIST[1];
-            //        ResetDataGridViewDataSourceWithDto(dto);
-
-            //        //ResetDataGridViewDataSource();
-            //    }
-            //}
+            foreach (StudentDTO dto in ListStudent)
+            {
+                if (!listStudetnCode.Contains(dto.StudentCode))
+                {
+                    string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    dto.SubmitTime = time;
+                    dto.Status = Constant.STATUSLIST[1];
+                    ResetDataGridViewDataSourceWithDto(dto, Constant.ACTION_UPDATE);
+                }
+            }
         }
 
         private void dummyDataGetPoint()
         {
-            //Random ran = new Random();
+            Random ran = new Random();
 
-            //foreach (StudentDTO dto in ListStudent)
-            //{
-            //    if (!listStudetnCode.Contains(dto.StudentCode))
-            //    {
-            //        string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            //        dto.EvaluateTime = time;
-            //        int correctQuesiton = ran.Next(0, 4);
-            //        switch (correctQuesiton)
-            //        {
-            //            case 0:
-            //                dto.TotalPoint = 0 + "";
-            //                dto.Result = "0/4";
-            //                break;
-            //            case 1:
-            //                dto.TotalPoint = 3 + "";
-            //                dto.Result = "1/4";
-            //                break;
-            //            case 2:
-            //                dto.TotalPoint = 6 + "";
-            //                dto.Result = "2/4";
-            //                break;
-            //            case 3:
-            //                dto.TotalPoint = 8 + "";
-            //                dto.Result = "3/4";
-            //                break;
-            //            case 4:
-            //                dto.TotalPoint = 10 + "";
-            //                dto.Result = "4/4";
-            //                break;
-            //        }
-            //        dto.Status = Constant.STATUSLIST[2];
-            //        ResetDataGridViewDataSourceWithDto(dto);
-
-            //        //ResetDataGridViewDataSource();
-            //    }
-            //}
+            foreach (StudentDTO dto in ListStudent)
+            {
+                if (!listStudetnCode.Contains(dto.StudentCode))
+                {
+                    string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    dto.EvaluateTime = time;
+                    int correctQuesiton = ran.Next(0, 10);
+                    dto.TotalPoint = correctQuesiton + "";
+                    dto.Result = correctQuesiton+"/10";
+                    dto.Status = Constant.STATUSLIST[2];
+                    ResetDataGridViewDataSourceWithDto(dto,Constant.ACTION_UPDATE);
+                }
+            }
         }
 
         private void ListeningToBroadcastUDPConnection(int listeningPort)
@@ -571,7 +545,7 @@ namespace PE2A_WF_Lecturer
                 GetAllPracticalDocFile();
                 UpdateStudentSubmissionTable();
                 UpdateStudentPointTable();
-                // Task.Run(() => { dummyDataConnect(); });
+                Task.Run(() => { dummyDataConnect(); });
             }
             else
             {

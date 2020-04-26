@@ -8014,3 +8014,153 @@ Index was outside the bounds of the array.
 Index was outside the bounds of the array.
 2020-04-26 13:55:05GetListStudentFromCSV error : 
 Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:41GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:49:42GetListStudentFromCSV error : 
+Index was outside the bounds of the array.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:23sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
+2020-04-26 14:51:24sendMessage error : 
+Object reference not set to an instance of an object.
