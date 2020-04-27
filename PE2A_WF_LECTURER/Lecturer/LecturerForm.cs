@@ -250,16 +250,6 @@ namespace PE2A_WF_Lecturer
             }
         }
 
-        private void ResetDataGridViewDataSource()
-        {
-            //this.InvokeEx(f => this.dgvStudent.Rows.Clear());
-            //foreach (StudentDTO dto in ListStudent)
-            //{
-            //    this.InvokeEx(f => AddRowDataGridView(dto));
-            //}
-
-        }
-
         private void ResetDataGridViewDataSourceWithDto(StudentDTO dto, string action)
         {
             try
@@ -494,27 +484,27 @@ namespace PE2A_WF_Lecturer
                     StudentDTO removeStudent = ListStudent.Where(f => f.StudentCode == studentCode).FirstOrDefault();
                     ListStudent.Remove(removeStudent);
                     ResetDataGridViewDataSourceWithDto(removeStudent, Constant.ACTION_REMOVE);
-                    //ResetDataGridViewDataSource();
+                   
                 }
             }
-            else if (Constant.PRACTICAL_STATUS[2].Equals(PracticalExamStatus))
-            {
-                StudentDTO dto = ListStudent[rowClicked];
-                DialogResult result = MessageBox.Show(Constant.REEVALUATE_STUDENT_MESSAGE + dto.StudentCode, "RE-Evaluate", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    var appDomainDir = Util.GetProjectDirectory();
-                    var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
-                    string listStudentPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.SUMISSION_FOLDER_NAME;
-                    listStudentPath = listStudentPath + "\\" + dto.StudentCode + Constant.ZIP_EXTENSION;
-                    Task.Run(async delegate
-                    {
-                        string message = await SendFile(listStudentPath, dto.StudentCode, dto.ScriptCode);
-                        Console.WriteLine(message);
-                    }
-                    );
-                }
-            }
+            //else if (Constant.PRACTICAL_STATUS[2].Equals(PracticalExamStatus))
+            //{
+            //    StudentDTO dto = ListStudent[rowClicked];
+            //    DialogResult result = MessageBox.Show(Constant.REEVALUATE_STUDENT_MESSAGE + dto.StudentCode, "RE-Evaluate", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //    if (result == DialogResult.Yes)
+            //    {
+            //        var appDomainDir = Util.GetProjectDirectory();
+            //        var destinationPath = Path.Combine(appDomainDir + Constant.SCRIPT_FILE_PATH);
+            //        string listStudentPath = destinationPath + "\\" + PracticalExamCode + "\\" + Constant.SUMISSION_FOLDER_NAME;
+            //        listStudentPath = listStudentPath + "\\" + dto.StudentCode + Constant.ZIP_EXTENSION;
+            //        Task.Run(async delegate
+            //        {
+            //            string message = await SendFile(listStudentPath, dto.StudentCode, dto.ScriptCode);
+            //            Console.WriteLine(message);
+            //        }
+            //        );
+            //    }
+            //}
         }
 
         private void LecturerForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -522,9 +512,18 @@ namespace PE2A_WF_Lecturer
             DialogResult rs = MessageBox.Show(Constant.EXIST_CONFIRM, "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if(rs == DialogResult.Yes)
             {
-                Util.CloseCMD();
-                System.Windows.Forms.Application.ExitThread();
+                bool isCheckDuplicatedCode = cbDuplicatedCode.Checked;
+                if (isCheckDuplicatedCode)
+                {
+                    CheckDuplicatedCode();
+                }else
+                {
+                    Util.CloseCMD();
+                    System.Windows.Forms.Application.ExitThread();
+                }
+              
             }
+            return;
         }
 
         private void LecturerForm_LoadAsync(object sender, EventArgs e)
@@ -539,9 +538,6 @@ namespace PE2A_WF_Lecturer
             {
                 //listen to student
                 ListeningToBroadcastUDPConnection(Constant.LECTURER_LISTENING_PORT);
-                // listening to webservice for return student's submission
-                // UpdateStudentSubmissionTable();
-                // listening to webservice for return student's point
                 GetAllPracticalDocFile();
                 UpdateStudentSubmissionTable();
                 UpdateStudentPointTable();
@@ -598,6 +594,8 @@ namespace PE2A_WF_Lecturer
         private void ShowMenuAction(bool isShowing)
         {
             menuAction.Visible = isShowing;
+            txtTime.Visible = isShowing;
+            lbTime.Visible = isShowing;
         }
 
         private void publishPointMenu_Click(object sender, EventArgs e)
@@ -674,10 +672,7 @@ namespace PE2A_WF_Lecturer
                         if (readedFile == fileEntries.Length)
                         {
                             isDoneReadExamDocument = true;
-                            MessageBox.Show("Done Reading exam document");
                         }
-
-
                     }
                 }
             }
@@ -697,13 +692,6 @@ namespace PE2A_WF_Lecturer
             msgBox.SubmitAPIUrl = submissionURL;
             msgBox.PracticalExamCode = PracticalExamCode;
             msgBox.Show();
-            //Dictionary<string, string> listQuestion = new Dictionary<string, string>();
-            //listQuestion.Add("question1", "success:1/1");
-            //listQuestion.Add("question2", "fail:0/1");
-            //listQuestion.Add("question3", "success:1/1");
-            //listQuestion.Add("question4", "success:1/1");
-            //studentDto.ListQuestions = listQuestion;
-            //ReadFile(studentDto);
         }
 
         private void printReportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -807,11 +795,6 @@ namespace PE2A_WF_Lecturer
         
         }
 
-        private void startToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            CheckDuplicatedCode();
-        }
-
         private async void CheckDuplicatedCode()
         {
             string apiUrl = Constant.ONLINE_API_CHECK_DUPLICATED_CODE_URL;
@@ -822,13 +805,15 @@ namespace PE2A_WF_Lecturer
                 try
                 {
                     string result = await CheckDuplicatedCode(client, apiUrl);
+                   
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(Constant.CANNOT_CONNECT_API_MESSAGE);
+                   
                     Util.LogException("CheckDuplicatedCode", ex.Message);
                 }
             }
+           
         }
 
         private async Task<string> CheckDuplicatedCode(HttpClient client, string uri)
@@ -845,10 +830,19 @@ namespace PE2A_WF_Lecturer
                 if (response.IsSuccessStatusCode)
                 {
                     message = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show(message);
+                    this.InvokeEx(f => Util.CloseCMD());
+                    this.InvokeEx(f => System.Windows.Forms.Application.ExitThread());
                 }
             }
             catch (Exception ex)
             {
+                DialogResult rs = MessageBox.Show(Constant.CANNOT_CONNECT_API_MESSAGE, "Waring", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                if (rs == DialogResult.Yes)
+                {
+                    this.InvokeEx(f => Util.CloseCMD());
+                    this.InvokeEx(f => System.Windows.Forms.Application.ExitThread());
+                }
                 Util.LogException("CheckDuplicatedCode", ex.Message);
             }
             return message;

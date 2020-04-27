@@ -20,10 +20,12 @@ public class RequestUtils {
 
     private static final int MAX_TIME = 10;
 
-    public static void sendFile(String studentCode, File project, String examCode) {
+    public static void sendFile(String studentCode, String submitTime, String point, File project, String examCode) {
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
         body.add("studentCode", studentCode);
+        body.add("submitTime", submitTime);
+        body.add("point", point);
         body.add("file", new FileSystemResource(project));
         body.add("examCode", examCode);
 

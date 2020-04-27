@@ -94,16 +94,16 @@ public class EvaluationManager {
             generatedResult.setTotalPoint("0");
             generatedResult.setStudentCode(submissionEvent.getStudentCode());
             FileUtils.writeString(pathDetails.getPathResultFile(), generatedResult);
-            String examCode =pathDetails.getPracticalExamCode();
+            String examCode = pathDetails.getPracticalExamCode();
             if (examCode.contains(CODE_PRACTICAL_JAVA_WEB)) {
                 evaluateSubmissionJavaWeb(submissionQueue.remove());
-            }else if(examCode.contains(CODE_PRACTICAL_JAVA)){
+            } else if (examCode.contains(CODE_PRACTICAL_JAVA)) {
                 evaluateSubmissionJava(submissionQueue.remove());
-            }else if(examCode.contains(CODE_PRACTICAL_CSharp)){
+            } else if (examCode.contains(CODE_PRACTICAL_CSharp)) {
                 evaluateSubmissionCSharp(submissionQueue.remove());
-            }else if(examCode.contains(CODE_PRACTICAL_C)){
+            } else if (examCode.contains(CODE_PRACTICAL_C)) {
                 evaluateSubmissionC(submissionQueue.remove());
-            }else{
+            } else {
                 throw new CustomException(HttpStatus.NOT_FOUND, "Not found Path Details Exam code");
             }
         } else {
@@ -358,7 +358,8 @@ public class EvaluationManager {
                 ZipFile.zipFolder(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode());
                 File file = new File(ZIP_PATH + File.separator + dto.getStudentCode() + EXTENSION_ZIP);
                 if (file.exists()) {
-                    RequestUtils.sendFile(dto.getStudentCode(), file, pathDetails.getPracticalExamName());
+                    RequestUtils.sendFile(dto.getStudentCode(), result.getSubmitTime(), result.getTotalPoint(), file, pathDetails.getPracticalExamName());
+
                 }
 
                 if (submissionQueue.size() > 0) {
@@ -470,7 +471,7 @@ public class EvaluationManager {
                 ZipFile.zipFolder(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode());
                 File file = new File(ZIP_PATH + File.separator + dto.getStudentCode() + EXTENSION_ZIP);
                 if (file.exists()) {
-                    RequestUtils.sendFile(dto.getStudentCode(), file, pathDetails.getPracticalExamName());
+                    RequestUtils.sendFile(dto.getStudentCode(), result.getSubmitTime(), result.getTotalPoint(), file, pathDetails.getPracticalExamName());
                 }
 
                 if (submissionQueue.size() > 0) {
@@ -555,7 +556,8 @@ public class EvaluationManager {
                 ZipFile.zipFolder(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode());
                 File file = new File(ZIP_PATH + File.separator + dto.getStudentCode() + EXTENSION_ZIP);
                 if (file.exists()) {
-                    RequestUtils.sendFile(dto.getStudentCode(), file, pathDetails.getPracticalExamName());
+                    RequestUtils.sendFile(dto.getStudentCode(), result.getSubmitTime(), result.getTotalPoint(), file, pathDetails.getPracticalExamName());
+
                 }
 
                 if (submissionQueue.size() > 0) {
@@ -668,7 +670,7 @@ public class EvaluationManager {
             return;
         }
         File file = new File(pathDetails.getPathServerEvaluatingLogFile());
-        if(!file.exists()){
+        if (!file.exists()) {
             return;
         }
         try {
