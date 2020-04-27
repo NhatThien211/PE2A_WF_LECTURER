@@ -195,7 +195,6 @@ public class EvaluationManager {
                 if (questions == null) {
                     throw new CustomException(HttpStatus.NOT_FOUND, "Not found Question point array");
                 }
-
                 // Get question point array
                 Map<String, Double> questionPointMap = new HashMap<>();
 
@@ -205,7 +204,6 @@ public class EvaluationManager {
                     Double point = Double.valueOf(arr[1]);
                     questionPointMap.put(questionName, point);
                 }
-
 
                 ObjectWriter w = new ObjectMapper().writerWithDefaultPrettyPrinter();
                 Object o = null;
@@ -261,10 +259,7 @@ public class EvaluationManager {
                     studentPointDto.setTotalPoint(String.valueOf(totalPoint));
                     studentPointDto.setEvaluateTime(time);
                     studentPointDto.setResult(correctQuestionCount + "/" + questionPointMap.size());
-
                     // Send json to Lecturer App
-
-
                 }
             }
         } catch (IOException e) {
