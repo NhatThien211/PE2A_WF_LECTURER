@@ -94,16 +94,16 @@ public class EvaluationManager {
             generatedResult.setTotalPoint("0");
             generatedResult.setStudentCode(submissionEvent.getStudentCode());
             FileUtils.writeString(pathDetails.getPathResultFile(), generatedResult);
-            String examCode =pathDetails.getPracticalExamCode();
+            String examCode = pathDetails.getPracticalExamCode();
             if (examCode.contains(CODE_PRACTICAL_JAVA_WEB)) {
                 evaluateSubmissionJavaWeb(submissionQueue.remove());
-            }else if(examCode.contains(CODE_PRACTICAL_JAVA)){
+            } else if (examCode.contains(CODE_PRACTICAL_JAVA)) {
                 evaluateSubmissionJava(submissionQueue.remove());
-            }else if(examCode.contains(CODE_PRACTICAL_CSharp)){
+            } else if (examCode.contains(CODE_PRACTICAL_CSharp)) {
                 evaluateSubmissionCSharp(submissionQueue.remove());
-            }else if(examCode.contains(CODE_PRACTICAL_C)){
+            } else if (examCode.contains(CODE_PRACTICAL_C)) {
                 evaluateSubmissionC(submissionQueue.remove());
-            }else{
+            } else {
                 throw new CustomException(HttpStatus.NOT_FOUND, "Not found Path Details Exam code");
             }
         } else {
@@ -195,7 +195,6 @@ public class EvaluationManager {
                 if (questions == null) {
                     throw new CustomException(HttpStatus.NOT_FOUND, "Not found Question point array");
                 }
-
                 // Get question point array
                 Map<String, Double> questionPointMap = new HashMap<>();
 
@@ -205,7 +204,6 @@ public class EvaluationManager {
                     Double point = Double.valueOf(arr[1]);
                     questionPointMap.put(questionName, point);
                 }
-
 
                 ObjectWriter w = new ObjectMapper().writerWithDefaultPrettyPrinter();
                 Object o = null;
@@ -261,10 +259,7 @@ public class EvaluationManager {
                     studentPointDto.setTotalPoint(String.valueOf(totalPoint));
                     studentPointDto.setEvaluateTime(time);
                     studentPointDto.setResult(correctQuestionCount + "/" + questionPointMap.size());
-
                     // Send json to Lecturer App
-
-
                 }
             }
         } catch (IOException e) {
@@ -355,10 +350,11 @@ public class EvaluationManager {
                 sendTCPMessage(resultText, count);
 
                 // Send submission to server for check duplicated code and evaluate online
-                ZipFile.zipFolder(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode());
+                ZipFile.zipProject(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode(), EXTENSION_JAVA);
                 File file = new File(ZIP_PATH + File.separator + dto.getStudentCode() + EXTENSION_ZIP);
                 if (file.exists()) {
-                    RequestUtils.sendFile(dto.getStudentCode(), file, pathDetails.getPracticalExamName());
+                    RequestUtils.sendFile(dto.getStudentCode(), result.getSubmitTime(), result.getTotalPoint(), file, pathDetails.getPracticalExamName());
+
                 }
 
                 if (submissionQueue.size() > 0) {
@@ -467,10 +463,10 @@ public class EvaluationManager {
                 sendTCPMessage(resultText, count);
 
                 // Send submission to server for check duplicated code and evaluate online
-                ZipFile.zipFolder(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode());
+                ZipFile.zipProject(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode(), EXTENSION_JAVA);
                 File file = new File(ZIP_PATH + File.separator + dto.getStudentCode() + EXTENSION_ZIP);
                 if (file.exists()) {
-                    RequestUtils.sendFile(dto.getStudentCode(), file, pathDetails.getPracticalExamName());
+                    RequestUtils.sendFile(dto.getStudentCode(), result.getSubmitTime(), result.getTotalPoint(), file, pathDetails.getPracticalExamName());
                 }
 
                 if (submissionQueue.size() > 0) {
@@ -552,10 +548,11 @@ public class EvaluationManager {
                 sendTCPMessage(resultText, count);
 
                 // Send submission to server for check duplicated code and evaluate online
-                ZipFile.zipFolder(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode());
+                ZipFile.zipProject(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode(), EXTENSION_CSHARP);
                 File file = new File(ZIP_PATH + File.separator + dto.getStudentCode() + EXTENSION_ZIP);
                 if (file.exists()) {
-                    RequestUtils.sendFile(dto.getStudentCode(), file, pathDetails.getPracticalExamName());
+                    RequestUtils.sendFile(dto.getStudentCode(), result.getSubmitTime(), result.getTotalPoint(), file, pathDetails.getPracticalExamName());
+
                 }
 
                 if (submissionQueue.size() > 0) {
@@ -668,7 +665,7 @@ public class EvaluationManager {
             return;
         }
         File file = new File(pathDetails.getPathServerEvaluatingLogFile());
-        if(!file.exists()){
+        if (!file.exists()) {
             return;
         }
         try {
