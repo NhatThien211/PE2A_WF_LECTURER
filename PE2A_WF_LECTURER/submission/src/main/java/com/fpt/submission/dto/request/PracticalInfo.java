@@ -11,5 +11,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class PracticalInfo implements Serializable {
     private String name;
-    private String type;
+    private String examCode;
+    private String subjectCode;
 }
