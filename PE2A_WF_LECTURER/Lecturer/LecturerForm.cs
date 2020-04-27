@@ -318,6 +318,7 @@ namespace PE2A_WF_Lecturer
                                 student.TotalPoint = studentPoint.TotalPoint;
                                 student.Status = Constant.STATUSLIST[2];
                                 student.EvaluateTime = studentPoint.EvaluateTime;
+                                student.ErrorMsg = studentPoint.ErrorMsg;
                                 ReadFile(student);
                                 ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
                                 //ResetDataGridViewDataSource();

@@ -355,7 +355,7 @@ public class EvaluationManager {
                 sendTCPMessage(resultText, count);
 
                 // Send submission to server for check duplicated code and evaluate online
-                ZipFile.zipFolder(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode());
+                ZipFile.zipProject(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode(), EXTENSION_JAVA);
                 File file = new File(ZIP_PATH + File.separator + dto.getStudentCode() + EXTENSION_ZIP);
                 if (file.exists()) {
                     RequestUtils.sendFile(dto.getStudentCode(), result.getSubmitTime(), result.getTotalPoint(), file, pathDetails.getPracticalExamName());
@@ -468,7 +468,7 @@ public class EvaluationManager {
                 sendTCPMessage(resultText, count);
 
                 // Send submission to server for check duplicated code and evaluate online
-                ZipFile.zipFolder(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode());
+                ZipFile.zipProject(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode(), EXTENSION_JAVA);
                 File file = new File(ZIP_PATH + File.separator + dto.getStudentCode() + EXTENSION_ZIP);
                 if (file.exists()) {
                     RequestUtils.sendFile(dto.getStudentCode(), result.getSubmitTime(), result.getTotalPoint(), file, pathDetails.getPracticalExamName());
@@ -553,7 +553,7 @@ public class EvaluationManager {
                 sendTCPMessage(resultText, count);
 
                 // Send submission to server for check duplicated code and evaluate online
-                ZipFile.zipFolder(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode());
+                ZipFile.zipProject(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode(), EXTENSION_CSHARP);
                 File file = new File(ZIP_PATH + File.separator + dto.getStudentCode() + EXTENSION_ZIP);
                 if (file.exists()) {
                     RequestUtils.sendFile(dto.getStudentCode(), result.getSubmitTime(), result.getTotalPoint(), file, pathDetails.getPracticalExamName());

@@ -1,5 +1,7 @@
 package com.fpt.submission.utils;
 
+import com.fpt.submission.constants.CommonConstant;
+
 import java.io.*;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -16,6 +18,21 @@ public class ZipFile {
         ZipOutputStream zipOut = new ZipOutputStream(fos);
         File fileToZip = new File(folder);
         zipFile(fileToZip, fileToZip.getName(), zipOut);
+        zipOut.close();
+        fos.close();
+    }
+
+    //    Zip folder
+    public static void zipProject(String folder, String outPath, String extension) throws IOException {
+        FileOutputStream fos = new FileOutputStream(outPath + ".zip");
+        ZipOutputStream zipOut = new ZipOutputStream(fos);
+        File fileToZip = new File(folder);
+        if (fileToZip.getName().contains("EXAM_")) {
+            String scriptFile = fileToZip.getParent() + File.separator + "TestScript" + extension;
+            zipFile(fileToZip, scriptFile, zipOut);
+        } else {
+            zipFile(fileToZip, fileToZip.getName(), zipOut);
+        }
         zipOut.close();
         fos.close();
     }
