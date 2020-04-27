@@ -1,6 +1,7 @@
 package com.fpt.submission.utils;
 
 import java.io.*;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -10,11 +11,10 @@ public class ZipFile {
     private static final int BUFFER_SIZE = 4096;
 
     //    Zip folder
-    public static void zipping(String folder, String outPath) throws IOException {
-        String sourceFile = folder;
-        FileOutputStream fos = new FileOutputStream(outPath);
+    public static void zipFolder(String folder, String outPath) throws IOException {
+        FileOutputStream fos = new FileOutputStream(outPath + ".zip");
         ZipOutputStream zipOut = new ZipOutputStream(fos);
-        File fileToZip = new File(sourceFile);
+        File fileToZip = new File(folder);
         zipFile(fileToZip, fileToZip.getName(), zipOut);
         zipOut.close();
         fos.close();
@@ -34,37 +34,39 @@ public class ZipFile {
                 output.close();
             }
         } catch (Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
-        if (fileToZip.isHidden()) {
-            return;
-        }
-        if (fileToZip.isDirectory()) {
-            if (fileName.endsWith("/")) {
-                zipOut.putNextEntry(new ZipEntry(fileName));
-                zipOut.closeEntry();
-            } else {
-                zipOut.putNextEntry(new ZipEntry(fileName + "/"));
-                zipOut.closeEntry();
+        if (!fileName.contains("DBUtilities") && !fileName.contains(".log")) {
+            if (fileToZip.isHidden()) {
+                return;
             }
-            File[] children = fileToZip.listFiles();
-            for (File childFile : children) {
-                zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
+            if (fileToZip.isDirectory()) {
+                if (fileName.endsWith("/")) {
+                    zipOut.putNextEntry(new ZipEntry(fileName));
+                    zipOut.closeEntry();
+                } else {
+                    zipOut.putNextEntry(new ZipEntry(fileName + "/"));
+                    zipOut.closeEntry();
+                }
+                File[] children = fileToZip.listFiles();
+                for (File childFile : children) {
+                    zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
+                }
+                return;
             }
-            return;
+            FileInputStream fis = new FileInputStream(fileToZip);
+            ZipEntry zipEntry = new ZipEntry(fileName);
+            zipOut.putNextEntry(zipEntry);
+            byte[] bytes = new byte[1024];
+            int length;
+            while ((length = fis.read(bytes)) >= 0) {
+                zipOut.write(bytes, 0, length);
+            }
+            fis.close();
         }
-        FileInputStream fis = new FileInputStream(fileToZip);
-        ZipEntry zipEntry = new ZipEntry(fileName);
-        zipOut.putNextEntry(zipEntry);
-        byte[] bytes = new byte[1024];
-        int length;
-        while ((length = fis.read(bytes)) >= 0) {
-            zipOut.write(bytes, 0, length);
-        }
-        fis.close();
     }
 
     public static void unzip(String zipFilePath, String destDirectory) throws IOException {
@@ -72,18 +74,41 @@ public class ZipFile {
         if (!destDir.exists()) {
             destDir.mkdir();
         }
+        File file = new File(destDirectory + File.separator + "student");
+        if (!file.exists()) {
+            file.mkdir();
+        }
+
         ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
         ZipEntry entry = zipIn.getNextEntry();
-        // iterates over entries in the zip file
         while (entry != null) {
-            String filePath = destDirectory + File.separator + entry.getName();
+
+//            String pattern = Pattern.quote(S);
+            String[] splittedFileName = entry.getName().split("\\\\");
+//            File f = new File(entry.getName());
+//            do {
+//                System.out.println("Parent=" + f.getParent());
+//                f = f.getParentFile();
+//            } while (f.getParentFile() != null);
+            String filePath = destDirectory;
+            for (int i = 0; i < splittedFileName.length; i++) {
+                // if the entry is a directory, make the directory
+                filePath += File.separator + splittedFileName[i];
+                File dir = new File(filePath);
+                if (!dir.exists() && !dir.isFile() && !filePath.contains(".")) {
+                    dir.mkdir();
+                }
+            }
+            String filePathStr = destDirectory + File.separator + entry.getName();
             if (!entry.isDirectory()) {
                 // if the entry is a file, extracts it
-                extractFile(zipIn, filePath);
+                extractFile(zipIn, filePathStr);
             } else {
                 // if the entry is a directory, make the directory
-                File dir = new File(filePath);
-                dir.mkdir();
+                File dir = new File(filePathStr);
+                if (!dir.exists()) {
+                    dir.mkdir();
+                }
             }
             zipIn.closeEntry();
             entry = zipIn.getNextEntry();
@@ -91,8 +116,44 @@ public class ZipFile {
         zipIn.close();
     }
 
+    public static void unzip2(String zipFilePath, String destDirectory) throws IOException {
+        byte[] buffer = new byte[1024];
+        ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFilePath));
+        ZipEntry zipEntry = zis.getNextEntry();
+        File destDir = new File(destDirectory);
+        while (zipEntry != null) {
+            File newFile = newFile(destDir, zipEntry);
+            FileOutputStream fos = new FileOutputStream(newFile);
+            int len;
+            while ((len = zis.read(buffer)) > 0) {
+                fos.write(buffer, 0, len);
+            }
+            fos.close();
+            zipEntry = zis.getNextEntry();
+        }
+        zis.closeEntry();
+        zis.close();
+    }
+
+    public static File newFile(File destinationDir, ZipEntry zipEntry) throws IOException {
+        File destFile = new File(destinationDir, zipEntry.getName());
+
+        String destDirPath = destinationDir.getCanonicalPath();
+        String destFilePath = destFile.getCanonicalPath();
+
+        if (!destFilePath.startsWith(destDirPath + File.separator)) {
+            throw new IOException("Entry is outside of the target dir: " + zipEntry.getName());
+        }
+
+        return destFile;
+    }
+
     private static void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
+        File file = new File(filePath);
+        if (file.isDirectory() && file.exists()) {
+            file.mkdir();
+        }
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
         byte[] bytesIn = new byte[BUFFER_SIZE];
         int read = 0;
         while ((read = zipIn.read(bytesIn)) != -1) {

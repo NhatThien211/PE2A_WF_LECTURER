@@ -127,7 +127,7 @@ namespace PE2A_WF_Lecturer
                         var filePath = openFileDialog.FileName;
 
                         var destinationPath = Path.Combine(Util.GetProjectDirectory() + Constant.SCRIPT_FILE_PATH);
-
+                        var submissionPath = Path.Combine(Util.GetProjectDirectory() + Constant.SUBMISSION_FOLDER_PATH); 
                         // Get zip file name without extension
                         var filename = Path.GetFileNameWithoutExtension(filePath);
 
@@ -146,8 +146,7 @@ namespace PE2A_WF_Lecturer
                                 // MessageBox.Show("Import success!", "Information");
                                 var practicalExamCode = openFileDialog.SafeFileName.Split('.')[0];
                                 // Point the Submission Server Path
-                                string submissionServerPath = Path.Combine(scriptFolder, Constant.SUBMISSION_SERVE_FOLDER);
-                                ShowLecturerForm(practicalExamCode, Constant.PRACTICAL_STATUS[1],submissionServerPath);
+                                ShowLecturerForm(practicalExamCode, Constant.PRACTICAL_STATUS[1], submissionPath);
                             }
                             else
                             {
@@ -240,10 +239,8 @@ namespace PE2A_WF_Lecturer
             }
             else
             {
-                var destinationPath = Path.Combine(Util.GetProjectDirectory() + Constant.SCRIPT_FILE_PATH);
-                var scriptFolder = Path.Combine(destinationPath, dto.Code);
-                string submissionServerPath = Path.Combine(scriptFolder, Constant.SUBMISSION_SERVE_FOLDER);
-                ShowLecturerForm(dto.Code, dto.State,submissionServerPath);
+                var submissionFol = Path.Combine(Util.GetProjectDirectory() + Constant.SUBMISSION_FOLDER_PATH);
+                ShowLecturerForm(dto.Code, dto.State, submissionFol);
             }
         }
 
