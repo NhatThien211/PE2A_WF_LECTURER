@@ -522,9 +522,12 @@ namespace PE2A_WF_Lecturer
                     Util.CloseCMD();
                     System.Windows.Forms.Application.ExitThread();
                 }
-              
+
             }
-            return;
+            else
+            {
+                e.Cancel = true;
+            }
         }
 
         private void LecturerForm_LoadAsync(object sender, EventArgs e)
@@ -785,7 +788,7 @@ namespace PE2A_WF_Lecturer
             try
             {
                 int index = dgvStudent.Rows.Count;
-                dto.NO = index;
+                dto.NO = index + 1;
                 dto.Close = CloseImage;
                 AddRowDataGridView(dto);
             }
