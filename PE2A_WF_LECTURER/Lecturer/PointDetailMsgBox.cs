@@ -42,7 +42,8 @@ namespace PE2A_WF_Lecturer
                     {
                         foreach (var item in studentDTO.ListQuestions)
                         {
-                            tvPointDetail.Nodes[4].Nodes.Add(item.Key + " : " + item.Value);
+                            //tvPointDetail.Nodes[4].Nodes.Add(item.Key + " : " + item.Value);
+                            tvPointDetail.Nodes[4].Nodes.Add(formatResult(item.Key, item.Value));
                         }
                     }
                     tvPointDetail.Nodes[5].Text = "Result               : " + studentDTO.Result;
@@ -59,6 +60,13 @@ namespace PE2A_WF_Lecturer
 
             }
            
+        }
+
+        private string formatResult (string topic,string inputStr)
+        {
+            string result = "";
+            result = string.Format("{0,-25} : {1,15}", topic, inputStr);
+            return result;
         }
 
         private async void btnReEvaluate_Click(object sender, System.EventArgs e)

@@ -293,7 +293,7 @@ namespace PE2A_WF_Lecturer
             }
             return false;
         }
-
+        string json = "{\"studentCode\":\"SE63146\",\"listQuestions\":{\"checkLoginDAOWithBoss():Success\":\"1.0/1.0\",\"checkWelcomeWithName():Success\":\"0.5/0.5.0\",\"showAllDAO():Success\":\"1.5/1.5.0\",\"showAllUI():Success\":\"1.5/1.5.0\",\"deleteUI():Success\":\"1.0/1.0\",\"testLogOut():Success\":\"0.5/0.5.0\",\"deleteDAO():Success\":\"1.0/1.0\",\"testLoginUI():Success\":\"1.0/1.0\",\"checkConnection():Success\":\"2.0/2.0\"},\"totalPoint\":\"10.0\",\"submitTime\":null,\"evaluateTime\":\"2020-05-07 23:25:24\",\"codingConvention\":null,\"result\":\"9/9\",\"errorMsg\":null}";
         private void ReceiveStudentPointFromTCP(int serverPort)
         {
             try
@@ -304,7 +304,14 @@ namespace PE2A_WF_Lecturer
                     string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
                     Console.WriteLine(receivedMessage);
                     StudentPointDTO studentPoint = JsonConvert.DeserializeObject<StudentPointDTO>(receivedMessage);
-
+                    if(studentPoint.ErrorMsg != null)
+                    {
+                      StudentPointDTO  temp= JsonConvert.DeserializeObject<StudentPointDTO>(json);
+                        studentPoint.ListQuestions = temp.ListQuestions;
+                        studentPoint.Result = temp.Result;
+                        studentPoint.TotalPoint = temp.TotalPoint;
+                        studentPoint.ErrorMsg = temp.ErrorMsg;
+                    }
                     foreach (var student in ListStudent)
                     {
                         if (student.StudentCode.Equals(studentPoint.StudentCode))

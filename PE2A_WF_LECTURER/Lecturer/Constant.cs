@@ -16,7 +16,7 @@ namespace PE2A_WF_Lecturer
         // Common messages
         public static string EXISTED_IP_MESSAGE = "You Have Connected To Server";
         public static string EXIST_CONFIRM = "Do you want to Exit?";
-        public static string[] STATUSLIST = { "Connected", "Submitted", "Evaluated", "Cannot Evaluate"};
+        public static string[] STATUSLIST = { "Connected", "Submitted", "Evaluated", "Error"};
         public static string CLIENT_SOCKET_CLOSED_MESSAGE = "Clients closed their connection!!!";
         public static string PROTOCOL = "http://";
         public static string ENDPOINT = ":2020/api/submission";

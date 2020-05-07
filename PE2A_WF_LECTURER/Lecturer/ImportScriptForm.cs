@@ -61,6 +61,14 @@ namespace PE2A_WF_Lecturer
                             PracticalDTO dto = PracticalList[i];
                             dgvScriptFiles.Rows.Add(new string[] { scriptFileCounter.ToString(), dto.Code, dto.SubjectCode, dto.Date, dto.State });
                         }
+                        DataGridViewButtonColumn button = new DataGridViewButtonColumn();
+                        {
+                            button.Name = "button";
+                            button.HeaderText = "Action";
+                            button.Text = "Import";
+                            button.UseColumnTextForButtonValue = true; //dont forget this line
+                            this.dgvScriptFiles.Columns.Add(button);
+                        }
                     }
                 }
                 else
