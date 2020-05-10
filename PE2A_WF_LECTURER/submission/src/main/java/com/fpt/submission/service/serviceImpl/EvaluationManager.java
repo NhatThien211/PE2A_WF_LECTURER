@@ -85,15 +85,18 @@ public class EvaluationManager {
     @EventListener
     public void evaluate(StudentSubmitDetail submissionEvent) {
         System.out.println(Thread.currentThread().getName() + "-" + submissionEvent.getStudentCode() + ":" + isEvaluating);
+
+        StudentPointDto generatedResult = new StudentPointDto();
+        generatedResult.setTotalPoint("0");
+        generatedResult.setStudentCode(submissionEvent.getStudentCode());
+        FileUtils.writeString(pathDetails.getPathResultFile(), generatedResult);
+
         submissionQueue.add(submissionEvent);
         if (!isEvaluating && submissionQueue.size() > 0) {
             isEvaluating = true;
             System.out.println(submissionEvent.getStudentCode() + "-" + pathDetails.getPracticalExamCode());
             // Generate result
-            StudentPointDto generatedResult = new StudentPointDto();
-            generatedResult.setTotalPoint("0");
-            generatedResult.setStudentCode(submissionEvent.getStudentCode());
-            FileUtils.writeString(pathDetails.getPathResultFile(), generatedResult);
+
             String examCode = pathDetails.getPracticalExamCode();
             if (examCode.contains(CODE_PRACTICAL_JAVA_WEB)) {
                 evaluateSubmissionJavaWeb(submissionQueue.remove());

@@ -22,17 +22,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(TestResultLoggerExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestwebApplicationTests {
-    public static String questionPointStr = "checkConnection:1-checkLoginDAO:1-showAllDAO:1-deleteDAO:1-checkLogin:1-checkWelcome:1-showAllUI:1-deleteUI:1-logOut:1";
-    private TemplateQuestion templateQuestion = new TemplateQuestion();
+
+    public static String questionPointStr = "checkConnection:2-" +
+            "checkLoginDAOWithBoss:1-" +
+            "showAllDAO:1.5-" +
+            "deleteDAO:1-" +
+            "testLoginUI:1-" +
+            "checkWelcomeWithName:0.5-" +
+            "showAllUI:1.5-" +
+            "deleteUI:1-" +
+            "testLogOut:0.5";
+
+    private static boolean isLogin;
     public static WebDriver driver;
     //public static InternetExplorerOptions options;
     public static ChromeOptions options;
-    static boolean isLogin = false;
 
 
     public TestwebApplicationTests() {
         //  System.setProperty("webdriver.ie.driver", "src/main/resources/static/IEDriverServer.exe");
         System.setProperty("webdriver.chrome.driver", "src/main/resources/static/chromedriver2.exe");
+
         if (options == null) {
             options = new ChromeOptions();
             if (driver == null) {
@@ -43,26 +53,33 @@ class TestwebApplicationTests {
         }
     }
 
-    //start
+    //
+
+
     @Test
     @Order(1)
     public void checkConnection() {
         boolean check = DBUtils.checkMakeConnection();
-        assertEquals(true, check);
+        Assert.assertEquals(true, check);
         if (check) {
-            DBUtils.executeUpdate("Insert into tbl_Weapon(amourId, description, classification, defense, timeOfCreate, status) Values ('AM01','AM01','AM01','AM01','2020-03-12','true'),('AM02','AM02','AM02','AM02','2020-03-12','true'), ('AM03','AM03','AM03','AM03','2020-03-12','true')");
+            String sql = "Insert into tbl_Weapon(amourId, description, classification, defense, timeOfCreate, status)" +
+                    " Values ('AM01','AM01','AM01','AM01','2020-03-12','true')," +
+                    "('AM02','AM02','AM02','AM02','2020-03-12','true'), " +
+                    "('AM03','AM03','AM03','AM03','2020-03-12','true')";
+            DBUtils.executeUpdate(sql);
         }
     }
 
     @Test
     @Order(2)
-    public void checkLoginDAO() {
+    public void checkLoginDAOWithBoss() {
         boolean checkLoginSuccess = TemplateQuestion.checkLogin("LoginSuccess", "1");
         boolean checkLoginFailed = TemplateQuestion.checkLogin("LoginFailed", "1");
         boolean checkLoginIsBoss = TemplateQuestion.checkLogin("LoginNotBoss", "1");
-  	isLogin = checkLoginSuccess && !checkLoginFailed;
-        assertEquals(true, checkLoginSuccess && !checkLoginFailed && !checkLoginIsBoss);
+        isLogin = checkLoginSuccess && !checkLoginFailed;
+        Assert.assertEquals(true, isLogin && !checkLoginIsBoss);
     }
+
 
     @Test
     @Order(3)
@@ -70,7 +87,8 @@ class TestwebApplicationTests {
         if (!isLogin) {
             assertFalse(true);
         } else {
-            assertEquals(Integer.valueOf("3"), TemplateQuestion.showAll());
+            Integer size = TemplateQuestion.showAll();
+            Assert.assertEquals(Integer.valueOf("3"), size);
         }
     }
 
@@ -81,18 +99,20 @@ class TestwebApplicationTests {
             assertFalse(true);
         } else {
             boolean checkDAO = TemplateQuestion.delete("AM02");
-            boolean checkExisted = DBUtils.executeQuery("SELECT amourId FROM tbl_Weapon Where amourId = 'A02'");
+            String sql = "SELECT amourId FROM tbl_Weapon Where  amourId = 'A02'";
+            boolean checkExisted = DBUtils.executeQuery(sql);
             assertEquals(true, checkDAO && !checkExisted);
         }
     }
 
     @Test
     @Order(5)
-    public void checkLogin() {
+    public void testLoginUI() {
         if (driver != null) {
             if (!isLogin) {
                 assertFalse(true);
             } else {
+
                 driver.get("http://localhost:8080/login.html");
                 driver.findElement(By.name("txtUsername")).clear();
                 driver.findElement(By.name("txtUsername")).sendKeys("LoginSuccess");
@@ -101,7 +121,7 @@ class TestwebApplicationTests {
                 driver.findElement(By.name("btAction")).click();
                 try {
                     String html = driver.findElement(By.tagName("body")).getText();
-                    assertEquals(true, html.toLowerCase().contains("search page") && html.toLowerCase().contains("am01"));
+                    assertEquals(true, html.toLowerCase().contains("search page"));
                 } catch (Exception e) {
                     assertFalse(true);
                 }
@@ -113,11 +133,12 @@ class TestwebApplicationTests {
 
     @Test
     @Order(6)
-    public void checkWelcome() {
+    public void checkWelcomeWithName() {
         if (driver != null) {
             if (!isLogin) {
                 assertFalse(true);
             } else {
+
                 driver.get("http://localhost:8080/login.html");
                 driver.findElement(By.name("txtUsername")).clear();
                 driver.findElement(By.name("txtUsername")).sendKeys("LoginSuccess");
@@ -126,7 +147,9 @@ class TestwebApplicationTests {
                 driver.findElement(By.name("btAction")).click();
                 try {
                     String html = driver.findElement(By.tagName("body")).getText();
-                    assertEquals(true, html.toLowerCase().contains("loginsuccess") && html.toLowerCase().contains("1"));
+                    boolean checkWelcome = html.toLowerCase().contains("loginsuccess");
+                    boolean checkFullName = html.toLowerCase().contains("1");
+                    assertEquals(true, checkFullName && checkWelcome);
                 } catch (Exception e) {
                     assertFalse(true);
                 }
@@ -150,8 +173,8 @@ class TestwebApplicationTests {
                 driver.findElement(By.name("txtPassword")).sendKeys("1");
                 driver.findElement(By.name("btAction")).click();
                 try {
-                    String html = driver.findElement(By.tagName("body")).getText();
-                    assertEquals(true, html.toLowerCase().contains("search page") && html.toLowerCase().contains("am01"));
+                    String html = driver.findElement(By.tagName("body")).getText().toLowerCase();
+                    assertEquals(true, html.contains("search page") && html.contains("am01"));
                 } catch (Exception e) {
                     assertFalse(true);
                 }
@@ -169,11 +192,12 @@ class TestwebApplicationTests {
                 assertFalse(true);
             } else {
                 driver.get("http://localhost:8080/delete?idDelete=AM03&btAction=Delete");
-                boolean checkDB = DBUtils.executeQuery("SELECT amourId FROM tbl_Weapon Where amourId = 'AM03'");
+                boolean checkDB = DBUtils.executeQuery("SELECT amourId FROM tbl_Weapon Where  amourId = 'AM03'");
                 if (!checkDB) {
                     try {
-                        String html = driver.findElement(By.tagName("body")).getText();
-                        assertEquals(true, html.toLowerCase().contains("search page") && !html.toLowerCase().contains("am03"));
+                        String html = driver.findElement(By.tagName("body")).getText().toLowerCase();
+
+                        assertEquals(true, html.contains("search page") && !html.contains("am03"));
                     } catch (Exception e) {
                         assertFalse(true);
                     }
@@ -188,15 +212,16 @@ class TestwebApplicationTests {
 
     @Test
     @Order(9)
-    public void logOut() {
+    public void testLogOut() {
         if (driver != null) {
             if (!isLogin) {
                 assertFalse(true);
             } else {
                 driver.get("http://localhost:8080/logout");
                 try {
-                    String html = driver.findElement(By.tagName("body")).getText();
-                    assertEquals(true, html.toLowerCase().contains("login page"));
+                    String html = driver.findElement(By.tagName("body")).getText().toLowerCase();
+
+                    assertEquals(true, html.contains("login page"));
                 } catch (Exception e) {
                     assertFalse(true);
                 }
@@ -206,5 +231,5 @@ class TestwebApplicationTests {
         }
         DBUtils.executeUpdate("Delete From tbl_Weapon");
     }
-//end
+
 }

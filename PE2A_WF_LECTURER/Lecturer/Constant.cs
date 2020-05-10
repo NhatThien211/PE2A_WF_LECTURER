@@ -19,6 +19,7 @@ namespace PE2A_WF_Lecturer
         public static string[] STATUSLIST = { "Connected", "Submitted", "Evaluated", "Error"};
         public static string CLIENT_SOCKET_CLOSED_MESSAGE = "Clients closed their connection!!!";
         public static string PROTOCOL = "http://";
+        public static string PROTOCOL_HTTPS = "http://";
         public static string ENDPOINT = ":2020/api/submission";
         public static string REMOVE_STUDENT_MESSAGE = "Do you want to remove ";
         public static string REEVALUATE_STUDENT_MESSAGE = "Do you want to re evaluate ";

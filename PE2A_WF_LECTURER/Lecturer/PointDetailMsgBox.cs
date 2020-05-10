@@ -65,7 +65,7 @@ namespace PE2A_WF_Lecturer
         private string formatResult (string topic,string inputStr)
         {
             string result = "";
-            result = string.Format("{0,-25} : {1,15}", topic, inputStr);
+            result = string.Format("{0,-35} : {1,15}", topic, inputStr);
             return result;
         }
 

@@ -540,7 +540,7 @@ namespace PE2A_WF_Lecturer
         private void LecturerForm_LoadAsync(object sender, EventArgs e)
         {
             InitDataSource();
-            submissionURL = Constant.PROTOCOL + Util.GetLocalIPAddress() + Constant.ENDPOINT;
+            submissionURL = Constant.PROTOCOL_HTTPS + Util.GetLocalIPAddress() + Constant.ENDPOINT;
             if (Constant.PRACTICAL_STATUS[0].Equals(PracticalExamStatus))
             {
                 ShowMenuAction(false);
