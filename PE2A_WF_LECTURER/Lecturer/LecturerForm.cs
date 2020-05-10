@@ -81,9 +81,9 @@ namespace PE2A_WF_Lecturer
                     dto.EvaluateTime = time;
                     int correctQuesiton = ran.Next(0, 10);
                     dto.TotalPoint = correctQuesiton + "";
-                    dto.Result = correctQuesiton+"/10";
+                    dto.Result = correctQuesiton + "/10";
                     dto.Status = Constant.STATUSLIST[2];
-                    ResetDataGridViewDataSourceWithDto(dto,Constant.ACTION_UPDATE);
+                    ResetDataGridViewDataSourceWithDto(dto, Constant.ACTION_UPDATE);
                 }
             }
         }
@@ -133,10 +133,10 @@ namespace PE2A_WF_Lecturer
                 udpSocket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None,
                     ref clientEP, new AsyncCallback(DoReceiveFrom), buffer);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Util.LogException("DoReceiveFrom", ex.Message);
-            }          
+            }
         }
 
         // Return submission API - document questions - expired time to student
@@ -207,11 +207,11 @@ namespace PE2A_WF_Lecturer
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Util.LogException("ReturnWebserviceURL", ex.Message);
             }
-           
+
         }
 
         private void InitDataSource()
@@ -228,11 +228,11 @@ namespace PE2A_WF_Lecturer
                 }
                 FitDataGridViewCollumn();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Util.LogException("InitDataSource", ex.Message);          
+                Util.LogException("InitDataSource", ex.Message);
             }
-            
+
         }
         string scriptCode;
         private void AddRowDataGridView(StudentDTO dto)
@@ -267,10 +267,10 @@ namespace PE2A_WF_Lecturer
                         break;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Util.LogException("ResetDataGridViewDataSourceWithDto", ex.Message);
-            }       
+            }
         }
 
         private bool IsConnected(string ipAddress)
@@ -300,13 +300,11 @@ namespace PE2A_WF_Lecturer
             {
                 while (!isPublishedPoint)
                 {
-                    Console.WriteLine("ReceiveStudentPointFromTCP");
                     string receivedMessage = Util.GetMessageFromTCPConnection(serverPort, Constant.MAXIMUM_REQUEST);
-                    Console.WriteLine(receivedMessage);
                     StudentPointDTO studentPoint = JsonConvert.DeserializeObject<StudentPointDTO>(receivedMessage);
-                    if(studentPoint.ErrorMsg != null)
+                    if (studentPoint.ErrorMsg != null)
                     {
-                      StudentPointDTO  temp= JsonConvert.DeserializeObject<StudentPointDTO>(json);
+                        StudentPointDTO temp = JsonConvert.DeserializeObject<StudentPointDTO>(json);
                         studentPoint.ListQuestions = temp.ListQuestions;
                         studentPoint.Result = temp.Result;
                         studentPoint.TotalPoint = temp.TotalPoint;
@@ -328,17 +326,6 @@ namespace PE2A_WF_Lecturer
                                 student.ErrorMsg = studentPoint.ErrorMsg;
                                 ReadFile(student);
                                 ResetDataGridViewDataSourceWithDto(student, Constant.ACTION_UPDATE);
-                                //ResetDataGridViewDataSource();
-                                // For test
-                                Console.WriteLine("Student code: " + studentPoint.StudentCode);
-                                Dictionary<string, string> listQuestions = studentPoint.ListQuestions;
-                                foreach (var ques in listQuestions)
-                                {
-                                    Console.WriteLine(ques.Key + ": " + ques.Value);
-                                }
-                                Console.WriteLine("Total point: " + studentPoint.TotalPoint);
-                                Console.WriteLine("Result: " + studentPoint.Result);
-                                Console.WriteLine("Evaluate time: " + studentPoint.EvaluateTime);
                             }
                             else
                             {
@@ -353,11 +340,11 @@ namespace PE2A_WF_Lecturer
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Util.LogException("ReceiveStudentPointFromTCP", ex.Message);
             }
-           
+
         }
         private void ReadFile(StudentDTO dto)
         {
@@ -387,13 +374,13 @@ namespace PE2A_WF_Lecturer
                 }
                 File.WriteAllText(listStudentPath, newCSV);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Util.LogException("ReadFile", ex.Message);
 
             }
 
-            
+
         }
         private void UpdateStudentPointTable()
         {
@@ -414,9 +401,7 @@ namespace PE2A_WF_Lecturer
             {
                 while (true)
                 {
-                    Console.WriteLine("ReceiveStudentSubmissionFromTCP");
                     string receivedMessage = Util.GetMessageFromTCPConnections(serverPort, Constant.MAXIMUM_REQUEST);
-                    Console.WriteLine(receivedMessage);
                     if (receivedMessage != null && !receivedMessage.Equals("") && receivedMessage.Contains('T'))
                     {
                         string[] messages = receivedMessage.Split('T');
@@ -438,7 +423,7 @@ namespace PE2A_WF_Lecturer
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Util.LogException("ReceiveStudentSubmissionFromTCP", ex.Message);
 
@@ -469,7 +454,7 @@ namespace PE2A_WF_Lecturer
                 dgvStudent.Columns[Constant.COLUMN_SCRIPTCODE_NAME].Width = Constant.COLUMN_SCRIPTCODE_LETTER * baseWidth;
                 dgvStudent.Columns[nameof(StudentDTO.Close)].Width = Constant.COLUMN_CLOSE_LETTER * baseWidth;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Util.LogException("FitDataGridViewCollumn", ex.Message);
 
@@ -492,7 +477,7 @@ namespace PE2A_WF_Lecturer
                     StudentDTO removeStudent = ListStudent.Where(f => f.StudentCode == studentCode).FirstOrDefault();
                     ListStudent.Remove(removeStudent);
                     ResetDataGridViewDataSourceWithDto(removeStudent, Constant.ACTION_REMOVE);
-                   
+
                 }
             }
             //else if (Constant.PRACTICAL_STATUS[2].Equals(PracticalExamStatus))
@@ -518,13 +503,15 @@ namespace PE2A_WF_Lecturer
         private void LecturerForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult rs = MessageBox.Show(Constant.EXIST_CONFIRM, "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if(rs == DialogResult.Yes)
+            if (rs == DialogResult.Yes)
             {
+                UpdatePracticalExamState();
                 bool isCheckDuplicatedCode = cbDuplicatedCode.Checked;
                 if (isCheckDuplicatedCode)
                 {
                     CheckDuplicatedCode();
-                }else
+                }
+                else
                 {
                     Util.CloseCMD();
                     System.Windows.Forms.Application.ExitThread();
@@ -687,10 +674,10 @@ namespace PE2A_WF_Lecturer
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Util.LogException("GetAllPracticalDocFile", ex.Message);
-            }         
+            }
         }
 
         private void dgvStudent_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -752,10 +739,10 @@ namespace PE2A_WF_Lecturer
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Util.LogException("UpdateRecord", ex.Message);
-            }        
+            }
         }
 
         private void RemoveRecord(StudentDTO dto)
@@ -784,11 +771,11 @@ namespace PE2A_WF_Lecturer
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Util.LogException("RemoveRecord", ex.Message);
 
-            }         
+            }
         }
         private void AddRecord(StudentDTO dto)
         {
@@ -799,11 +786,11 @@ namespace PE2A_WF_Lecturer
                 dto.Close = CloseImage;
                 AddRowDataGridView(dto);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Util.LogException("RemoveRecord", ex.Message);
             }
-        
+
         }
 
         private async void CheckDuplicatedCode()
@@ -816,15 +803,80 @@ namespace PE2A_WF_Lecturer
                 try
                 {
                     string result = await CheckDuplicatedCode(client, apiUrl);
-                   
+
                 }
                 catch (Exception ex)
                 {
-                   
+
                     Util.LogException("CheckDuplicatedCode", ex.Message);
                 }
             }
-           
+
+        }
+        private async void UpdatePracticalExamState()
+        {
+            string apiUrl = Constant.UPDATE_PRACTICALEXAM_STATE_LOCALHOST;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                try
+                {
+                    string result = await UpdatePracticalExamState(client, apiUrl);
+
+                }
+                catch (Exception ex)
+                {
+
+                    Util.LogException("CheckDuplicatedCode", ex.Message);
+                }
+            }
+        }
+        private async Task<string> UpdatePracticalExamState(HttpClient client, string uri)
+        {
+            string message = "";
+            string state = GetPracticalExamState();
+            if (Constant.PRACTICAL_STATUS[1].Equals(state))
+            {
+                // do nothing
+            }
+            else
+            {
+                try
+                {
+                    uri = Constant.PROTOCOL + uri;
+                    var values = new Dictionary<string, string>{
+                        { "examCode", PracticalExamCode },
+                        {"state", state }
+                };
+                    HttpContent content = new FormUrlEncodedContent(values);
+                    HttpResponseMessage response = await client.PostAsync(new Uri(uri), content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        message = await response.Content.ReadAsStringAsync();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Util.LogException("[UpdatePracticalExamStateAsync]", e.Message);
+                }
+
+            }
+            return message;
+        }
+
+        private string GetPracticalExamState()
+        {
+            bool isError = false;
+            bool isEvaluated = false;
+            foreach (StudentDTO dto in ListStudent)
+            {
+                if (Constant.STATUSLIST[2].Equals(dto.Status)) isEvaluated = true;
+                if (Constant.STATUSLIST[3].Equals(dto.Status)) isError = true;
+            }
+            if (isError) return Constant.PRACTICAL_STATUS[2];
+            if (isEvaluated) return Constant.PRACTICAL_STATUS[0];
+            else return Constant.PRACTICAL_STATUS[1];
         }
 
         private async Task<string> CheckDuplicatedCode(HttpClient client, string uri)
@@ -832,7 +884,7 @@ namespace PE2A_WF_Lecturer
             string message = "";
             try
             {
-                uri = "http://" + uri;
+                uri = Constant.PROTOCOL + uri;
                 var values = new Dictionary<string, string>{
                 { "examCode", PracticalExamCode }
                 };
@@ -848,12 +900,9 @@ namespace PE2A_WF_Lecturer
             }
             catch (Exception ex)
             {
-                DialogResult rs = MessageBox.Show(Constant.CANNOT_CONNECT_API_MESSAGE, "Waring", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-                if (rs == DialogResult.Yes)
-                {
-                    this.InvokeEx(f => Util.CloseCMD());
-                    this.InvokeEx(f => System.Windows.Forms.Application.ExitThread());
-                }
+                DialogResult rs = MessageBox.Show(Constant.CANNOT_CONNECT_API_MESSAGE, "Waring", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.InvokeEx(f => Util.CloseCMD());
+                this.InvokeEx(f => System.Windows.Forms.Application.ExitThread());
                 Util.LogException("CheckDuplicatedCode", ex.Message);
             }
             return message;

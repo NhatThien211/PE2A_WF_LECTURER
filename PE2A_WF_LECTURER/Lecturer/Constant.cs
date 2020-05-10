@@ -27,6 +27,7 @@ namespace PE2A_WF_Lecturer
         public static string PASSWORD_NOT_NULL_MESSAGE = "Password is must NOT empty please";
         public static string CANNOT_CONNECT_API_MESSAGE = "Can not connect to online webservice";
         public static string ONLINE_API_URL = "localhost:2021/api/practical-exam/lecturer/enroll";
+        // Check duplicated code on webservice
         public static string ONLINE_API_CHECK_DUPLICATED_CODE_URL = "localhost:2021/api/practical-exam/check-code";
         public static List<string> HIDDEN_COLUMN = new List<string> { "TcpClient", "ListQuestions", "Id", "SubmitPath", "CodingConvention", "ErrorMsg"};
         public static string CLASS_EMPTY_MESSAGE = "Your class have no student please check again";
@@ -108,9 +109,12 @@ namespace PE2A_WF_Lecturer
         public const string SUBMISSION_SERVE_FOLDER = "Server";
         public const string CMD_COMMAND_RUN_SUBMISSION_SERVER = "/k mvn spring-boot:run";
 
-        // Open Check Duplicated Code
-        public const string DUPLICATED_LOCALHOST_DOMAIN = "http://localhost:1998/practicalexam/";
-        public const string DUPLICATED_ONLINE_DOMAIN = "ADD LATER";
+        // Open Check Duplicated Code result on react app
+        public static string DUPLICATED_LOCALHOST_DOMAIN = "http://localhost:1998/practicalexam/";
+        public static string DUPLICATED_ONLINE_DOMAIN = "ADD LATER";
 
+        // Update Practical exam state 
+        public static string UPDATE_PRACTICALEXAM_STATE_LOCALHOST = "localhost:2021/api/practical-exam/set-state";
+        public static string UPDATE_PRACTICALEXAM_STATE_ONLINE = "ADD LATER";
     }
 }
