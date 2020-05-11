@@ -134,8 +134,8 @@ namespace PE2A_WF_Lecturer
                         // Get full zip file path
                         var filePath = openFileDialog.FileName;
 
-                        var destinationPath = Path.Combine(Util.GetProjectDirectory() + Constant.SCRIPT_FILE_PATH);
-                        var submissionPath = Path.Combine(Util.GetProjectDirectory() + Constant.SUBMISSION_FOLDER_PATH); 
+                        var destinationPath = Path.Combine(Util.ExecutablePath() + Constant.SCRIPT_FILE_PATH);
+                        var submissionPath = Path.Combine(Util.ExecutablePath() + Constant.SUBMISSION_FOLDER_PATH); 
                         // Get zip file name without extension
                         var filename = Path.GetFileNameWithoutExtension(filePath);
 

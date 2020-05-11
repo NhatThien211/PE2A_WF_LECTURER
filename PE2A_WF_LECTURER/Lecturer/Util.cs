@@ -263,7 +263,7 @@ namespace PE2A_WF_Lecturer
         {
             try
             {
-                var appDomainDir = Util.ExecutablePath().Replace(@"\Lecturer", "");
+                var appDomainDir = Util.ExecutablePath();
                 //var projectNameDir = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
                 return appDomainDir;
             }
@@ -282,31 +282,31 @@ namespace PE2A_WF_Lecturer
         * This block is for release app
         * 
         */
-        //public static string ExecutablePath()
-        //{
-        //    string appPath = Path.GetDirectoryName(Application.ExecutablePath);
-        //    return appPath + @"\Lecturer";
-        //}
+        public static string ExecutablePath()
+        {
+            string appPath = Path.GetDirectoryName(Application.ExecutablePath);
+            return appPath + @"\Lecturer";
+        }
 
         /*
         * 
         * This block is for local test (IDE test)
         * 
         */
-        public static string ExecutablePath()
-        {
-            try
-            {
-                string startupPath = System.IO.Directory.GetCurrentDirectory();
-                string projectDirectory = Directory.GetParent(startupPath).Parent.FullName;
-                return projectDirectory + @"\Lecturer";
-            }
-            catch (Exception ex)
-            {
-                LogException("ExecutablePath", ex.Message);
-            }
-            return null;
-        }
+        //public static string ExecutablePath()
+        //{
+        //    try
+        //    {
+        //        string startupPath = System.IO.Directory.GetCurrentDirectory();
+        //        string projectDirectory = Directory.GetParent(startupPath).Parent.FullName;
+        //        return projectDirectory + @"\Lecturer";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogException("ExecutablePath", ex.Message);
+        //    }
+        //    return null;
+        //}
         public static void Copy(string sourceDirectory, string targetDirectory)
         {
             try
