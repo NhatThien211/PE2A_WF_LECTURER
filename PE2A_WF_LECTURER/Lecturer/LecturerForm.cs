@@ -72,7 +72,6 @@ namespace PE2A_WF_Lecturer
         private void dummyDataGetPoint()
         {
             Random ran = new Random();
-
             foreach (StudentDTO dto in ListStudent)
             {
                 if (!listStudetnCode.Contains(dto.StudentCode))
@@ -83,6 +82,7 @@ namespace PE2A_WF_Lecturer
                     dto.TotalPoint = correctQuesiton + "";
                     dto.Result = correctQuesiton + "/10";
                     dto.Status = Constant.STATUSLIST[2];
+                    ReadFile(dto);
                     ResetDataGridViewDataSourceWithDto(dto, Constant.ACTION_UPDATE);
                 }
             }
