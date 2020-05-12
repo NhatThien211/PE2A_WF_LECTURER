@@ -361,9 +361,12 @@ namespace PE2A_WF_Lecturer
                     if (item.Contains(dto.StudentCode))
                     {
                         newCSV += dto.NO + "," + dto.StudentCode + "," + dto.StudentName + "," + dto.ScriptCode + "," + dto.SubmitTime + "," + dto.EvaluateTime + "," + "0" + "," + dto.Result + "(correct)," + dto.TotalPoint + "," + dto.ErrorMsg;
-                        foreach (KeyValuePair<string, string> items in dto.ListQuestions)
+                        if(dto.ListQuestions != null)
                         {
-                            newCSV += "," + items.Key + ":" + items.Value;
+                            foreach (KeyValuePair<string, string> items in dto.ListQuestions)
+                            {
+                                newCSV += "," + items.Key + ":" + items.Value;
+                            }
                         }
                         newCSV += "\r\n";
                     }

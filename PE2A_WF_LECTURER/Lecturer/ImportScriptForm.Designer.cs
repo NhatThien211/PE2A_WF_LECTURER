@@ -37,6 +37,7 @@
             this.dgvHeaderSubjectCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvScriptFiles)).BeginInit();
             this.SuspendLayout();
@@ -57,10 +58,10 @@
             this.panel2.Controls.Add(this.dgvScriptFiles);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.panel2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(11, 8, 11, 12);
-            this.panel2.Size = new System.Drawing.Size(719, 501);
+            this.panel2.Padding = new System.Windows.Forms.Padding(16, 12, 16, 18);
+            this.panel2.Size = new System.Drawing.Size(1078, 771);
             this.panel2.TabIndex = 1;
             // 
             // dgvScriptFiles
@@ -75,16 +76,17 @@
             this.dgvHeaderPracticaExamCode,
             this.dgvHeaderSubjectCode,
             this.date,
-            this.status});
+            this.status,
+            this.Action});
             this.dgvScriptFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvScriptFiles.GridColor = System.Drawing.SystemColors.Control;
-            this.dgvScriptFiles.Location = new System.Drawing.Point(11, 8);
-            this.dgvScriptFiles.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.dgvScriptFiles.Location = new System.Drawing.Point(16, 12);
+            this.dgvScriptFiles.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.dgvScriptFiles.Name = "dgvScriptFiles";
             this.dgvScriptFiles.ReadOnly = true;
             this.dgvScriptFiles.RowHeadersWidth = 62;
             this.dgvScriptFiles.RowTemplate.Height = 24;
-            this.dgvScriptFiles.Size = new System.Drawing.Size(697, 481);
+            this.dgvScriptFiles.Size = new System.Drawing.Size(1046, 741);
             this.dgvScriptFiles.TabIndex = 0;
             this.dgvScriptFiles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvScriptFiles_CellClick);
             // 
@@ -127,13 +129,22 @@
             this.status.Name = "status";
             this.status.ReadOnly = true;
             // 
+            // Action
+            // 
+            this.Action.HeaderText = "Action";
+            this.Action.MinimumWidth = 8;
+            this.Action.Name = "Action";
+            this.Action.ReadOnly = true;
+            this.Action.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Action.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // ImportScriptForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(719, 501);
+            this.ClientSize = new System.Drawing.Size(1078, 771);
             this.Controls.Add(this.panel2);
-            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.Name = "ImportScriptForm";
             this.Text = "Import Script";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ImportScriptForm_FormClosing);
@@ -155,5 +166,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvHeaderSubjectCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn date;
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewButtonColumn Action;
     }
 }
