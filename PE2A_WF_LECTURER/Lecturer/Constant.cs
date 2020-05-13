@@ -29,6 +29,7 @@ namespace PE2A_WF_Lecturer
         public static string ONLINE_API_URL = "localhost:2021/api/practical-exam/lecturer/enroll";
         // Check duplicated code on webservice
         public static string ONLINE_API_CHECK_DUPLICATED_CODE_URL = "localhost:2021/api/practical-exam/check-code";
+        public static string CLOSE_SPRING_BOOT_SERVER = "localhost:2020/close";
         public static List<string> HIDDEN_COLUMN = new List<string> { "TcpClient", "ListQuestions", "Id", "SubmitPath", "CodingConvention", "ErrorMsg"};
         public static string CLASS_EMPTY_MESSAGE = "Your class have no student please check again";
         public static string SCRIPT_PREFIX = "DE";
