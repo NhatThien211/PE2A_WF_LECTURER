@@ -535,7 +535,7 @@ namespace PE2A_WF_Lecturer
                         System.Windows.Forms.Application.ExitThread();
                     }
                 }
-                catch(Exception e)
+                catch(Exception ex)
                 {
                     Util.CloseCMD();
                 }
