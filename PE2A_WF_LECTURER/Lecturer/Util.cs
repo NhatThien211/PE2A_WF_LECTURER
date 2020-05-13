@@ -10,6 +10,9 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace PE2A_WF_Lecturer
 {
@@ -408,11 +411,52 @@ namespace PE2A_WF_Lecturer
             }
 
         }
+        private static async void CloseSpringbootServer()
+        {
+            string apiUrl = Constant.CLOSE_SPRING_BOOT_SERVER;
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                try
+                {
+                    string result = await CloseServer(client, apiUrl);
 
+                }
+                catch (Exception ex)
+                {
+
+                    Util.LogException("CloseSpringbootServer", ex.Message);
+                }
+            }
+
+        }
+
+        private static async Task<string> CloseServer(HttpClient client, string uri)
+        {
+            string message = "";
+            try
+            {
+                uri = Constant.PROTOCOL + uri;
+            
+                HttpResponseMessage response = await client.GetAsync(new Uri(uri));
+                if (response.IsSuccessStatusCode)
+                {
+                    message = await response.Content.ReadAsStringAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(Constant.CANNOT_CONNECT_API_MESSAGE, "Waring", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.LogException("CloseServer", ex.Message);
+            }
+            return message;
+        }
         public static void CloseCMD()
         {
             try
             {
+                CloseSpringbootServer();
                 process.CloseMainWindow();
                 process.Close();
             }
