@@ -78,9 +78,21 @@ namespace PE2A_WF_Lecturer
                 {
                     string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     dto.EvaluateTime = time;
-                    int correctQuesiton = ran.Next(0, 10);
-                    dto.TotalPoint = correctQuesiton + "";
-                    dto.Result = correctQuesiton + "/10";
+                    int correctQuesiton = ran.Next(0, 9);
+                    if(correctQuesiton == 9)
+                    {
+                        dto.TotalPoint = 10 + "";
+                    }
+                    else if(correctQuesiton == 8)
+                    {
+                        dto.TotalPoint = 9 + "";
+                    }
+                    else
+                    {
+                        dto.TotalPoint = correctQuesiton + "";
+                    }
+                   
+                    dto.Result = correctQuesiton + "/9";
                     dto.Status = Constant.STATUSLIST[2];
                     ReadFile(dto);
                     ResetDataGridViewDataSourceWithDto(dto, Constant.ACTION_UPDATE);
