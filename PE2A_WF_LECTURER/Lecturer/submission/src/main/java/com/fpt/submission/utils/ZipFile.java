@@ -56,7 +56,7 @@ public class ZipFile {
     }
 
     private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
-        if (!fileName.contains("DBUtilities") && !fileName.contains(".log")) {
+        if (!fileName.contains("DBUtilities") && !fileName.contains(".log") && !fileName.contains(".lock")) {
             if (fileToZip.isHidden()) {
                 return;
             }
@@ -101,16 +101,20 @@ public class ZipFile {
         while (entry != null) {
 
 //            String pattern = Pattern.quote(S);
+            String[] mainArr = null;
+            String[] arr = entry.getName().split("/");
             String[] splittedFileName = entry.getName().split("\\\\");
-//            File f = new File(entry.getName());
-//            do {
-//                System.out.println("Parent=" + f.getParent());
-//                f = f.getParentFile();
-//            } while (f.getParentFile() != null);
+            if(arr.length > splittedFileName.length){
+                mainArr = arr;
+            }else{
+                mainArr = splittedFileName;
+            }
+            System.out.println(mainArr);
+//          String splittedFileName1 =entry.getName().split();
             String filePath = destDirectory;
-            for (int i = 0; i < splittedFileName.length; i++) {
+            for (int i = 0; i < mainArr.length; i++) {
                 // if the entry is a directory, make the directory
-                filePath += File.separator + splittedFileName[i];
+                filePath += File.separator + mainArr[i];
                 File dir = new File(filePath);
                 if (!dir.exists() && !dir.isFile() && !filePath.contains(".")) {
                     dir.mkdir();

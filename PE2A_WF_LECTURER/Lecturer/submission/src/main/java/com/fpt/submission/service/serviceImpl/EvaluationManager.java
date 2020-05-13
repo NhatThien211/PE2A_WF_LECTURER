@@ -169,7 +169,7 @@ public class EvaluationManager {
                 System.out.println("Trả response cho giảng viên");
 
                 if (submissionQueue.size() > 0) {
-//                    deleteAllFile(dto.getStudentCode(), pathDetails.getPathCServerSubmitDelete(), serverTestScriptPath);
+                    deleteAllFile(dto.getStudentCode(), pathDetails.getPathCServerSubmitDelete(), serverTestScriptPath);
                     evaluateSubmissionC(submissionQueue.remove());
                 } else {
                     isEvaluating = false;
@@ -182,7 +182,7 @@ public class EvaluationManager {
                     .log(Level.ERROR, "[EVALUATE-ERROR] Student code : " + dto.getStudentCode());
             e.printStackTrace();
         } finally {
-//            deleteAllFile(dto.getStudentCode(), pathDetails.getPathCServerSubmitDelete(), serverTestScriptPath);
+            deleteAllFile(dto.getStudentCode(), pathDetails.getPathCServerSubmitDelete(), serverTestScriptPath);
             isEvaluating = false;
         }
     }
@@ -560,7 +560,7 @@ public class EvaluationManager {
 
                 if (submissionQueue.size() > 0) {
                     deleteAllFile(dto.getStudentCode(), pathDetails.getPathCSharpServerSubmitDelete(), serverTestScriptPath);
-                    evaluateSubmissionJava(submissionQueue.remove());
+                    evaluateSubmissionCSharp(submissionQueue.remove());
                 } else {
                     isEvaluating = false;
                 }
@@ -570,6 +570,7 @@ public class EvaluationManager {
         } catch (Exception e) {
             Logger.getLogger(EvaluationManager.class.getName())
                     .log(Level.ERROR, "[EVALUATE-ERROR] Student code : " + dto.getStudentCode());
+
             e.printStackTrace();
         } finally {
             deleteAllFile(dto.getStudentCode(), pathDetails.getPathCSharpServerSubmitDelete(), serverTestScriptPath);

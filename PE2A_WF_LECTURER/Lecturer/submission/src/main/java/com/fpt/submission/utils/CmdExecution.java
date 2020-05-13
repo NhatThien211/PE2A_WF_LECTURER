@@ -15,6 +15,7 @@ public class CmdExecution {
         String line;
         while (true) {
             line = r.readLine();
+            System.out.println(line);
             if (line == null) {
                 break;
             }
