@@ -520,18 +520,25 @@ namespace PE2A_WF_Lecturer
             DialogResult rs = MessageBox.Show(Constant.EXIST_CONFIRM, "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (rs == DialogResult.Yes)
             {
-                UpdatePracticalExamState();
-                bool isCheckDuplicatedCode = cbDuplicatedCode.Checked;
-                if (isCheckDuplicatedCode)
+                try
                 {
-                    CheckDuplicatedCode();
+                    UpdatePracticalExamState();
+                    bool isCheckDuplicatedCode = cbDuplicatedCode.Checked;
+                    if (isCheckDuplicatedCode)
+                    {
+                        Util.CloseCMD();
+                        CheckDuplicatedCode();
+                    }
+                    else
+                    {
+                        Util.CloseCMD();
+                        System.Windows.Forms.Application.ExitThread();
+                    }
                 }
-                else
+                catch(Exception e)
                 {
                     Util.CloseCMD();
-                    System.Windows.Forms.Application.ExitThread();
                 }
-
             }
             else
             {
