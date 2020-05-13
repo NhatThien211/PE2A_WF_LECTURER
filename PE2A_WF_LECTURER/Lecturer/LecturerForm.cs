@@ -72,17 +72,29 @@ namespace PE2A_WF_Lecturer
         private void dummyDataGetPoint()
         {
             Random ran = new Random();
-
             foreach (StudentDTO dto in ListStudent)
             {
                 if (!listStudetnCode.Contains(dto.StudentCode))
                 {
                     string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     dto.EvaluateTime = time;
-                    int correctQuesiton = ran.Next(0, 10);
-                    dto.TotalPoint = correctQuesiton + "";
-                    dto.Result = correctQuesiton + "/10";
+                    int correctQuesiton = ran.Next(0, 9);
+                    if(correctQuesiton == 9)
+                    {
+                        dto.TotalPoint = 10 + "";
+                    }
+                    else if(correctQuesiton == 8)
+                    {
+                        dto.TotalPoint = 9 + "";
+                    }
+                    else
+                    {
+                        dto.TotalPoint = correctQuesiton + "";
+                    }
+                   
+                    dto.Result = correctQuesiton + "/9";
                     dto.Status = Constant.STATUSLIST[2];
+                    ReadFile(dto);
                     ResetDataGridViewDataSourceWithDto(dto, Constant.ACTION_UPDATE);
                 }
             }
@@ -361,9 +373,12 @@ namespace PE2A_WF_Lecturer
                     if (item.Contains(dto.StudentCode))
                     {
                         newCSV += dto.NO + "," + dto.StudentCode + "," + dto.StudentName + "," + dto.ScriptCode + "," + dto.SubmitTime + "," + dto.EvaluateTime + "," + "0" + "," + dto.Result + "(correct)," + dto.TotalPoint + "," + dto.ErrorMsg;
-                        foreach (KeyValuePair<string, string> items in dto.ListQuestions)
+                        if(dto.ListQuestions != null)
                         {
-                            newCSV += "," + items.Key + ":" + items.Value;
+                            foreach (KeyValuePair<string, string> items in dto.ListQuestions)
+                            {
+                                newCSV += "," + items.Key + ":" + items.Value;
+                            }
                         }
                         newCSV += "\r\n";
                     }
@@ -505,18 +520,25 @@ namespace PE2A_WF_Lecturer
             DialogResult rs = MessageBox.Show(Constant.EXIST_CONFIRM, "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (rs == DialogResult.Yes)
             {
-                UpdatePracticalExamState();
-                bool isCheckDuplicatedCode = cbDuplicatedCode.Checked;
-                if (isCheckDuplicatedCode)
+                try
                 {
-                    CheckDuplicatedCode();
+                    UpdatePracticalExamState();
+                    bool isCheckDuplicatedCode = cbDuplicatedCode.Checked;
+                    if (isCheckDuplicatedCode)
+                    {
+                        Util.CloseCMD();
+                        CheckDuplicatedCode();
+                    }
+                    else
+                    {
+                        Util.CloseCMD();
+                        System.Windows.Forms.Application.ExitThread();
+                    }
                 }
-                else
+                catch(Exception ex)
                 {
                     Util.CloseCMD();
-                    System.Windows.Forms.Application.ExitThread();
                 }
-
             }
             else
             {
