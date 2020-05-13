@@ -285,31 +285,31 @@ namespace PE2A_WF_Lecturer
         * This block is for release app
         * 
         */
-        //public static string ExecutablePath()
-        //{
-        //    string appPath = Path.GetDirectoryName(Application.ExecutablePath);
-        //    return appPath + @"\Lecturer";
-        //}
+        public static string ExecutablePath()
+        {
+            string appPath = Path.GetDirectoryName(Application.ExecutablePath);
+            return appPath + @"\Lecturer";
+        }
 
         /*
         * 
         * This block is for local test (IDE test)
         * 
         */
-        public static string ExecutablePath()
-        {
-            try
-            {
-                string startupPath = System.IO.Directory.GetCurrentDirectory();
-                string projectDirectory = Directory.GetParent(startupPath).Parent.FullName;
-                return projectDirectory + @"\Lecturer";
-            }
-            catch (Exception ex)
-            {
-                LogException("ExecutablePath", ex.Message);
-            }
-            return null;
-        }
+        //public static string ExecutablePath()
+        //{
+        //    try
+        //    {
+        //        string startupPath = System.IO.Directory.GetCurrentDirectory();
+        //        string projectDirectory = Directory.GetParent(startupPath).Parent.FullName;
+        //        return projectDirectory + @"\Lecturer";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogException("ExecutablePath", ex.Message);
+        //    }
+        //    return null;
+        //}
         public static void Copy(string sourceDirectory, string targetDirectory)
         {
             try
@@ -397,7 +397,7 @@ namespace PE2A_WF_Lecturer
             {
                 process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
                 startInfo.FileName = "cmd.exe";
                 startInfo.Arguments = mavenCmd;
                 startInfo.WorkingDirectory = cmdPath;
@@ -417,7 +417,6 @@ namespace PE2A_WF_Lecturer
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 try
                 {
                     string result = await CloseServer(client, apiUrl);
@@ -437,18 +436,13 @@ namespace PE2A_WF_Lecturer
             string message = "";
             try
             {
-                uri = Constant.PROTOCOL + uri;
-            
-                HttpResponseMessage response = await client.GetAsync(new Uri(uri));
-                if (response.IsSuccessStatusCode)
-                {
-                    message = await response.Content.ReadAsStringAsync();
-                }
+                string url = "http://localhost:2020/close";
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(Constant.CANNOT_CONNECT_API_MESSAGE, "Waring", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Util.LogException("CloseServer", ex.Message);
+                
             }
             return message;
         }

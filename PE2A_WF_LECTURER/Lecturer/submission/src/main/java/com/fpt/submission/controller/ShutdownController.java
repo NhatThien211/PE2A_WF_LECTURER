@@ -14,12 +14,11 @@ public class ShutdownController implements ApplicationContextAware {
 
     @GetMapping("/close")
     public void shutdownContext() {
-        ((ConfigurableApplicationContext) context).close();
+        ((ConfigurableApplicationContext) context).close(); 
     }
 
     @Override
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
         this.context = ctx;
-
     }
 }
