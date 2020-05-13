@@ -397,7 +397,7 @@ namespace PE2A_WF_Lecturer
             {
                 process = new System.Diagnostics.Process();
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
                 startInfo.FileName = "cmd.exe";
                 startInfo.Arguments = mavenCmd;
                 startInfo.WorkingDirectory = cmdPath;
