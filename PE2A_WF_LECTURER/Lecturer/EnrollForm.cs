@@ -17,7 +17,7 @@ namespace PE2A_WF_Lecturer
         {
             InitializeComponent();
             ShowControls(true);
-        }
+        }  
 
         private void ShowControls(bool isVisble)
         {
