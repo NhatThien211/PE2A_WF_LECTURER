@@ -14,8 +14,8 @@ import com.fpt.submission.dto.request.StudentPointDto;
 import com.fpt.submission.exception.CustomException;
 import com.fpt.submission.utils.*;
 import com.fpt.submission.dto.request.StudentSubmitDetail;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -37,6 +37,7 @@ import java.util.*;
 @Service
 public class EvaluationManager {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EvaluationManager.class);
     private Boolean isEvaluating;
     private Queue<StudentSubmitDetail> submissionQueue;
     private List<String> examScriptsList;
@@ -110,8 +111,7 @@ public class EvaluationManager {
                 throw new CustomException(HttpStatus.NOT_FOUND, "Not found Path Details Exam code");
             }
         } else {
-            Logger.getLogger(SubmissionUtils.class.getName())
-                    .log(Level.ERROR, "[EVALUATE] Waiting - : " + submissionEvent.getStudentCode());
+            LOGGER.info("[EVALUATE] Waiting - : " + submissionEvent.getStudentCode());
         }
     }
 
@@ -119,8 +119,7 @@ public class EvaluationManager {
     private void evaluateSubmissionC(StudentSubmitDetail dto) {
         File serverTestScriptPath = null;
         try {
-            Logger.getLogger(SubmissionUtils.class.getName())
-                    .log(Level.INFO, "[EVALUATE] Student code : " + dto.getStudentCode());
+            LOGGER.info("[EVALUATE] Student code : " + dto.getStudentCode());
             StudentPointDto result = new StudentPointDto();
             result.setStudentCode(dto.getStudentCode());
             String scriptCode = "";
@@ -151,7 +150,6 @@ public class EvaluationManager {
                 String cmd = pathDetails.getCExecuteCmd(PREFIX_EXAM_SCRIPT + dto.getStudentCode() + "_" + scriptCode);
                 CmdExecution.execute(cmd);
 
-
                 String questionPointArrStr = "";
                 List<String> content = Files.readAllLines(serverTestScriptPath.toPath());
                 for (String line : content) {
@@ -178,8 +176,7 @@ public class EvaluationManager {
 
             }
         } catch (Exception e) {
-            Logger.getLogger(EvaluationManager.class.getName())
-                    .log(Level.ERROR, "[EVALUATE-ERROR] Student code : " + dto.getStudentCode());
+            LOGGER.info( "[EVALUATE-ERROR] Student code : " + dto.getStudentCode());
             e.printStackTrace();
         } finally {
             deleteAllFile(dto.getStudentCode(), pathDetails.getPathCServerSubmitDelete(), serverTestScriptPath);
@@ -262,13 +259,11 @@ public class EvaluationManager {
                     studentPointDto.setTotalPoint(String.valueOf(totalPoint));
                     studentPointDto.setEvaluateTime(time);
                     studentPointDto.setResult(correctQuestionCount + "/" + questionPointMap.size());
-                    // Send json to Lecturer App
                 }
             }
         } catch (IOException e) {
             studentPointDto.setErrorMsg(e.getMessage() + "");
-            Logger.getLogger(EvaluationManager.class.getName())
-                    .log(Level.INFO, "[EVALUATE] Student code : " + studentCode);
+            LOGGER.info( "[EVALUATE] Student code : " + studentCode);
             e.printStackTrace();
         }
 
@@ -283,10 +278,8 @@ public class EvaluationManager {
 
     private void evaluateSubmissionJava(StudentSubmitDetail dto) {
         File serverTestScriptPath = null;
-
         try {
-            Logger.getLogger(EvaluationManager.class.getName())
-                    .log(Level.INFO, "[EVALUATE] Student code : " + dto.getStudentCode());
+            LOGGER.info("[EVALUATE] Student code : " + dto.getStudentCode());
             // Init result
             StudentPointDto result = new StudentPointDto();
             result.setStudentCode(dto.getStudentCode());
@@ -357,7 +350,6 @@ public class EvaluationManager {
                 File file = new File(ZIP_PATH + File.separator + dto.getStudentCode() + EXTENSION_ZIP);
                 if (file.exists()) {
                     RequestUtils.sendFile(dto.getStudentCode(), result.getSubmitTime(), result.getTotalPoint(), file, pathDetails.getPracticalExamName());
-
                 }
 
                 if (submissionQueue.size() > 0) {
@@ -370,8 +362,7 @@ public class EvaluationManager {
                 System.out.println("Trả response cho giảng viên");
             }
         } catch (Exception e) {
-            Logger.getLogger(EvaluationManager.class.getName())
-                    .log(Level.ERROR, "[EVALUATE-ERROR] Student code : " + dto.getStudentCode());
+            LOGGER.info( "[EVALUATE-ERROR] Student code : " + dto.getStudentCode());
             e.printStackTrace();
         } finally {
             deleteAllFile(dto.getStudentCode(), pathDetails.getPathJavaServerStudent(), serverTestScriptPath);
@@ -382,8 +373,7 @@ public class EvaluationManager {
     private void evaluateSubmissionJavaWeb(StudentSubmitDetail dto) {
         File serverTestScriptPath = null;
         try {
-            Logger.getLogger(EvaluationManager.class.getName())
-                    .log(Level.INFO, "[EVALUATE] Student code : " + dto.getStudentCode());
+            LOGGER.info( "[EVALUATE] Student code : " + dto.getStudentCode());
             // Init result
             StudentPointDto result = new StudentPointDto();
             result.setStudentCode(dto.getStudentCode());
@@ -396,7 +386,6 @@ public class EvaluationManager {
 
             //copy source to target using Files Class
             if (!sourceScriptPath.exists()) {
-                System.out.println("[PATH-SCRIPT-NOT FOUND]" + dto.getStudentCode() + "-" + dto.getScriptCode());
                 result.setErrorMsg("Not found script " + dto.getScriptCode());
                 // Error
             } else {
@@ -463,7 +452,7 @@ public class EvaluationManager {
                 }
                 int count = 0;
                 System.out.println(resultText);
-                sendTCPMessage(resultText, count);
+//                sendTCPMessage(resultText, count);
 
                 // Send submission to server for check duplicated code and evaluate online
                 ZipFile.zipProject(pathDetails.getPathServer(), ZIP_PATH + File.separator + dto.getStudentCode(), EXTENSION_JAVA);
@@ -483,8 +472,7 @@ public class EvaluationManager {
             }
         } catch (Exception e) {
 
-            Logger.getLogger(EvaluationManager.class.getName())
-                    .log(Level.ERROR, "[EVALUATE-ERROR] Student code : " + dto.getStudentCode());
+            LOGGER.info( "[EVALUATE-ERROR] Student code : " + dto.getStudentCode());
             e.printStackTrace();
         } finally {
             deleteAllFile(dto.getStudentCode(), pathDetails.getPathJavaServerStudent(), serverTestScriptPath);
@@ -497,8 +485,7 @@ public class EvaluationManager {
 
         File serverTestScriptPath = null;
         try {
-            Logger.getLogger(SubmissionUtils.class.getName())
-                    .log(Level.INFO, "[EVALUATE] Student code : " + dto.getStudentCode());
+            LOGGER.info( "[EVALUATE] Student code : " + dto.getStudentCode());
             StudentPointDto result = new StudentPointDto();
             result.setStudentCode(dto.getStudentCode());
             result.setTotalPoint("0");
@@ -568,8 +555,7 @@ public class EvaluationManager {
                 System.out.println("Trả response cho giảng viên");
             }
         } catch (Exception e) {
-            Logger.getLogger(EvaluationManager.class.getName())
-                    .log(Level.ERROR, "[EVALUATE-ERROR] Student code : " + dto.getStudentCode());
+            LOGGER.info( "[EVALUATE-ERROR] Student code : " + dto.getStudentCode());
 
             e.printStackTrace();
         } finally {
@@ -582,17 +568,17 @@ public class EvaluationManager {
         appendLogServerTest(studentCode);
         File file = new File(pathSubmit);
         if (file != null && SubmissionUtils.deleteFolder(file)) {
-            System.out.println("[DELETE SUBMISSION - SERVER] - " + studentCode);
+            LOGGER.info("[DELETE SUBMISSION - SERVER] - " + studentCode);
         }
 
         if (scriptFile != null && scriptFile.delete()) {
-            System.out.println("[DELETE SCRIPT - SERVER] - " + studentCode);
+            LOGGER.info("[DELETE SCRIPT - SERVER] - " + studentCode);
         }
 
         if (pathDetails.getPracticalExamCode().contains(CODE_PRACTICAL_JAVA_WEB)) {
             File webappFol = new File(pathDetails.getPathJavaWebServerWebAppDelete());
             if (webappFol != null && SubmissionUtils.deleteFolder(webappFol)) {
-                System.out.println("[DELETE SCRIPT - SERVER] - " + studentCode);
+                LOGGER.info("[DELETE SCRIPT - SERVER] - " + studentCode);
             }
         }
     }
@@ -658,8 +644,7 @@ public class EvaluationManager {
             text = new String(Files.readAllBytes(Paths.get(fileName)));
         } catch (IOException e) {
             e.printStackTrace();
-            Logger.getLogger(EvaluationManager.class.getName())
-                    .log(Level.ERROR, "[EVALUATE - FILE ERROR] File : " + studentCode + "\n" + e.getMessage());
+            LOGGER.info( "[EVALUATE - FILE ERROR] File : " + studentCode + "\n" + e.getMessage());
         }
         return text;
     }
@@ -680,7 +665,7 @@ public class EvaluationManager {
             String logFile = pathDetails.getPathServerLogFile();
             Files.write(Paths.get(logFile), s.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
-            System.out.println("Not found");
+            LOGGER.error("Not found servertest.log");
         }
     }
 }

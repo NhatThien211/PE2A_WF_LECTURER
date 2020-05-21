@@ -7,6 +7,7 @@ import com.fpt.submission.exception.CustomException;
 import com.fpt.submission.utils.PathUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.task.TaskExecutor;
@@ -39,6 +40,7 @@ public class SubmissionUtils {
 
     private EvaluationManager evaluationManager;
     private PathDetails pathDetails;
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(SubmissionUtils.class);
 
 
     public SubmissionUtils() {
@@ -60,8 +62,7 @@ public class SubmissionUtils {
     @Async("ThreadPoolTaskExecutor")
     public void submitSubmission(UploadFileDto dto) {
         try {
-            Logger.getLogger(SubmissionUtils.class.getName())
-                    .log(Level.INFO, "[SUBMISSION] - File from student: " + dto.getStudentCode());
+            LOGGER.info("[SUBMISSION] - File from student: " + dto.getStudentCode());
             MultipartFile file = dto.getFile();
 
 //            dto.setSubjectCode("JAVA");
@@ -85,8 +86,7 @@ public class SubmissionUtils {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(SubmissionUtils.class.getName())
-                    .log(Level.ERROR, "[SUBMISSION-ERROR] - File from student : " + ex.getMessage());
+            LOGGER.error("[SUBMISSION-ERROR] - File from student : " + ex.getMessage());
             throw new CustomException(HttpStatus.CONFLICT, ex.getMessage());
         }
     }
@@ -120,8 +120,7 @@ public class SubmissionUtils {
             fos.write(file.getBytes());
             fos.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+
         }
 
         return convFile;
@@ -136,9 +135,6 @@ public class SubmissionUtils {
                     deleteFolder(file);
                 }
             }
-        } else {
-            Logger.getLogger(SubmissionUtils.class.getName())
-                    .log(Level.WARN, "[DELETE FOLDER] - : Directory does not exist");
         }
         return directory.delete();
     }

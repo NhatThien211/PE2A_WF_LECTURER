@@ -4,6 +4,8 @@ import com.fpt.submission.constants.CommonConstant;
 import com.fpt.submission.dto.request.StudentSubmitDetail;
 import com.fpt.submission.dto.request.UploadFileDto;
 import com.fpt.submission.service.SubmissionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     private Queue<String> submitTimeQueue;
     private boolean isSendingTCP = false;
     private static final int MAX_TIME = 10;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SubmissionServiceImpl.class);
 
     @Autowired
     ApplicationEventPublisher applicationEventPublisher;
@@ -62,11 +65,11 @@ public class SubmissionServiceImpl implements SubmissionService {
                     isSendingTCP = false;
                 }
             } catch (Exception e) {
-                System.out.println("[RE-SEND TCP SUBMIT TIME]:" + count);
+                LOGGER.info("[RE-SEND TCP SUBMIT TIME]:" + count);
                 sendTCPTimeSubmit(studentCode, count);
             }
         }else{
-            System.out.println("[REFUSE-SEND TCP SUBMIT TIME]");
+            LOGGER.info("[REFUSE-SEND TCP SUBMIT TIME]");
         }
     }
 }
